@@ -19,45 +19,40 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $categories = Categories::all();
-        if (Auth::check()) {
-            $userAlergi = Auth::user()->alergi_id;
-        }
-        $userAlergi = "";
-        $alergi = Alergi::get();
-        $products = Product::when(
-            $request->filter_alergi !=  null,
-            function ($q) use ($request) {
-                return $q->where('alergi_id', '!=', $request->filter_alergi);
-            },
-            // // for second select
-            // function ($q) use ($request) {
-            //     return $q->where('harga', $request);
-            // }
-        )->when(
-            $request->filter2 !=  null,
-            function ($q) use ($request) {
-                if ($request->filter2 == 'Termurah') {
-                    return $q->orderBy('harga', 'asc');
-                } else if ($request->filter2 == 'Termahal') {
-                    return $q->orderBy('harga', 'desc');
-                } else if ($request->filter2 == 'Terlaris') {
-                    return $q->orderBy('terjual', 'desc');
-                } else if ($request->filter2 == 'BestRating') {
-                    return $q->orderBy('jumlah_penilaian', 'desc');
-                }
-            },
-        )->get();
+        $products = Product::all();
+        // $products = Product::when(
+        //     $request->filter_alergi !=  null,
+        //     function ($q) use ($request) {
+        //         return $q->where('alergi_id', '!=', $request->filter_alergi);
+        //     },
+        //     // // for second select
+        //     // function ($q) use ($request) {
+        //     //     return $q->where('harga', $request);
+        //     // }
+        // )->when(
+        //     $request->filter2 !=  null,
+        //     function ($q) use ($request) {
+        //         if ($request->filter2 == 'Termurah') {
+        //             return $q->orderBy('harga', 'asc');
+        //         } else if ($request->filter2 == 'Termahal') {
+        //             return $q->orderBy('harga', 'desc');
+        //         } else if ($request->filter2 == 'Terlaris') {
+        //             return $q->orderBy('terjual', 'desc');
+        //         } else if ($request->filter2 == 'BestRating') {
+        //             return $q->orderBy('jumlah_penilaian', 'desc');
+        //         }
+        //     },
+        // )->get();
 
-        return view('customers.products.products', compact('products', 'categories', 'userAlergi', 'alergi'));
+        return view('customers.products.products', compact('products', 'categories'));
     }
     public function detail($id)
     {
-        $getId = $id;
         $products = Product::find($id);
         $getReviews = Review::whereProductId($id)->get();
         $countReviews = Review::whereProductId($id)->count();
-        $wishlist = Wishlist::all();
-        return view('customers.products.detail-products', compact('products', 'wishlist', 'countReviews', 'getReviews'));
+        // $wishlist = Wishlist::all();
+        return view('customers.products.detail-products', compact('products', 'countReviews', 'getReviews'));
     }
 
     public function infoProduct(Request $request)

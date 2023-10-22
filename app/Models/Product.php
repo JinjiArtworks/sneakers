@@ -9,18 +9,10 @@ class Product extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    protected $table = 'produks';
+    protected $table = 'products';
     public function categories()
     {
         return $this->belongsTo(Categories::class);
-    }
-    public function coupon()
-    {
-        return $this->belongsTo(Coupon::class);
-    }
-    public function alergi()
-    {
-        return $this->belongsTo(Alergi::class);
     }
     public function detailproduk()
     {

@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    protected $table = 'pesanans';
+    protected $table = 'orders';
     public function orderdetail()
     {
         return $this->hasOne(OrderDetail::class);

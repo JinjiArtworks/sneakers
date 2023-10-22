@@ -30,10 +30,8 @@ class ListProductController extends Controller
     {
         $product = Product::all();
         $categories = Categories::all();
-        $coupons = Coupon::all();
-        $alergi = Alergi::all();
         // return dd($categories);
-        return view('admin.listProduct.create', compact('product', 'categories', 'coupons', 'alergi'));
+        return view('admin.listProduct.create', compact('product', 'categories'));
     }
     public function store(Request $request)
     {
@@ -63,10 +61,7 @@ class ListProductController extends Controller
     {
         $products = Product::find($id);
         $categories = Categories::all();
-        $alergi = Alergi::all();
-        $coupons = Coupon::all();
-        $getCouponsProducts = Coupon::whereId($products->coupons_id)->first();
-        return view('admin.listProduct.edit', compact('products', 'categories', 'coupons', 'getCouponsProducts', 'alergi'));
+        return view('admin.listProduct.edit', compact('products', 'categories'));
     }
     public function update(Request $request, $id)
     {

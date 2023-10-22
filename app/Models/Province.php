@@ -9,7 +9,7 @@ class Province extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    protected $table = 'provinsis';
+    protected $table = 'province';
     public function cities()
     {
         return $this->hasMany(City::class);

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderDetail extends Model
 {
     use HasFactory;
-    protected $table = 'detail_pesanan';
+    protected $table = 'orderdetails';
     public function order()
     {
         return $this->belongsTo(Order::class);

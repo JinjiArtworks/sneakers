@@ -1,137 +1,128 @@
-@extends('layouts.toko')
+@extends('layouts.admin')
 @section('content')
-    <div class="bg-gray-100 flex-1 p-6 md:mt-16">
-        <!-- Start Recent Sales -->
-        <div class="card col-span-2 xl:col-span-1">
-            <div class="card-header flex justify-between">
-                <p class="text-2xl text-black ">Tambah Produk</p>
+    <div class="content-page">
+        <div class="container-fluid add-form-list">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card ">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Add Product</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form action="page-list-product.html" data-toggle="validator">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Product Type *</label>
+                                            <select name="type" class="selectpicker form-control" data-style="py-0">
+                                                <option>Standard</option>
+                                                <option>Combo</option>
+                                                <option>Digital</option>
+                                                <option>Service</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name *</label>
+                                            <input type="text" class="form-control" placeholder="Enter Name"
+                                                data-errors="Please Enter Name." required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Code *</label>
+                                            <input type="text" class="form-control" placeholder="Enter Code"
+                                                data-errors="Please Enter Code." required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Barcode Symbology *</label>
+                                            <select name="type" class="selectpicker form-control" data-style="py-0">
+                                                <option>CREM01</option>
+                                                <option>UM01</option>
+                                                <option>SEM01</option>
+                                                <option>COF01</option>
+                                                <option>FUN01</option>
+                                                <option>DIS01</option>
+                                                <option>NIS01</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Category *</label>
+                                            <select name="type" class="selectpicker form-control" data-style="py-0">
+                                                <option>Beauty</option>
+                                                <option>Grocery</option>
+                                                <option>Food</option>
+                                                <option>Furniture</option>
+                                                <option>Shoes</option>
+                                                <option>Frames</option>
+                                                <option>Jewellery</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Cost *</label>
+                                            <input type="text" class="form-control" placeholder="Enter Cost"
+                                                data-errors="Please Enter Cost." required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Price *</label>
+                                            <input type="text" class="form-control" placeholder="Enter Price"
+                                                data-errors="Please Enter Price." required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Tax Method *</label>
+                                            <select name="type" class="selectpicker form-control" data-style="py-0">
+                                                <option>Exclusive</option>
+                                                <option>Inclusive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Quantity *</label>
+                                            <input type="text" class="form-control" placeholder="Enter Quantity"
+                                                required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Image</label>
+                                            <input type="file" class="form-control image-file" name="pic"
+                                                accept="image/*">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Description / Product Details</label>
+                                            <textarea class="form-control" rows="4"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mr-2">Add Product</button>
+                                <button type="reset" class="btn btn-danger">Reset</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="p-6">
-                <form method="POST" action="/store-products" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-4">
-                        <label for="productName" class="block mb-2 text-sm font-medium text-gray-900 ">Nama
-                            Produk</label>
-                        <input type="text" name="productName"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Nama Produk" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productImage" class="block mb-2 text-sm font-medium text-gray-900 ">Gambar
-                            Produk </label>
-                        <img src="{{ asset('images/no-profile.png') }}" id="blah" width="150px" height="150px"
-                            class="mb-3">
-                        <input accept="image/*" id="image" type="file" name="productImage"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-3">
-                    </div>
-                    <div class="mb-4">
-                        <label for="productCat" class="block mb-2 text-sm font-medium text-gray-900 ">Kategori Produk
-                        </label>
-                        <select id="countries" name="productCategories"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3">
-                            @foreach ($categories as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="usia" class="block mb-2 text-sm font-medium text-gray-900 ">Kategori Usia
-                        </label>
-                        <select id="usia" name="usia"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3">
-                            <option value="1-2 Tahun">1-2 Tahun</option>
-                            <option value="3-5 Tahun">3-5 Tahun</option>
-                            <option value="5-10 Tahun">5-10 Tahun</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productSize" class="block mb-2 text-sm font-medium text-gray-900 ">Ukuran
-                            Produk
-                        </label>
-                        <select id="countries" name="productSize"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3">
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="All Size">All Size</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productDesc" class="block mb-2 text-sm font-medium text-gray-900 ">Deskripsi
-                            Produk
-                        </label>
-                        <textarea type="text"name="productDesc" placeholder="Masukkan Deskripsi Produk"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"></textarea>
-                    </div>
-                  
-                    <div class="mb-4">
-                        <label for="productStock" class="block mb-2 text-sm font-medium text-gray-900 ">Stok
-                            Produk
-                        </label>
-                        <input type="number" name="productStock"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Stok Produk" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productPrice" class="block mb-2 text-sm font-medium text-gray-900 ">Harga
-                            Produk
-                        </label>
-                        <input type="number" name="productPrice"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Harga Produk" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productDisc" class="block mb-2 text-sm font-medium text-gray-900 ">Diskon
-                            Produk
-                        </label>
-                        <input type="number" name="productDisc"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Diskon">
-                        <small>*kosongkan jika tidak ada diskon</small>
-                    </div>
-                    <div class="mb-4">
-                        <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 ">Brand Produk
-                        </label>
-                        <input type="text" name="productBrand"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Brand Produk" >
-                    </div>
-                    <div class="mb-4">
-                        <label for="bahan" class="block mb-2 text-sm font-medium text-gray-900 ">Bahan Produk
-                        </label>
-                        <input type="text" name="productBahan"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Bahan Produk" >
-                    </div>
-                    <div class="mb-4">
-                        <label for="usia" class="block mb-2 text-sm font-medium text-gray-900 ">Kandungan Alergi
-                        </label>
-                        <select id="usia" name="productAlergi"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3">
-                            <option value=""> -- Tidak Memiliki Kandungan Alergi -- </option>
-                            @foreach ($alergi as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                            @endforeach
-                        </select>
-                        <small>*kosongkan jika tidak ada kandungan alergi.</small>
-
-                    </div>
-                    <div class="mb-4">
-                        <label for="productWeight" class="block mb-2 text-sm font-medium text-gray-900 ">Berat
-                            Produk
-                        </label>
-                        <input type="number" name="productWeight" value="300"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Berat Produk" >
-                        <small>*Berat normal produk yaitu 300g / Produk</small>
-                    </div>
-
-                    <button type="submit"
-                        class="confirm text-white btn-shadow hover:bg-green-400  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 ">Submit</button>
-                </form>
-
-            </div>
+            <!-- Page end  -->
         </div>
     </div>
 @endsection

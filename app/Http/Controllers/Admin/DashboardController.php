@@ -24,7 +24,7 @@ class DashboardController extends Controller
 
         // Total Pesanan Berhasil
         $totalCompleteOrders = Order::where('status', '=', 'Selesai')->count();
-        $getClients = DB::table('pesanans')
+        $getClients = DB::table('orders')
             ->select('users_id')
             ->groupBy('users_id')
             ->get();

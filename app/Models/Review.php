@@ -9,7 +9,7 @@ class Review extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    protected $table = 'ulasans';
+    protected $table = 'reviews';
 
     public function users()
     {

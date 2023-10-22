@@ -24,15 +24,4 @@ class HomeController extends Controller
         // return dd($products);
         return view('customers.home', compact('products', 'categories'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function faq()
-    {
-        $faq = Faq::all();
-        return view('customers.faq.index', compact('faq'));
-    }
 }

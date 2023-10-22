@@ -84,9 +84,9 @@ class CartController extends Controller
             $countCart = 0;
         }
         $ekspedisi = Ekspedisi::all();
-        $kupons = Coupon::all();
+        // $kupons = Coupon::all();
         // return dd($cart);
-        return view('customers.cart.cart', compact('cart', 'countCart', 'ekspedisi', 'kupons', 'userAddress', 'getUsersProvince', 'getUsersCity', 'city', 'province', 'allCities', 'allProvince'));
+        return view('customers.cart.cart', compact('cart', 'countCart', 'ekspedisi', 'userAddress', 'getUsersProvince', 'getUsersCity', 'city', 'province', 'allCities', 'allProvince'));
     }
 
     public function destroy($id)

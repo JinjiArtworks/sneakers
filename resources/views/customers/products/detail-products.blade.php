@@ -1,188 +1,157 @@
 @extends('layouts.customers')
-@section('breadcrumbs')
-    <div class="text-sm breadcrumbs mt-4">
-        <ul>
-            <li>
-                <a>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        class="w-4 h-4 mr-2 stroke-current">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
-                    </svg>
-                    Home
-                </a>
-            </li>
-            <li>
-                <a>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        class="w-4 h-4 mr-2 stroke-current">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
-                    </svg>
-                    Detail Produk
-                </a>
-            </li>
-
-        </ul>
-    </div>
-@endsection
 @section('content')
-    <section class="body-font overflow-hidden bg-white border border-secondary rounded-lg my-4">
-        <div class="container px-5 py-5 mx-auto">
-            <div class="w-full mx-auto flex flex-wrap">
-                <img alt="ecommerce" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-                    src="{{ asset('images/' . $products->gambar) }}">
-                <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                    <div class="flex justify-between">
-                        <h1 class="text-3xl title-font font-medium mb-1">{{ $products->nama }}</h1>
-                        {{-- @foreach ($wishlist as $item)
-                            @if ($products->id == $item->product_id)
-                                Sudah ada di wishlist
-                            @elseif ($item == null) --}}
-                        <form action="{{ route('products.addToWishlist', ['id' => $products->id]) }}" method="POST">
-                            @csrf
-                            <button
-                                class="add-wishlist rounded-full w-10 h-10 ml-auto bg-secondary p-0 border-0 text-white hover:bg-primary ">
-                                <i class="fa-regular text-white text-lg fa-heart"></i>
-                            </button>
-                        </form>
-                        {{-- @endif
-                        @endforeach --}}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb.jpg') }}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Vegetable’s Package</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Home</a>
+                            <a href="./index.html">Vegetables</a>
+                            <span>Vegetable’s Package</span>
+                        </div>
                     </div>
-                    {{-- Stars --}}
-
-                    <div class="my-2">
-                        <p class="text-sm leading-relaxed">• Kategori : {{ $products->categories->nama }}</p>
-                        <p class="text-sm leading-relaxed">• Stock : {{ $products->stok }} pcs</p>
-                        <p class="text-sm leading-relaxed">• Terjual : {{ $products->terjual }} pcs</p>
-                        <p class="text-sm leading-relaxed ">• {{ $products->jumlah_penilaian }} Person Reviews*</p>
-                    </div>
-
-                    <form action="{{ route('cart.add', ['id' => $products->id]) }}" method="POST">
-                        @csrf
-                        <div class="flex mt-6 items-center border-gray-200 ">
-                            <div class="flex items-center">
-                                <span class="mr-3">Size</span>
-                                <div class="relative">
-                                    @if ($products->ukuran == 'All Size')
-                                        <select name="size"
-                                            class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                                            <option value="S">S</option>
-                                            <option value="M">M</option>
-                                            <option value="L">L</option>
-                                            <option value="XL">XL</option>
-                                        </select>
-                                    @else
-                                        <select name="size"
-                                            class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                                            <option value="{{ $products->ukuran }}">{{ $products->ukuran }}</option>
-                                        </select>
-                                    @endif
-
-                                    <span
-                                        class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                                        <svg fill="none" stroke="currentColor" stroke-linecap="round"
-                                            stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
-                                            <path d="M6 9l6 6 6-6"></path>
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class=" flex items-center pb-5 border-b-2 my-4">
-                            <span class="mr-3">Quantity</span>
-                            <div class="flex border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
-                                <a
-                                    class="btn btn-reduce bg-secondary hover:bg-primary text-white h-2 mr-2 text-xl flex items-center ">
-                                    -</a>
-                                <div class="flex border-secondary rounded border ">
-                                    <input class="rounded count" type="number" name="quantity" value="1"
-                                        data-max="120" pattern="[0-9]*" style="width: 5rem">
-                                </div>
-                                <a
-                                    class="btn btn-increase bg-secondary hover:bg-primary  text-white h-2 ml-2 text-xl flex items-center ">
-                                    +</a>
-                            </div>
-                        </div>
-                        <div class="flex">
-                            @if ($products->diskon != null)
-                                <span class="title-font font-medium text-2xl text-gray-900">@currency($products->harga - $products->diskon) - Potongan :
-                                    {{ $products->diskon }}</span>
-                            @else
-                                <span class="title-font font-medium text-2xl text-gray-900">@currency($products->harga)</span>
-                            @endif
-                        </div>
-                        <button
-                            class="add-to-cart confirm-cart px-4 py-4 rounded-lg my-4 text-sm bg-secondary p-0 border-0 text-white hover:bg-primary inline-flex justify-center items-center">
-                            Masukkan Keranjang
-                        </button>
-                    </form>
                 </div>
-                <table class="table-auto border-collapse w-full text-left text-xs my-6">
-                    <h1 class="mt-4 font-bold text-xl">Informasi Produk</h1>
-                    <tr>
-                        <th class="py-2 px-4 border border-gray-300 w-40 font-semibold">Deskripsi</th>
-                        <th class="py-2 px-4 border border-gray-300 font-normal leading-5">
-                            {{ $products->deskripsi }}
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="py-2 px-4 border border-gray-300 w-40 font-semibold">Kategori Usia </th>
-                        <th class="py-2 px-4 border border-gray-300 font-normal">{{ $products->usia }}</th>
-                    </tr>
-                    <tr>
-                        <th class="py-2 px-4 border border-gray-300 w-40 font-semibold">Brand </th>
-                        <th class="py-2 px-4 border border-gray-300 font-normal">{{ $products->brand }}</th>
-                    </tr>
-                    <tr>
-                        <th class="py-2 px-4 border border-gray-300 w-40 font-semibold">Bahan</th>
-                        <th class="py-2 px-4 border border-gray-300 font-normal">{{ $products->bahan }}</th>
-                    </tr>
-                    <tr>
-                        <th class="py-2 px-4 border border-gray-300 w-40 font-semibold">Alergi</th>
-                        @if ($products->alergi != null)
-                            <th class="py-2 px-4 border border-gray-300 font-normal leading-5">
-                                <b>{{ $products->alergi->nama }}</b>
-                                <ul>
-                                    <li>
-                                        - {{ $products->alergi->deskripsi }}
-                                    </li>
-                                    <li>
-                                        - {{ $products->alergi->efek }}
-                                    </li>
-                                </ul>
-                            </th>
-                        @else
-                            <th class="py-2 px-4 border border-gray-300 font-normal leading-5">
-                                Tidak ada kandungan alergi.
-                            </th>
-                        @endif
-                    </tr>
-
-                    <tr>
-                        @if ($getReviews != null)
-                            <th class="py-2 px-4 border border-gray-300 w-40 font-semibold">Review</th>
-                            <th class="py-2 px-4 border border-gray-300 font-normal leading-5">
-                                @foreach ($getReviews as $item)
-                                    <b>User X</b> :
-                                    {{ $item->komentar }} [Memberikan {{ $item->rating }} Bintang] <br>
-                                @endforeach
-                            </th>
-                        @endif
-                    </tr>
-                </table>
             </div>
         </div>
     </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                src="{{ asset('img/product/details/product-details-1.jpg') }}" alt="">
+                        </div>
+                        <div class="product__details__pic__slider owl-carousel">
+                            <img data-imgbigurl="{{ asset('img/product/details/product-details-2.jpg') }}"
+                                src="{{ asset('img/product/details/thumb-1.jpg') }}" alt="">
+
+                            <img data-imgbigurl="{{ asset('img/product/details/product-details-3.jpg') }}"
+                                src="{{ asset('img/product/details/thumb-2.jpg') }}" alt="">
+
+                            <img data-imgbigurl="{{ asset('img/product/details/product-details-4.jpg') }}"
+                                src="{{ asset('img/product/details/thumb-3.jpg') }}" alt="">
+
+                            <img data-imgbigurl="{{ asset('img/product/details/product-details-4.jpg') }}"
+                                src="{{ asset('img/product/details/thumb-4.jpg') }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>Vetgetable’s Package</h3>
+                        <div class="product__details__rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                            <span>(18 reviews)</span>
+                        </div>
+                        <div class="product__details__price">$50.00</div>
+                        <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
+                            vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
+                            quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p>
+                        <div class="product__details__quantity">
+                            <div class="quantity">
+                                <a class="btn btn-reduce"> -</a>
+                                <input class="count" type="number" name="quantity" value="1" data-max="120"
+                                    pattern="[0-9]*" style="width: 3rem; border:none">
+                                <a class="btn btn-increase">+</a>
+                            </div>
+                        </div>
+                        <a href="#" class="primary-btn">Add To Cart</a>
+                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        <ul>
+                            <li><b>Availability</b> <span>In Stock.</span></li>
+                            <li><b>Shipping</b> <span>01 day shipping.</span></li>
+                            <li><b>Weight</b> <span>0.5 kg.</span></li>
+                            {{-- <li><b>Share on</b>
+                                <div class="share">
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                    <a href="#"><i class="fa fa-pinterest"></i></a>
+                                </div>
+                            </li> --}}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                    aria-selected="true">Description</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                    aria-selected="false">Reviews <span>(1)</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Products Infomation</h6>
+                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus
+                                        suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam
+                                        vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.
+                                        Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,
+                                        accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a
+                                        pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula
+                                        elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus
+                                        et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam
+                                        vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>
+                                    <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
+                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
+                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
+                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
+                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
+                                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed
+                                        porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum
+                                        sed sit amet dui. Proin eget tortor risus.</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Products Infomation</h6>
+                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
+                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
+                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
+                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
+                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
+                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
+                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
+                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                                        Proin eget tortor risus.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
 @endsection
 @section('script')
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         // alert('test');
         $(document).ready(function() {
             $(document).on('click', '.btn-increase', function() {
                 $('.count').val(parseInt($('.count').val()) + 1);
-                if ($('.count').val() > {{ $products->stok }}) {
+                if ($('.count').val() > {{ $products->stock }}) {
                     $(':input[type="submit"]').prop('disabled', true);
                 }
             });
@@ -191,12 +160,12 @@
                 if ($('.count').val() == 0) {
                     $('.count').val(1);
                 }
-                if ($('.count').val() <= {{ $products->stok }}) {
+                if ($('.count').val() <= {{ $products->stock }}) {
                     $(':input[type="submit"]').prop('disabled', false);
                 }
             });
             $(document).on('click', '.add-to-cart', function() {
-                if ($('.count').val() > {{ $products->stok }}) {
+                if ($('.count').val() > {{ $products->stock }}) {
                     event.preventDefault();
                     Swal.fire({
                         title: 'Stock Tidak Tersedia',
@@ -232,15 +201,6 @@
                     cancelButton: 'btn btn-danger'
                 },
                 buttonsStyling: false
-            })
-            swalWithBootstrapButtons.fire({
-                title: 'Tambahkan Kedalam Keranjang?',
-                text: "Harap cek kandungan alergi terhadap produk ini.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Cancel',
-                reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();
@@ -259,5 +219,5 @@
             //     }
             // })
         });
-    </script>
+    </script> --}}
 @endsection
