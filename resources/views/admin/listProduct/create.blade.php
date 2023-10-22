@@ -17,7 +17,7 @@
                                         <div class="form-group">
                                             <label>Product Type *</label>
                                             <select name="type" class="selectpicker form-control" data-style="py-0">
-                                                <option>Standard</option>
+                                                <option>Standardsssss</option>
                                                 <option>Combo</option>
                                                 <option>Digital</option>
                                                 <option>Service</option>
