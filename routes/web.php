@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ListProductController;
+use App\Http\Controllers\Admin\Resources\AddCategoriesController;
 use App\Http\Controllers\Customers\CartController;
 use App\Http\Controllers\Customers\CheckoutProductController;
 use App\Http\Controllers\Customers\HomeController;
@@ -91,6 +92,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('delete-products/{id}', [ListProductController::class, 'destroy'])->name('delete');
     });
 
+    Route::group(['as' => 'categories.'], function () {
+        Route::get('list-category', [AddCategoriesController::class, 'index'])->name('index');
+        Route::get('create-category', [AddCategoriesController::class, 'create'])->name('create-category');
+        Route::get('edit-category/{id}', [AddCategoriesController::class, 'edit'])->name('edit-category');
+        Route::post('store-category', [AddCategoriesController::class, 'store'])->name('store-category');
+        Route::put('update-category/{id}', [AddCategoriesController::class, 'update'])->name('update-category');
+        Route::get('delete-category/{id}', [AddCategoriesController::class, 'destroy'])->name('delete-category');
+    });
+
     // Route::group(['as' => 'return.'], function () {
     //     Route::get('/data-return', [ReturnOrderController::class, 'index'])->name('index');
     //     Route::get('/details-return/{id}', [ReturnOrderController::class, 'details'])->name('details');
@@ -116,12 +126,6 @@ Route::middleware(['auth'])->group(function () {
     // //     Route::get('delete-detail-produk/{id}', [DetailsProductController::class, 'destroy'])->name('delete');
 
 
-    // //     Route::get('/add-kategori', [AddCategoriesController::class, 'index'])->name('index');
-    // //     Route::get('create-kategori', [AddCategoriesController::class, 'create'])->name('create-kategori');
-    // //     Route::get('edit-kategori/{id}', [AddCategoriesController::class, 'edit'])->name('edit-kategori');
-    // //     Route::post('store-kategori', [AddCategoriesController::class, 'store'])->name('store-kategori');
-    // //     Route::put('update-kategori/{id}', [AddCategoriesController::class, 'update'])->name('update-kategori');
-    // //     Route::get('delete-kategori/{id}', [AddCategoriesController::class, 'destroy'])->name('delete-kategori');
 
 
     // //     Route::get('/add-alergi', [AlergiController::class, 'index'])->name('index');

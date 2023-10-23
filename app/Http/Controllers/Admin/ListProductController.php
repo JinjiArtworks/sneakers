@@ -35,24 +35,21 @@ class ListProductController extends Controller
     }
     public function store(Request $request)
     {
-        if ($request->productImage != null) {
-            $destinationPath = '/images';
-            $request->productImage->move(public_path($destinationPath), $request->productImage->getClientOriginalName());
+        if ($request->images != null) {
+            $destinationPath = '/img/list';
+            $request->images->move(public_path($destinationPath), $request->images->getClientOriginalName());
             Product::create([
-                'nama' => $request->productName,
-                'usia' => $request->usia,
-                'deskripsi' => $request->productDesc,
-                'harga' => $request->productPrice,
-                'stok' => $request->productStock,
-                'ukuran' => $request->productSize,
-                'berat' => $request->productWeight,
-                'alergi_id' => $request->productAlergi,
-                'categories_id' => $request->productCategories,
-                'gambar' => $request->productImage->getClientOriginalName(),
-                'terjual' => 0,
-                'diskon' => $request->productDisc,
-                'brand' => $request->productBrand,
-                'bahan' => $request->productBahan,
+                'name' => $request->products,
+                'images' => $request->images->getClientOriginalName(),
+                'categories_id' => $request->categories,
+                // 'price' => $request->price,
+                'stock' => $request->stock,
+                'brand' => $request->brand,
+                // 'size' => $request->size,
+                'weight' => $request->weight,
+                'description' => $request->description,
+                'discount' => $request->discount,
+                'sold' => 0,
             ]);
         }
         return redirect('/admin-products')->with('success', 'Product berhasil ditambahkan');
@@ -65,31 +62,27 @@ class ListProductController extends Controller
     }
     public function update(Request $request, $id)
     {
-        if ($request->productImage != null) {
-            $destinationPath = '/images';
-            $request->productImage->move(public_path($destinationPath), $request->productImage->getClientOriginalName());
+        if ($request->images != null) {
+            $destinationPath = '/img/list';
+            $request->images->move(public_path($destinationPath), $request->images->getClientOriginalName());
             Product::where('id', $id)
                 ->update(
                     [
-                        'nama' => $request->productName,
-                        'deskripsi' => $request->productDesc,
-                        'usia' => $request->usia,
-                        'harga' => $request->productPrice,
-                        'stok' => $request->productStock,
-                        'ukuran' => $request->productSize,
-                        'berat' => $request->productWeight,
-                        'alergi_id' => $request->productAlergi,
-                        'categories_id' => $request->productCategories,
-                        'gambar' => $request->productImage->getClientOriginalName(),
-                        'terjual' => 0,
-                        'diskon' => $request->productDisc,
-                        'brand' => $request->productBrand,
-                        'bahan' => $request->productBahan,
+                        'name' => $request->products,
+                        'images' => $request->images->getClientOriginalName(),
+                        'categories_id' => $request->categories,
+                        // 'price' => $request->price,
+                        'stock' => $request->stock,
+                        'brand' => $request->brand,
+                        // 'size' => $request->size,
+                        'weight' => $request->weight,
+                        'description' => $request->description,
+                        'discount' => $request->discount,
+                        'sold' => 0,
                     ]
                 );
-        }
-        else{
-            return redirect()->back();
+        } else {
+            return redirect()->back()->with('error', 'Product gagal diubah');
         }
         return redirect('/admin-products')->with('success', 'Product berhasil diubah.');
     }

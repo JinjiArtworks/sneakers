@@ -11,112 +11,84 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="page-list-product.html" data-toggle="validator">
+                            <form method="POST" action="/store-products" enctype="multipart/form-data">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Product Type *</label>
-                                            <select name="type" class="selectpicker form-control" data-style="py-0">
-                                                <option>Standardsssss</option>
-                                                <option>Combo</option>
-                                                <option>Digital</option>
-                                                <option>Service</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Name *</label>
-                                            <input type="text" class="form-control" placeholder="Enter Name"
-                                                data-errors="Please Enter Name." required>
+                                            <label>Product Name *</label>
+                                            <input type="text" class="form-control" name="products"
+                                                placeholder="Enter Products Name" data-errors="Please Enter Name." required>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Code *</label>
-                                            <input type="text" class="form-control" placeholder="Enter Code"
-                                                data-errors="Please Enter Code." required>
-                                            <div class="help-block with-errors"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Barcode Symbology *</label>
-                                            <select name="type" class="selectpicker form-control" data-style="py-0">
-                                                <option>CREM01</option>
-                                                <option>UM01</option>
-                                                <option>SEM01</option>
-                                                <option>COF01</option>
-                                                <option>FUN01</option>
-                                                <option>DIS01</option>
-                                                <option>NIS01</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Category *</label>
-                                            <select name="type" class="selectpicker form-control" data-style="py-0">
-                                                <option>Beauty</option>
-                                                <option>Grocery</option>
-                                                <option>Food</option>
-                                                <option>Furniture</option>
-                                                <option>Shoes</option>
-                                                <option>Frames</option>
-                                                <option>Jewellery</option>
+                                            <select name="categories" class="selectpicker form-control" data-style="py-0">
+                                                @foreach ($categories as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    {{-- penjual hanya nambah harga dan size --}}
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <img src="{{ asset('img/list/icon-sepatu.jpeg') }}" id="imgPreview"
+                                                width="150px" height="150px" class="mb-3">
+                                            <input type="file" id="image" class="form-control image-file"
+                                                name="images" accept="image/*">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Cost *</label>
-                                            <input type="text" class="form-control" placeholder="Enter Cost"
-                                                data-errors="Please Enter Cost." required>
+                                            <label>Stock</label>
+                                            <input type="text" name="stock" class="form-control"
+                                                placeholder="Enter Stock" required>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Price *</label>
-                                            <input type="text" class="form-control" placeholder="Enter Price"
-                                                data-errors="Please Enter Price." required>
+                                            <label>Brand</label>
+                                            <input type="text" name="brand" class="form-control"
+                                                placeholder="Enter Brand" required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Weight</label>
+                                            <input type="text" class="form-control" placeholder="Enter Size"
+                                                name="weight" value="350" required>
+                                            <span><small>*350g adalah berat rata-rata.</small></span>
+                                            <div class="help-block with-errors"></div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Discount</label>
+                                            <input type="text" class="form-control" placeholder="Enter Discount"
+                                                name="discount">
+                                            <span><small>*Kosongkan jika tidak ada diskon.</small></span>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Tax Method *</label>
-                                            <select name="type" class="selectpicker form-control" data-style="py-0">
-                                                <option>Exclusive</option>
-                                                <option>Inclusive</option>
-                                            </select>
+                                            <label>Description </label>
+                                            <textarea class="form-control" name="description" rows="4"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Quantity *</label>
-                                            <input type="text" class="form-control" placeholder="Enter Quantity"
-                                                required>
-                                            <div class="help-block with-errors"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Image</label>
-                                            <input type="file" class="form-control image-file" name="pic"
-                                                accept="image/*">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Description / Product Details</label>
-                                            <textarea class="form-control" rows="4"></textarea>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <button type="submit" class="btn btn-primary mr-2">Add Product</button>
-                                <button type="reset" class="btn btn-danger">Reset</button>
+                                {{-- <button type="reset" class="btn btn-danger">Reset</button> --}}
                             </form>
                         </div>
                     </div>
@@ -131,7 +103,7 @@
         image.onchange = evt => {
             const [file] = image.files
             if (file) {
-                blah.src = URL.createObjectURL(file)
+                imgPreview.src = URL.createObjectURL(file)
             }
         }
     </script>

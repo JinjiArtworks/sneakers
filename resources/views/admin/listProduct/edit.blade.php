@@ -1,144 +1,104 @@
-@extends('layouts.toko')
+@extends('layouts.admin')
 @section('content')
-    <div class="bg-gray-100 flex-1 p-6 md:mt-16">
-        <!-- Start Recent Sales -->
-        <div class="card col-span-2 xl:col-span-1">
-            <div class="card-header flex justify-between">
-                <p class="text-2xl text-black ">Tambah Produk</p>
+    <div class="content-page">
+        <div class="container-fluid add-form-list">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card ">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Ubah Product</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST"
+                                action="{{ route('products.update', ['id' => $products->id]) }} "enctype="multipart/form-data">
+                                @csrf
+                                {{ method_field('put') }}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Product Name *</label>
+                                            <input type="text" class="form-control" name="products"
+                                                value="{{ $products->name }}" placeholder="Enter Products Name"
+                                                data-errors="Please Enter Name." required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Category *</label>
+                                            <select name="categories" class="selectpicker form-control" data-style="py-0">
+                                                @foreach ($categories as $item)
+                                                    <option value="{{ $item->id }}" {{ $products->categories_id == $item->id ? 'selected' : null }}>
+                                                        {{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {{-- penjual hanya nambah harga dan size --}}
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <img src="{{ asset('img/list/'.$products->images) }}" id="imgPreview"
+                                                width="150px" height="150px" class="mb-3" >
+                                            <input type="file" id="image" class="form-control image-file" required
+                                                name="images" accept="image/*">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Stock</label>
+                                            <input type="text" name="stock" class="form-control"
+                                                placeholder="Enter Stock" value="{{ $products->stock }}" required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Brand</label>
+                                            <input type="text" name="brand" class="form-control"
+                                                placeholder="Enter Brand" value="{{ $products->brand }}" required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Weight</label>
+                                            <input type="text" class="form-control" placeholder="Enter Size"
+                                                name="weight" value="350" value="{{ $products->weight }}" required>
+                                            <span><small>*350g adalah berat rata-rata.</small></span>
+                                            <div class="help-block with-errors"></div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Discount</label>
+                                            <input type="text" class="form-control" placeholder="Enter Discount"
+                                                name="discount" value="{{ $products->discount }}">
+                                            <span><small>*Kosongkan jika tidak ada diskon.</small></span>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Description </label>
+                                            <textarea class="form-control" name="description" rows="4">{{ $products->description }}</textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <button type="submit" class="btn btn-primary mr-2">Confirm</button>
+                                {{-- <button type="reset" class="btn btn-danger">Reset</button> --}}
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="p-6">
-                <form method="POST"
-                    action="{{ route('products.update', ['id' => $products->id]) }} "enctype="multipart/form-data">
-                    @csrf
-                    {{ method_field('put') }}
-
-                    <div class="mb-4">
-                        <label for="productName" class="block mb-2 text-sm font-medium text-gray-900 ">Nama
-                            Produk</label>
-                        <input type="text" name="productName" value="{{ $products->nama }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productImage" class="block mb-2 text-sm font-medium text-gray-900 ">Gambar
-                            Produk </label>
-                        <img src="{{ asset('images/' . $products->gambar) }}" id="blah" width="150px" height="150px"
-                            class="mb-3">
-                        <input accept="image/*" id="image" type="file" name="productImage" required
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-3">
-                    </div>
-                    <div class="mb-4">
-                        <label for="productCat" class="block mb-2 text-sm font-medium text-gray-900 ">Kategori Produk
-                        </label>
-                        <select id="countries" name="productCategories"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3">
-                            @foreach ($categories as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="usia" class="block mb-2 text-sm font-medium text-gray-900 ">Kategori Usia
-                        </label>
-                        <select id="usia" name="usia"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3">
-                            <option value="{{ $products->usia }}">{{ $products->usia }}</option>
-                            <option value="1-2 Tahun">1-2 Tahun</option>
-                            <option value="3-5 Tahun">3-5 Tahun</option>
-                            <option value="5-10 Tahun">5-10 Tahun</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productSize" class="block mb-2 text-sm font-medium text-gray-900 ">Ukuran
-                            Produk
-                        </label>
-                        <select id="countries" name="productSize"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3">
-                            <option value="{{ $products->ukuran }}">{{ $products->ukuran }}</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="All Size">All Size</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productDesc" class="block mb-2 text-sm font-medium text-gray-900 ">Deskripsi
-                            Produk
-                        </label>
-                        <textarea type="text"name="productDesc" placeholder="Masukkan Deskripsi Produk"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3">{{ $products->deskripsi }}</textarea>
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="productStock" class="block mb-2 text-sm font-medium text-gray-900 ">Stok
-                            Produk
-                        </label>
-                        <input type="number" name="productStock" value="{{ $products->stok }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Stok Produk" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productPrice" class="block mb-2 text-sm font-medium text-gray-900 ">Harga
-                            Produk
-                        </label>
-                        <input type="number" name="productPrice" value="{{ $products->harga }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Harga Produk" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="productDisc" class="block mb-2 text-sm font-medium text-gray-900 ">Diskon
-                            Produk
-                        </label>
-                        <input type="number" name="productDisc" value="{{ $products->diskon }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Diskon">
-                        <small>*kosongkan jika tidak ada diskon</small>
-                    </div>
-                    <div class="mb-4">
-                        <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 ">Brand Produk
-                        </label>
-                        <input type="text" name="productBrand" value="{{ $products->brand }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Brand Produk">
-                    </div>
-                    <div class="mb-4">
-                        <label for="bahan" class="block mb-2 text-sm font-medium text-gray-900 ">Bahan Produk
-                        </label>
-                        <input type="text" name="productBahan" value="{{ $products->bahan }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Bahan Produk">
-                    </div>
-                    <div class="mb-4">
-                        <label for="alergi" class="block mb-2 text-sm font-medium text-gray-900 ">Kandungan Alergi
-                        </label>
-                        <select id="alergi" name="productAlergi"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3">
-                            @if ($products->alergi != null)
-                                <option value="{{ $products->alergi_id }}">{{ $products->alergi->nama }}</option>
-                            @endif
-                            <option value="">-- Tidak ada kandungan alergi --</option>
-                            @foreach ($alergi as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                            @endforeach
-
-                        </select>
-
-                        <small>*kosongkan jika tidak ada kandungan alergi</small>
-
-                    </div>
-                    <div class="mb-4">
-                        <label for="productWeight" class="block mb-2 text-sm font-medium text-gray-900 ">Berat
-                            Produk
-                        </label>
-                        <input type="number" name="productWeight" value="{{ $products->berat }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  w-full p-3"
-                            placeholder="Masukkan Berat Produk" required>
-                        <small>*Berat normal produk yaitu 300g / Produk</small>
-                    </div>
-                    <button type="submit"
-                        class="confirm text-white btn-shadow hover:bg-green-400  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 ">Submit</button>
-                </form>
-            </div>
+            <!-- Page end  -->
         </div>
     </div>
 @endsection
@@ -147,7 +107,7 @@
         image.onchange = evt => {
             const [file] = image.files
             if (file) {
-                blah.src = URL.createObjectURL(file)
+                imgPreview.src = URL.createObjectURL(file)
             }
         }
     </script>

@@ -14,6 +14,10 @@ class Product extends Model
     {
         return $this->belongsTo(Categories::class);
     }
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function detailproduk()
     {
         return $this->hasOne(DetailProduk::class);

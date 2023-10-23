@@ -6,11 +6,11 @@
                 <div class="col-lg-12">
                     <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                         <div class="mt-4">
-                            <h4 class="mb-3">Product List</h4>
+                            <h4 class="mb-3">Category List</h4>
                             <p class="mb-0"></p>
                         </div>
-                        <a href="/create-products" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Add
-                            Product</a>
+                        <a href="/create-category" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Add
+                            Category</a>
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -18,43 +18,29 @@
                         <table class="data-tables table mb-0 tbl-server-info">
                             <thead class="bg-white text-uppercase">
                                 <tr class="ligth ligth-data">
-                                    <th>Product</th>
-                                    <th>Category</th>
-                                    <th>Stock</th>
-                                    <th>Brand Name</th>
-                                    <th>Terjual</th>
-                                    <th>Deskripsi</th>
-                                    <th>Aksi</th>
+                                    <th>Image</th>
+                                    <th>Categories Name</th>
+                                    <th>Action</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody class="ligth-body">
-                                @foreach ($products as $item)
+                                @foreach ($categories as $item)
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="{{ asset('img/list/' . $item->images) }}"
-                                                    class="img-fluid rounded avatar-50 mr-3" alt="image">
-                                                <div> {{ $item->name }} </div>
-                                            </div>
+                                            <img src="{{ asset('img/list/' . $item->thumbnail) }}"
+                                                class="img-fluid rounded avatar-50 mr-3" alt="image">
                                         </td>
-                                        <td>{{ $item->categories->name }}</td>
-                                        <td>{{ $item->stock }}</td>
-                                        <td>{{ $item->brand }}</td>
-                                        <td>{{ $item->sold }}</td>
-                                        <td>{{ $item->description }}</td>
-                                        {{-- @if ($item->users_id != null)
-                                            <td>{{ $item->users->name }}</td>
-                                        @endif --}}
+                                        <td>{{ $item->name }}</td>
                                         <td>
-                                            <form action="{{ route('products.edit', ['id' => $item->id]) }}">
+                                            <form action="{{ route('categories.edit-category', ['id' => $item->id]) }}">
                                                 <button class="badge bg-success mr-2 mt-2" type="submit"">
                                                     <i class="ri-pencil-line mr-0"></i>
                                                 </button>
                                             </form>
                                         <td>
                                             <form method="GET"
-                                                action="{{ route('products.delete', ['id' => $item->id]) }}">
+                                                action="{{ route('categories.delete-category', ['id' => $item->id]) }}">
                                                 <button class="badge bg-warning mr-2 mt-2" type="submit"
                                                     class="deleteProduk">
                                                     <i class="ri-delete-bin-line mr-0"></i>
