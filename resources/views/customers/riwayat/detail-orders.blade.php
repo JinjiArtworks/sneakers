@@ -27,32 +27,38 @@
                         <div class="checkout__order">
                             <div class="d-flex">
                                 <div class="p-2">
-                                    <h4>Detail History Order</h4>
+                                    <h4>Detail History Order - <span class="badge"
+                                            style="color: green">{{ $orderStatus->order->status }}</span>
+                                    </h4>
                                 </div>
                                 <hr>
                                 <div class="text-right">
-                                    <a href="/details-pesanan/1" class="btn btn-sm btn-primary">Kirim Pesanan</a>
+                                    <a href="/details-pesanan/1" class="btn btn-sm btn-primary"
+                                        style="background-color: green;">Kirim Pesanan</a>
                                 </div>
                             </div>
+                            @foreach ($orderDetails as $item)
+                                <ul>
+                                    <div class="d-flex">
+                                        <div class="p-2">
+                                            <li>
+                                                <img src="{{ asset('img/product/details/product-details-2.jpg') }}"
+                                                    width="100px">
+                                            </li>
+                                        </div>
+                                        <div class="p-2">
+                                            <li>Nama Produk : {{ $item->product->name }}</li>
+                                            <li>Quantity : x{{ $item->quantity }}</li>
+                                            <li>Ekspedisi : {{ $item->order->ekspedisi }}</li>
+                                            <li>Sub Total : @currency($item->price)</li>
+                                            <li>Ongkos Kirim :  @currency($item->order->shipping_cost)</li>
+                                            <li>Total : @currency($item->order->total)</li>
+                                        </div>
 
-                            <ul>
-                                <div class="d-flex">
-                                    <div class="p-2">
-                                        <li>
-                                            <img src="{{ asset('img/product/details/product-details-2.jpg') }}"
-                                                width="100px">
-                                        </li>
                                     </div>
-                                    <div class="p-2">
-                                        <li>Nama Produk : #123456</li>
-                                        <li>Quantity : #123456</li>
-                                        <li>S : #123456</li>
-                                        <li>Total : Rp. 123.444</li>
-                                    </div>
-
-                                </div>
-                                <hr>
-                            </ul>
+                                    <hr>
+                                </ul>
+                            @endforeach
 
                         </div>
                     </div>

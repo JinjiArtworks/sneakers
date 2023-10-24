@@ -49,6 +49,7 @@ class ProductController extends Controller
     public function detail($id)
     {
         $products = Product::find($id);
+
         $getReviews = Review::whereProductId($id)->get();
         $countReviews = Review::whereProductId($id)->count();
         // $wishlist = Wishlist::all();

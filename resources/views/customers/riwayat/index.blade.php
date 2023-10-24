@@ -24,56 +24,29 @@
                     <div class="col-lg-12 ">
                         <div class="checkout__order">
                             <h4>History Order</h4>
-                            <ul>
-                                <div class="d-flex">
-                                    <div class="p-2">
-                                        <li>
-                                            <img src="img/product/details/product-details-2.jpg" width="100px">
-                                        </li>
-                                    </div>
-                                    <div class="p-2">
-                                        <li>Order Number : #123456</li>
-                                    </div>
+                            @foreach ($orders as $item)
+                                <ul>
+                                    <div class="d-flex">
+                                        <div class="p-2">
+                                            <li>
+                                                <img src="img/product/details/product-details-2.jpg" width="100px">
+                                            </li>
+                                        </div>
+                                        <div class="p-2">
+                                            <li>Order Number : {{ $item->id }}</li>
+                                            <li>Penerima : {{ Auth::user()->name }} - {{ Auth::user()->phone }}</li>
+                                            <li>Alamat : {{ Auth::user()->address }}</li>
+                                        </div>
 
-                                    <div class="ml-auto p-2">
-                                        <li> <a href="/details-pesanan/1" class="btn btn-sm btn-primary">Details</a></li>
+                                        <div class="ml-auto p-2">
+                                            <li> <a href="/detail-pesanan/{{ $item->id }}" class="btn btn-sm btn-primary">Details</a>
+                                            </li>
+                                        </div>
                                     </div>
-                                </div>
-                                <hr>
-                            </ul>
-                            <ul>
-                                <div class="d-flex">
-                                    <div class="p-2">
-                                        <li>
-                                            <img src="img/product/details/product-details-2.jpg" width="100px">
-                                        </li>
-                                    </div>
-                                    <div class="p-2">
-                                        <li>Order Number : #123456</li>
-                                    </div>
+                                    <hr>
+                                </ul>
+                            @endforeach
 
-                                    <div class="ml-auto p-2">
-                                        <li> <a href="/details-pesanan/1" class="btn btn-sm btn-primary">Details</a></li>
-                                    </div>
-                                </div>
-                                <hr>
-                            </ul>  <ul>
-                                <div class="d-flex">
-                                    <div class="p-2">
-                                        <li>
-                                            <img src="img/product/details/product-details-2.jpg" width="100px">
-                                        </li>
-                                    </div>
-                                    <div class="p-2">
-                                        <li>Order Number : #123456</li>
-                                    </div>
-
-                                    <div class="ml-auto p-2">
-                                        <li> <a href="/details-pesanan/1" class="btn btn-sm btn-primary">Details</a></li>
-                                    </div>
-                                </div>
-                                <hr>
-                            </ul>
                         </div>
                     </div>
                 </div>

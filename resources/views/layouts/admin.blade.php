@@ -1,4 +1,4 @@
-{{-- @if (Auth::user()->role == 'Admin') --}}
+@if (Auth::user()->role == 'Admin')
     <!Doctype html>
     <html lang="en">
 
@@ -811,7 +811,9 @@
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav ml-auto navbar-list align-items-center">
                                     <li class="nav-item nav-icon dropdown">
-                                        <a href="#" class="search-toggle dropdown-toggle">{{ Auth::user()->name }} - {{ Auth::user()->roles }}
+                                        <a href="#"
+                                            class="search-toggle dropdown-toggle">{{ Auth::user()->name }} -
+                                            {{ Auth::user()->roles }}
                                         </a>
                                         <div class="iq-sub-dropdown dropdown-menu"
                                             aria-labelledby="dropdownMenuButton2">
@@ -893,7 +895,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                 
+
                                     <li class="nav-item nav-icon dropdown caption-content">
                                         <a href="#" class="search-toggle dropdown-toggle"
                                             id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true"
@@ -979,6 +981,6 @@
     </body>
 
     </html>
-{{-- @else
+@else
     Anda harus login sebagai admin. <a href="/" class="text-secondary">Kembali</a>
-@endif --}}
+@endif

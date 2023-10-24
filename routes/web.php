@@ -53,8 +53,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/remove-from-cart/{id}', [CartController::class, 'destroy'])->name('delete');
     });
     Route::group(['as' => 'checkout.'], function () {
-        Route::get('/checkout', [CheckoutProductController::class, 'index'])->name('index');
-        // Route::post('/checkout', [CheckoutProductController::class, 'index'])->name('index');
+        // Route::get('/checkout', [CheckoutProductController::class, 'index'])->name('index');
+        Route::post('/checkout', [CheckoutProductController::class, 'index'])->name('index');
         Route::post('/checkout/payments', [CheckoutProductController::class, 'store'])->name('store');
     });
     Route::group(['as' => 'history-order.'], function () {

@@ -26,41 +26,39 @@ class CartController extends Controller
             $cart[$id] = [
                 "id" => $product->id,
                 "user_id" => $user,
-                "nama" => $product->nama,
-                "gambar" => $product->gambar,
-                "harga" => $product->harga,
-                "diskon" => $product->diskon,
-                "stok" => $product->stok,
-                "alergi" => $product->alergi->nama,
-                "deskripsi" => $product->deskripsi,
-                "berat" => $product->berat,
+                "name" => $product->name,
+                "images" => $product->images,
+                "price" => $product->price,
+                "discount" => $product->discount,
+                "stock" => $product->stock,
+                "description" => $product->description,
+                "weight" => $product->weight,
                 "categories" => $product->categories->nama,
                 "size" => $request->size,
                 "quantity" => $request->quantity,
-                "subtotal" => ($product->harga - $product->diskon)  * $request->quantity
+                "subtotal" => ($product->price - $product->discount)  * $request->quantity
             ];
         } else {
             if ($cart[$id]['size'] != $request->size) {
                 $cart[$id] = [
                     "id" => $product->id,
                     "user_id" => $user,
-                    "nama" => $product->nama,
-                    "gambar" => $product->gambar,
-                    "harga" => $product->harga,
-                    "diskon" => $product->diskon,
-                    "stok" => $product->stok,
-                    "alergi" => $product->alergi->nama,
-                    "deskripsi" => $product->deskripsi,
-                    "berat" => $product->berat,
+                    "name" => $product->name,
+                    "images" => $product->images,
+                    "price" => $product->price,
+                    "discount" => $product->discount,
+                    "stock" => $product->stock,
+                    "description" => $product->description,
+                    "weight" => $product->weight,
                     "categories" => $product->categories->nama,
                     "size" => $request->size,
                     "quantity" => $request->quantity,
-                    "subtotal" => ($product->harga - $product->diskon)  * $request->quantity
+                    "subtotal" => ($product->price - $product->discount)  * $request->quantity
                 ];
             } else {
-                $cart[$id]["berat"] += $product->berat;
+                $cart[$id]["weight"] += $product->berat;
                 $cart[$id]["quantity"] += $request->quantity;
-                $cart[$id]["subtotal"] += ($product->harga - $product->diskon)  * $request->quantity;
+                $cart[$id]["subtotal"] += ($product->price - $product->discount)  * $request->quantity;
             }
         }
         session()->put('cart', $cart);
