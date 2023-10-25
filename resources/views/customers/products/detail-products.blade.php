@@ -44,46 +44,66 @@
                         </div> --}}
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
-                    <form action="{{ route('cart.add', ['id' => $products->id]) }}" method="POST">
-                        @csrf
-                        <div class="product__details__text">
-                            <h3>{{ $products->name }} </h3>
-                            @if (Auth::user()->is_seller == 0)
-                                <p><button class="btn btn-sm btn-primary">Become a Seller!</button></p>
-                            @endif
-                            <div class="product__details__rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-half-o"></i>
-                                <span>(18 reviews)</span>
-                            </div>
-                            <span>Toko : <a href=""> {{ $products->users->name }} -
-                                    {{ $products->users->phone }}</a></span>
 
-                            <div class="product__details__price"> @currency($products->price) </div>
-                            <p>{{ $products->description }}</p>
-                            <div class="product__details__quantity">
-                                <div class="quantity">
-                                    <a class="btn btn-reduce"> -</a>
-                                    <input class="count" type="number" name="quantity" value="1" data-max="120"
-                                        pattern="[0-9]*" style="width: 3rem; border:none">
-                                    <a class="btn btn-increase">+</a>
-                                </div>
-                            </div>
-                            <button class=" add-to-cart confirm-cart primary-btn">Add To Cart</button>
-                            <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
-                            <ul>
-                                <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>
-                                <li><b>Ready Size : </b>
-                                    <span>
-                                        {{ $products->size }} cm
-                                    </span>
-                                </li>
-                                <li><b>Weight : </b> <span>{{ $products->weight }} gr / pcs</span></li>
-                                {{-- <li><b>Share on</b>
+                <div class="col-lg-6 col-md-6">
+
+
+
+                    <div class="product__details__text">
+                        <h3>{{ $products->name }} </h3>
+                        @if (Auth::user()->is_seller == 0)
+                            <form action="{{ route('users.switch-to-seller', ['id' => Auth::user()->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="mb-2 btn btn-sm btn-primary">Become a Seller!
+                                </button>
+                            </form>
+                        @endif
+
+                        <div class="product__details__rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                            <span>(18 reviews)</span>
+                        </div>
+                        <span>Toko : <a href=""> {{ $products->users->name }} -
+                                {{ $products->users->phone }}</a></span>
+
+                        <div class="product__details__price"> @currency($products->price) </div>
+                        <p>{{ $products->description }}</p>
+                        <form action="{{ route('cart.add', ['id' => $products->id]) }}" method="POST">
+                            @csrf
+                            @if (Auth::user()->is_seller == 1)
+                                <button class="primary-btn">Sell this product</button>
+                                {{-- tampilkan modal untuk masukkan product size dan  --}}
+                            @else
+                                @if ($products->users_id != Auth::user()->id)
+                                    <div class="product__details__quantity">
+                                        <div class="quantity">
+                                            <a class="btn btn-reduce"> -</a>
+                                            <input class="count" type="number" name="quantity" value="1"
+                                                data-max="120" pattern="[0-9]*" style="width: 3rem; border:none">
+                                            <a class="btn btn-increase">+</a>
+                                        </div>
+                                    </div>
+                                    <button class=" add-to-cart confirm-cart primary-btn">Add To Cart</button>
+                                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                @else
+                                    <p>Anda menjual produk ini.</p>
+                                @endif
+                            @endif
+                        </form>
+
+                        <ul>
+                            <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>
+                            <li><b>Ready Size : </b>
+                                <span>
+                                    {{ $products->size }} cm
+                                </span>
+                            </li>
+                            <li><b>Weight : </b> <span>{{ $products->weight }} gr / pcs</span></li>
+                            {{-- <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-twitter"></i></a>
@@ -91,9 +111,8 @@
                                     <a href="#"><i class="fa fa-pinterest"></i></a>
                                 </div>
                             </li> --}}
-                            </ul>
-                        </div>
-                    </form>
+                        </ul>
+                    </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="product__details__tab">
@@ -202,6 +221,5 @@
         //         }
         //     })
         // });
-        
     </script>
 @endsection

@@ -10,7 +10,9 @@ use App\Http\Controllers\Customers\HomeController;
 use App\Http\Controllers\Customers\ProductController;
 
 use App\Http\Controllers\Admin\ReturnOrderController;
+use App\Http\Controllers\Customers\CategoryController;
 use App\Http\Controllers\Customers\RiwayatPesananController;
+use App\Http\Controllers\Customers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,13 +31,18 @@ Route::get('/informasi-produk', [ProductController::class, 'infoProduct'])->name
 
 // Route::group(['as' => 'nav.'], function () {
 Route::get('/shop', [ProductController::class, 'index'])->name('shop');
-Route::get('/detail-product/{id}', [ProductController::class, 'detail']);
 // });
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/detail-product/{id}', [ProductController::class, 'detail']);
     Route::group(['as' => 'products.'], function () {
         Route::post('/store-wishlist', [ProductController::class, 'addToWishlist'])->name('addToWishlist');
         Route::get('/belanja', [ProductController::class, 'search'])->name('search');
+        // Route::get('/belanja', [ProductController::class, 'searchByCat'])->name('searchByCat');
+    });
+    Route::group(['as' => 'users.'], function () {
+        Route::post('/update-to-buyer', [UserController::class, 'switchToBuyer'])->name('switch-to-buyer');
+        Route::post('/update-to-seller', [UserController::class, 'switchToSeller'])->name('switch-to-seller');
         // Route::get('/belanja', [ProductController::class, 'searchByCat'])->name('searchByCat');
     });
     Route::group(['as' => 'categories.'], function () {

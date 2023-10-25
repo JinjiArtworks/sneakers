@@ -96,34 +96,48 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="header__top__right">
                             <div class="header__top__right__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
                                 @if (Auth::check())
                                     @if (Auth::user()->roles == 'Customers')
-                                        <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} </a>
+                                        <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} -
+                                            @if (Auth::user()->is_seller == 1)
+                                                Penjual
+                                                <div class="header__top__right__auth ml-4">
+                                                    <form
+                                                        action="{{ route('users.switch-to-buyer', ['id' => Auth::user()->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-primary">Switch
+                                                            Buyer</button>
+                                                    </form>
+                                                </div>
+                                            @else
+                                                Pembeli
+                                                <div class="header__top__right__auth ml-4">
+                                                    <form
+                                                        action="{{ route('users.switch-to-seller', ['id' => Auth::user()->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-primary">Switch
+                                                            Seller</button>
+                                                    </form>
+                                                </div>
+                                            @endif
+                                        </a>
                                     @else
                                         <a href="/admin-dashboard"></a> Lihat Toko</a>
                                     @endif
                                 @endif
                             </div>
+
+
+                            {{-- Untuk bagian logoutnya --}}
                             @if (Auth::check())
-                                @if (Auth::user()->roles == 'Customers')
-                                    <div class="header__top__right__auth">
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <button class="btn btn-sm btn-primary" type="submit">Log out</button>
-                                        </form>
-                                    </div>
-                                @else
-                                    <div class="header__top__right__auth">
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <button class="btn btn-sm btn-primary" type="submit">Log out</button>
-                                        </form>
-                                    </div>
-                                @endif
+                                <div class="header__top__right__auth">
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button class="btn btn-sm btn-primary" type="submit">Log out</button>
+                                    </form>
+                                </div>
                             @else
                                 <div class="header__top__right__auth">
                                     <a href="/login"><i class="fa fa-user"></i> Login |</a>
@@ -147,7 +161,7 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="/">Home</a></li>
+                            <li class=""><a href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
@@ -164,10 +178,15 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
-                        <ul>
-                            <li><a href="/wishlist"><i class="fa fa-heart"></i> </a></li>
-                            <li><a href="/cart"><i class="fa fa-shopping-bag"></i></li>
-                        </ul>
+                        @if (Auth::check())
+                            @if (Auth::user()->is_seller != 1)
+                                <ul>
+                                    <li><a href="/wishlist"><i class="fa fa-heart"></i> </a></li>
+                                    <li><a href="/cart"><i class="fa fa-shopping-bag"></i></li>
+                                </ul>
+                            @endif
+                        @endif
+
                     </div>
                 </div>
             </div>

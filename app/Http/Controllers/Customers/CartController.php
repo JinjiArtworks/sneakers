@@ -66,25 +66,30 @@ class CartController extends Controller
     }
     public function index()
     {
-        $user = Auth::user();
-        $userAddress = Auth::user()->address;
-        $getUsersCity = Auth::user()->city_id;
-        $getUsersProvince = Auth::user()->province_id;
-        $city  = City::whereId($getUsersCity)->first('name');
-        $province  = Province::whereId($getUsersProvince)->first('name');
+        if (Auth::user()->is_seller != 1) {
+            $user = Auth::user();
+            $userAddress = Auth::user()->address;
+            $getUsersCity = Auth::user()->city_id;
+            $getUsersProvince = Auth::user()->province_id;
+            $city  = City::whereId($getUsersCity)->first('name');
+            $province  = Province::whereId($getUsersProvince)->first('name');
 
-        $allCities = City::all();
-        $allProvince = Province::all();
-        $cart = session()->get('cart');
-        if ($cart != null) {
-            $countCart = count($cart);
-        } else {
-            $countCart = 0;
+            $allCities = City::all();
+            $allProvince = Province::all();
+            $cart = session()->get('cart');
+            if ($cart != null) {
+                $countCart = count($cart);
+            } else {
+                $countCart = 0;
+            }
+            $ekspedisi = Ekspedisi::all();
+            // $kupons = Coupon::all();
+            // return dd($cart);
+            return view('customers.cart.cart', compact('cart', 'countCart', 'ekspedisi', 'userAddress', 'getUsersProvince', 'getUsersCity', 'city', 'province', 'allCities', 'allProvince'));
         }
-        $ekspedisi = Ekspedisi::all();
-        // $kupons = Coupon::all();
-        // return dd($cart);
-        return view('customers.cart.cart', compact('cart', 'countCart', 'ekspedisi', 'userAddress', 'getUsersProvince', 'getUsersCity', 'city', 'province', 'allCities', 'allProvince'));
+        else{
+            return redirect()->back()->with('Notification', 'Anda tidak dapat mengakses halaman ini. ');
+        }
     }
 
     public function destroy($id)
