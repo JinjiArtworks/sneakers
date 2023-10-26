@@ -42,13 +42,9 @@ class ListProductController extends Controller
                 'name' => $request->products,
                 'images' => $request->images->getClientOriginalName(),
                 'categories_id' => $request->categories,
-                // 'price' => $request->price,
                 'stock' => $request->stock,
                 'brand' => $request->brand,
-                // 'size' => $request->size,
-                'weight' => $request->weight,
-                'description' => $request->description,
-                'discount' => $request->discount,
+                'weight' => 350,
                 'sold' => 0,
             ]);
         }
@@ -71,13 +67,9 @@ class ListProductController extends Controller
                         'name' => $request->products,
                         'images' => $request->images->getClientOriginalName(),
                         'categories_id' => $request->categories,
-                        // 'price' => $request->price,
                         'stock' => $request->stock,
                         'brand' => $request->brand,
-                        // 'size' => $request->size,
-                        'weight' => $request->weight,
-                        'description' => $request->description,
-                        'discount' => $request->discount,
+                        'weight' => 350,
                         'sold' => 0,
                     ]
                 );

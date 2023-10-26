@@ -1,4 +1,4 @@
-@if (Auth::user()->role == 'Admin')
+@if (Auth::user()->roles == 'Admin')
     <!Doctype html>
     <html lang="en">
 

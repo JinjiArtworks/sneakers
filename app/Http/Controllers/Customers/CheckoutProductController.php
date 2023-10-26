@@ -97,40 +97,43 @@ class CheckoutProductController extends Controller
 
     public function store(Request $request)
     {
-        $user = Auth::user();
-        // return dd($request->all());
-        $json = json_decode($request->get('json'));
-        $cart = session()->get('cart');
-        $orders = new Order();
-        $orders->users_id = $user->id;
-        $orders->name = $user->name;
-        $orders->phone = $user->phone;
-        $orders->address = $user->address;
-        $orders->date = Carbon::now();
-        $orders->shipping_cost = $request->ongkos_kirim;
-        $orders->status = 'Sedang Diproses';
-        $orders->ekspedisi = $request->courierService;
-        $orders->discount_total = $request->discount;
-        $orders->total = $request->grandTotal;
-        $orders->save();
-        foreach ($cart as $item) {
-            $details = new OrderDetail();
-            $details->product_id = $item['id'];
-            $details->order_id = $orders->id;
-            $details->quantity = $item['quantity'];
-            $details->price = $item['price'] - $item['discount'];
-            $details->save();
-            $product = Product::find($item['id']);
-            // return dd($product);
-            $product::where('id', $item['id'])
-                ->update(
-                    [
-                        'stock' => $product["stock"] - $item["quantity"],
-                        'sold' => $product["sold"] + $item["quantity"],
-                    ]
-                );
+        if (Auth::attempt(['email' != null])) {
+            // Authentication was successful...
+            $user = Auth::user();
+            // return dd($request->all());
+            $json = json_decode($request->get('json'));
+            $cart = session()->get('cart');
+            $orders = new Order();
+            $orders->users_id = $user->id;
+            $orders->name = $user->name;
+            $orders->phone = $user->phone;
+            $orders->address = $user->address;
+            $orders->date = Carbon::now();
+            $orders->shipping_cost = $request->ongkos_kirim;
+            $orders->status = 'Sedang Diproses';
+            $orders->ekspedisi = $request->courierService;
+            $orders->discount_total = $request->discount;
+            $orders->total = $request->grandTotal;
+            $orders->save();
+            foreach ($cart as $item) {
+                $details = new OrderDetail();
+                $details->product_id = $item['id'];
+                $details->order_id = $orders->id;
+                $details->quantity = $item['quantity'];
+                $details->price = $item['price'] - $item['discount'];
+                $details->save();
+                $product = Product::find($item['id']);
+                // return dd($product);
+                $product::where('id', $item['id'])
+                    ->update(
+                        [
+                            'stock' => $product["stock"] - $item["quantity"],
+                            'sold' => $product["sold"] + $item["quantity"],
+                        ]
+                    );
+            }
+            session()->forget('cart');
+            return redirect('/riwayat-pesanan')->with('success', 'Produk berhasil di order');
         }
-        session()->forget('cart');
-        return redirect('/riwayat-pesanan')->with('success', 'Produk berhasil di order');
     }
 }

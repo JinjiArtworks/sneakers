@@ -242,26 +242,54 @@
                         </div>
                     </div>
                     <div class="row">
-                        @foreach ($products as $item)
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg">
-                                        <a href="detail-product/{{ $item->id }}">
-                                            <img src="{{ asset('img/list/' . $item->images) }}" height="250px"
-                                                alt="">
-                                        </a>
-                                        <ul class="product__item__pic__hover">
+                        @if (Auth::user()->roles == 'Customers')
+                            @foreach ($productsSeller as $item)
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg">
+                                            <a href="detail-product/{{ $item->product_id }}">
+                                                <img src="{{ asset('img/list/' . $item->product->images) }}"
+                                                    height="250px" alt="">
+                                            </a>
+                                            {{-- <ul class="product__item__pic__hover">
                                             <li><a href="#"><i class="fa fa-shopping-cart mt-2"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="/detail-product/{{ $item->id }}">{{ $item->name }}</a></h6>
-                                        <h5>Stock : {{ $item->stock }} pcs</h5>
+                                        </ul> --}}
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a
+                                                    href="/detail-product/{{ $item->product_id }}">{{ $item->product->name }}</a>
+                                            </h6>
+                                            <h5> @currency($item->price) </h5>
+                                            <p class="mt-2" style="color: green"> <a
+                                                    href="/">{{ $item->user->name }}'s Store</a></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-
+                            @endforeach
+                            {{-- kalo dia sbg seller, maka yg dilooping adalah product biasa saja agar bisa di jual nantinya. --}}
+                        @elseif (Auth::user()->roles == 'Seller')
+                            @foreach ($products as $item)
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg">
+                                            <a href="detail-product/{{ $item->id }}">
+                                                <img src="{{ asset('img/list/' . $item->images) }}"
+                                                    height="250px" alt="">
+                                            </a>
+                                            {{-- <ul class="product__item__pic__hover">
+                                        <li><a href="#"><i class="fa fa-shopping-cart mt-2"></i></a></li>
+                                    </ul> --}}
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a
+                                                    href="/detail-product/{{ $item->id }}">{{ $item->name }}</a>
+                                            </h6>
+                                            <h5> Stok : {{ $item->stock }} </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                     {{-- <div class="product__pagination">
                         <a href="#">1</a>

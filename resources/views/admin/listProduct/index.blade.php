@@ -23,7 +23,6 @@
                                     <th>Stock</th>
                                     <th>Brand Name</th>
                                     <th>Terjual</th>
-                                    <th>Deskripsi</th>
                                     <th>Aksi</th>
                                     <th></th>
                                 </tr>
@@ -42,7 +41,6 @@
                                         <td>{{ $item->stock }}</td>
                                         <td>{{ $item->brand }}</td>
                                         <td>{{ $item->sold }}</td>
-                                        <td>{{ $item->description }}</td>
                                         {{-- @if ($item->users_id != null)
                                             <td>{{ $item->users->name }}</td>
                                         @endif --}}

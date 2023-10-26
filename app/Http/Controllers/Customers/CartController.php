@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Coupon;
 use App\Models\Ekspedisi;
 use App\Models\Product;
+use App\Models\ProductsSeller;
 use App\Models\Province;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,7 +19,9 @@ class CartController extends Controller
     public function addToCart(Request $request, $id)
     {
         $user = Auth::user()->id;
-        $product = Product::find($id);
+        $productsSeller = ProductsSeller::whereProductId($id)->first();
+        $product = Product::whereId($id)->first();
+
         $cart = session()->get('cart');
         // return dd($cart);
 
@@ -28,7 +31,7 @@ class CartController extends Controller
                 "user_id" => $user,
                 "name" => $product->name,
                 "images" => $product->images,
-                "price" => $product->price,
+                "price" => $productsSeller->price,
                 "discount" => $product->discount,
                 "stock" => $product->stock,
                 "description" => $product->description,
@@ -45,7 +48,7 @@ class CartController extends Controller
                     "user_id" => $user,
                     "name" => $product->name,
                     "images" => $product->images,
-                    "price" => $product->price,
+                    "price" => $productsSeller->price,
                     "discount" => $product->discount,
                     "stock" => $product->stock,
                     "description" => $product->description,

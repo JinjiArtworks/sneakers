@@ -63,33 +63,6 @@
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Weight</label>
-                                            <input type="text" class="form-control" placeholder="Enter Size"
-                                                name="weight" value="350" value="{{ $products->weight }}" required>
-                                            <span><small>*350g adalah berat rata-rata.</small></span>
-                                            <div class="help-block with-errors"></div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Discount</label>
-                                            <input type="text" class="form-control" placeholder="Enter Discount"
-                                                name="discount" value="{{ $products->discount }}">
-                                            <span><small>*Kosongkan jika tidak ada diskon.</small></span>
-                                            <div class="help-block with-errors"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Description </label>
-                                            <textarea class="form-control" name="description" rows="4">{{ $products->description }}</textarea>
-                                        </div>
-                                    </div>
-
                                 </div>
                                 <button type="submit" class="btn btn-primary mr-2">Confirm</button>
                                 {{-- <button type="reset" class="btn btn-danger">Reset</button> --}}

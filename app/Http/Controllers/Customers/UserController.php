@@ -17,17 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
-    {
-        $categories = Categories::all();
-        $products = Product::all();
-        $search = $request->search;
-        // mengambil data dari table pegawai sesuai pencarian data
-        $products = DB::table('products')
-            ->where('name', 'like', "%" . $search . "%")
-            ->paginate();
-        return view('customers.products.products', compact('products', 'categories'));
-    }
+  
     public function switchToBuyer()
     {
         $user = Auth::user()->id;
@@ -35,7 +25,7 @@ class UserController extends Controller
         User::where('id', $user)
             ->update(
                 [
-                    'is_seller' => '0',
+                    'roles' => 'Customers',
                 ]
             );
         return redirect('/')->with('success');
@@ -47,7 +37,7 @@ class UserController extends Controller
         User::where('id', $user)
             ->update(
                 [
-                    'is_seller' => '1',
+                    'roles' => 'Seller',
                 ]
             );
         return redirect('/')->with('success');

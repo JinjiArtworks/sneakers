@@ -27,7 +27,7 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                src="{{ asset('img/list/' . $products->images) }}" alt="">
+                                src="{{ asset('img/list/' . $productsSeller->product->images) }}" alt="">
                         </div>
                         {{-- <div class="product__details__pic__slider owl-carousel">
                             <img data-imgbigurl="{{ asset('img/product/details/product-details-2.jpg') }}"
@@ -46,19 +46,8 @@
                 </div>
 
                 <div class="col-lg-6 col-md-6">
-
-
-
                     <div class="product__details__text">
-                        <h3>{{ $products->name }} </h3>
-                        @if (Auth::user()->is_seller == 0)
-                            <form action="{{ route('users.switch-to-seller', ['id' => Auth::user()->id]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="mb-2 btn btn-sm btn-primary">Become a Seller!
-                                </button>
-                            </form>
-                        @endif
-
+                        <h3>{{ $productsSeller->product->name }} </h3>
                         <div class="product__details__rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -67,18 +56,20 @@
                             <i class="fa fa-star-half-o"></i>
                             <span>(18 reviews)</span>
                         </div>
-                        <span>Toko : <a href=""> {{ $products->users->name }} -
-                                {{ $products->users->phone }}</a></span>
-
-                        <div class="product__details__price"> @currency($products->price) </div>
-                        <p>{{ $products->description }}</p>
-                        <form action="{{ route('cart.add', ['id' => $products->id]) }}" method="POST">
-                            @csrf
-                            @if (Auth::user()->is_seller == 1)
-                                <button class="primary-btn">Sell this product</button>
-                                {{-- tampilkan modal untuk masukkan product size dan  --}}
-                            @else
-                                @if ($products->users_id != Auth::user()->id)
+                        @if (Auth::user()->roles == 'Seller')
+                            @if ($productsSeller->user->id != Auth::user()->id)
+                                <button class="btn-primary btn-sm">Sell this products</button>
+                            @endif
+                            {{-- @elseif (Auth::user()->roles == 'Customers') --}}
+                            <hr>
+                            <span>{{ $productsSeller->user->name }}'s Store</span>
+                            <div class="product__details__price"> @currency($productsSeller->price) </div>
+                            <p>{{ $productsSeller->description }}</p>
+                            @if ($productsSeller->user->id != Auth::user()->id)
+                                {{-- akun yg bukan pemilik produk. --}}
+                                <form action="{{ route('cart.add', ['id' => $productsSeller->product_id]) }}"
+                                    method="POST">
+                                    @csrf
                                     <div class="product__details__quantity">
                                         <div class="quantity">
                                             <a class="btn btn-reduce"> -</a>
@@ -89,29 +80,69 @@
                                     </div>
                                     <button class=" add-to-cart confirm-cart primary-btn">Add To Cart</button>
                                     <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
-                                @else
-                                    <p>Anda menjual produk ini.</p>
-                                @endif
+                                </form>
                             @endif
-                        </form>
+                            <ul>
+                                <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>
+                                <li><b>Ready Size : </b>
+                                    <span>
+                                        {{ $productsSeller->size }} cm
+                                    </span>
+                                </li>
+                                <li><b>Weight : </b> <span>{{ $productsSeller->product->weight }} gr / pcs</span></li>
+                            </ul>
+                        @elseif(Auth::user()->roles == 'Customers')
+                            <span>{{ $productsSeller->user->name }} Stores (nanti dihapous)</span>
+                            <div class="product__details__price"> @currency($productsSeller->price) </div>
+                            <p>{{ $productsSeller->description }}</p>
+                            @if ($productsSeller->user->id != Auth::user()->id)
+                                <form action="{{ route('cart.add', ['id' => $productsSeller->product_id]) }}"
+                                    method="POST">
+                                    @csrf
+                                    <div class="product__details__quantity">
+                                        <label for="size">Size </label>
+                                        <br>
+                                        {{-- use implode for separate the size --}}
+                                        <select name="size" id="">
+                                            <option value="{{ $productsSeller->size }}">{{ $productsSeller->size }}</option>
+                                        </select>
+                                        {{-- <input type="number" class="form-control" name="size" value=""> --}}
+                                    </div>
+                                    <hr>
+                                    <div class="product__details__quantity">
+                                        <div class="quantity">
+                                            <a class="btn btn-reduce"> -</a>
+                                            <input class="count" type="number" name="quantity" value="1"
+                                                data-max="120" pattern="[0-9]*" style="width: 3rem; border:none">
+                                            <a class="btn btn-increase">+</a>
+                                        </div>
+                                    </div>
 
-                        <ul>
-                            <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>
-                            <li><b>Ready Size : </b>
-                                <span>
-                                    {{ $products->size }} cm
-                                </span>
-                            </li>
-                            <li><b>Weight : </b> <span>{{ $products->weight }} gr / pcs</span></li>
-                            {{-- <li><b>Share on</b>
-                                <div class="share">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                </div>
-                            </li> --}}
-                        </ul>
+                                    <button class=" add-to-cart confirm-cart primary-btn">Add To Cart</button>
+                                    
+                                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                </form>
+                            @endif
+
+                            <ul>
+                                <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>
+                                <li><b>Ready Size : </b>
+                                    <span>
+                                        {{ $productsSeller->size }} cm
+                                    </span>
+                                </li>
+                                <li><b>Weight : </b> <span>{{ $products->weight }} gr / pcs</span></li>
+                                {{-- <li><b>Share on</b>
+                                    <div class="share">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                        <a href="#"><i class="fa fa-instagram"></i></a>
+                                        <a href="#"><i class="fa fa-pinterest"></i></a>
+                                    </div>
+                                </li> --}}
+                            </ul>
+                        @endif
+
                     </div>
                 </div>
                 <div class="col-lg-12">

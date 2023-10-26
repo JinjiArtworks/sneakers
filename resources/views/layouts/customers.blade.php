@@ -98,38 +98,34 @@
                             <div class="header__top__right__social">
                                 @if (Auth::check())
                                     @if (Auth::user()->roles == 'Customers')
-                                        <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} -
-                                            @if (Auth::user()->is_seller == 1)
-                                                Penjual
-                                                <div class="header__top__right__auth ml-4">
-                                                    <form
-                                                        action="{{ route('users.switch-to-buyer', ['id' => Auth::user()->id]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-sm btn-primary">Switch
-                                                            Buyer</button>
-                                                    </form>
-                                                </div>
-                                            @else
-                                                Pembeli
-                                                <div class="header__top__right__auth ml-4">
-                                                    <form
-                                                        action="{{ route('users.switch-to-seller', ['id' => Auth::user()->id]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-sm btn-primary">Switch
-                                                            Seller</button>
-                                                    </form>
-                                                </div>
-                                            @endif
+                                        <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} - {{ Auth::user()->roles }}
+                                            <div class="header__top__right__auth ml-4">
+                                                <form
+                                                    action="{{ route('users.switch-to-seller', ['id' => Auth::user()->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-primary">Switch
+                                                        To Seller</button>
+                                                </form>
+                                            </div>
+                                        </a>
+                                    @elseif (Auth::user()->roles == 'Seller')
+                                        <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} - {{ Auth::user()->roles }}
+                                            <div class="header__top__right__auth ml-4">
+                                                <form
+                                                    action="{{ route('users.switch-to-buyer', ['id' => Auth::user()->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-primary">Switch
+                                                        To Buyers</button>
+                                                </form>
+                                            </div>
                                         </a>
                                     @else
                                         <a href="/admin-dashboard"></a> Lihat Toko</a>
                                     @endif
                                 @endif
                             </div>
-
-
                             {{-- Untuk bagian logoutnya --}}
                             @if (Auth::check())
                                 <div class="header__top__right__auth">

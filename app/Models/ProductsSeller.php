@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DetailProduk extends Model
+class ProductsSeller extends Model
 {
     use HasFactory;
-    protected $table = 'products_detail';
+    protected $table = 'products_seller';
     protected $guarded = [];
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
-    // public function alergi()
-    // {
-    //     return $this->belongsTo(Alergi::class);
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

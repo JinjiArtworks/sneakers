@@ -14,13 +14,9 @@ class Product extends Model
     {
         return $this->belongsTo(Categories::class);
     }
-    public function users()
+    public function productsseller()
     {
-        return $this->belongsTo(User::class);
-    }
-    public function detailproduk()
-    {
-        return $this->hasOne(DetailProduk::class);
+        return $this->hasOne(ProductsSeller::class);
     }
     public function orderdetail()
     {
@@ -34,4 +30,5 @@ class Product extends Model
     {
         return $this->hasOne(Review::class);
     }
+
 }
