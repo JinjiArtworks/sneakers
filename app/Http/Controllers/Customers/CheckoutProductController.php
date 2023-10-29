@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Province;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -97,43 +98,59 @@ class CheckoutProductController extends Controller
 
     public function store(Request $request)
     {
-        if (Auth::attempt(['email' != null])) {
-            // Authentication was successful...
-            $user = Auth::user();
-            // return dd($request->all());
-            $json = json_decode($request->get('json'));
-            $cart = session()->get('cart');
-            $orders = new Order();
-            $orders->users_id = $user->id;
-            $orders->name = $user->name;
-            $orders->phone = $user->phone;
-            $orders->address = $user->address;
-            $orders->date = Carbon::now();
-            $orders->shipping_cost = $request->ongkos_kirim;
-            $orders->status = 'Sedang Diproses';
-            $orders->ekspedisi = $request->courierService;
-            $orders->discount_total = $request->discount;
-            $orders->total = $request->grandTotal;
-            $orders->save();
-            foreach ($cart as $item) {
-                $details = new OrderDetail();
-                $details->product_id = $item['id'];
-                $details->order_id = $orders->id;
-                $details->quantity = $item['quantity'];
-                $details->price = $item['price'] - $item['discount'];
-                $details->save();
-                $product = Product::find($item['id']);
-                // return dd($product);
-                $product::where('id', $item['id'])
-                    ->update(
-                        [
-                            'stock' => $product["stock"] - $item["quantity"],
-                            'sold' => $product["sold"] + $item["quantity"],
-                        ]
-                    );
-            }
-            session()->forget('cart');
-            return redirect('/riwayat-pesanan')->with('success', 'Produk berhasil di order');
+        // if (Auth::attempt(['email' != null])) {
+        // Authentication was successful...
+        $user = Auth::user();
+        // return dd($request->all());
+        $json = json_decode($request->get('json'));
+        $cart = session()->get('cart');
+        $orders = new Order();
+        $orders->users_id = $user->id;
+        $orders->name = $user->name;
+        $orders->phone = $user->phone;
+        $orders->address = $user->address;
+        $orders->date = Carbon::now();
+        $orders->shipping_cost = $request->ongkos_kirim;
+        $orders->status = 'Sedang Diproses';
+        $orders->ekspedisi = $request->courierService;
+        $orders->discount_total = $request->discount;
+        $orders->total = $request->grandTotal;
+        $orders->save();
+        foreach ($cart as $item) {
+            $details = new OrderDetail();
+            $details->product_id = $item['id'];
+            $details->order_id = $orders->id;
+            $details->quantity = $item['quantity'];
+            $details->price = $item['price'];
+            $details->save();
+            $product = Product::find($item['id']);
+            // return dd($product);
+            $product::where('id', $item['id'])
+                ->update(
+                    [
+                        'stock' => $product["stock"] - $item["quantity"],
+                        'sold' => $product["sold"] + $item["quantity"],
+                    ]
+                );
+            $usersSaldo = User::find($item['user_id']);
+            // return dd($product);
+            $usersSaldo::where('id', $item['user_id'])
+                ->update(
+                    [
+                        'saldo' => $usersSaldo["saldo"] - $request->grandTotal,
+                    ]
+                );
+
+            $sellersSaldo = User::find($item['seller_id']);
+            $sellersSaldo::where('id', $item['seller_id'])
+                ->update(
+                    [
+                        'saldo' =>  $request->grandTotal,
+                    ]
+                );
         }
+        session()->forget('cart');
+        return redirect('/riwayat-pesanan')->with('success', 'Produk berhasil di order');
+        // }
     }
 }

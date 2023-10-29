@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-  
+
     public function switchToBuyer()
     {
         $user = Auth::user()->id;
@@ -38,6 +38,18 @@ class UserController extends Controller
             ->update(
                 [
                     'roles' => 'Seller',
+                ]
+            );
+        return redirect('/')->with('success');
+    }
+    public function topUpSaldo(Request $request)
+    {
+        $user = Auth::user()->id;
+        // return dd($product);
+        User::where('id', $user)
+            ->update(
+                [
+                    'saldo' => $request->saldo
                 ]
             );
         return redirect('/')->with('success');

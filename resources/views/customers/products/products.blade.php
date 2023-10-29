@@ -242,47 +242,67 @@
                         </div>
                     </div>
                     <div class="row">
-                        @if (Auth::user()->roles == 'Customers')
-                            @foreach ($productsSeller as $item)
-                                <div class="col-lg-4 col-md-6 col-sm-6">
-                                    <div class="product__item">
-                                        <div class="product__item__pic set-bg">
-                                            <a href="detail-product/{{ $item->product_id }}">
-                                                <img src="{{ asset('img/list/' . $item->product->images) }}"
-                                                    height="250px" alt="">
-                                            </a>
-                                            {{-- <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-shopping-cart mt-2"></i></a></li>
-                                        </ul> --}}
-                                        </div>
-                                        <div class="product__item__text">
-                                            <h6><a
-                                                    href="/detail-product/{{ $item->product_id }}">{{ $item->product->name }}</a>
-                                            </h6>
-                                            <h5> @currency($item->price) </h5>
-                                            <p class="mt-2" style="color: green"> <a
-                                                    href="/">{{ $item->user->name }}'s Store</a></p>
+                        @if (Auth::check())
+                            @if (Auth::user()->roles == 'Customers')
+                                @foreach ($productsSeller as $item)
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="product__item">
+                                            <div class="product__item__pic set-bg">
+                                                <a
+                                                    href="detail-product-seller/{{ $item->id }}/{{ $item->product_id }}/{{ $item->user_id }}">
+                                                    <img src="{{ asset('img/list/' . $item->product->images) }}"
+                                                        height="250px" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product__item__text">
+                                                <h6>
+                                                    <a
+                                                        href="/detail-product-seller/{{ $item->id }}/{{ $item->product_id }}/{{ $item->user_id }}">
+                                                        {{ $item->product->name }}
+                                                    </a>
+                                                </h6>
+                                                <h5> @currency($item->price) </h5>
+                                                <p class="mt-2" style="color: green"> <a
+                                                        href="/">{{ $item->user->name }}'s Store</a></p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                            {{-- kalo dia sbg seller, maka yg dilooping adalah product biasa saja agar bisa di jual nantinya. --}}
-                        @elseif (Auth::user()->roles == 'Seller')
+                                @endforeach
+                            @elseif (Auth::user()->roles == 'Seller')
+                                @foreach ($products as $item)
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="product__item">
+                                            <div class="product__item__pic set-bg">
+                                                <a href="detail-product/{{ $item->id }}">
+                                                    <img src="{{ asset('img/list/' . $item->images) }}" height="250px"
+                                                        alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product__item__text">
+                                                <h6>
+                                                    <a
+                                                        href="/detail-product/{{ $item->id }}/{{ $item->user_id }}">{{ $item->name }}</a>
+                                                </h6>
+                                                <h5> Stok : {{ $item->stock }} </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        @else
                             @foreach ($products as $item)
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg">
                                             <a href="detail-product/{{ $item->id }}">
-                                                <img src="{{ asset('img/list/' . $item->images) }}"
-                                                    height="250px" alt="">
+                                                <img src="{{ asset('img/list/' . $item->images) }}" height="250px"
+                                                    alt="">
                                             </a>
-                                            {{-- <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-shopping-cart mt-2"></i></a></li>
-                                    </ul> --}}
                                         </div>
                                         <div class="product__item__text">
-                                            <h6><a
-                                                    href="/detail-product/{{ $item->id }}">{{ $item->name }}</a>
+                                            <h6>
+                                                <a
+                                                    href="/detail-product/{{ $item->id }}/{{ $item->user_id }}">{{ $item->name }}</a>
                                             </h6>
                                             <h5> Stok : {{ $item->stock }} </h5>
                                         </div>

@@ -6,7 +6,7 @@ use App\Models\City;
 use App\Models\Coupon;
 use App\Models\Ekspedisi;
 use App\Models\Product;
-use App\Models\ProductsSeller;
+use App\Models\ProductSeller;
 use App\Models\Province;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,49 +19,50 @@ class CartController extends Controller
     public function addToCart(Request $request, $id)
     {
         $user = Auth::user()->id;
-        $productsSeller = ProductsSeller::whereProductId($id)->first();
-        $product = Product::whereId($id)->first();
-
+        $productSeller = ProductSeller::whereProductId($id)->first();
         $cart = session()->get('cart');
         // return dd($cart);
-
         if (!isset($cart[$id])) {
             $cart[$id] = [
-                "id" => $product->id,
                 "user_id" => $user,
-                "name" => $product->name,
-                "images" => $product->images,
-                "price" => $productsSeller->price,
-                "discount" => $product->discount,
-                "stock" => $product->stock,
-                "description" => $product->description,
-                "weight" => $product->weight,
-                "categories" => $product->categories->nama,
+
+                "id" => $productSeller->product->id,
+                "seller_id" => $productSeller->user_id,
+                "name" => $productSeller->product->name,
+                "images" => $productSeller->product->images,
+                "price" => $productSeller->price,
+                "stock" => $productSeller->product->stock,
+                "description" => $productSeller->description,
+                "weight" => $productSeller->product->weight,
+                "categories" => $productSeller->product->categories->nama,
+
                 "size" => $request->size,
                 "quantity" => $request->quantity,
-                "subtotal" => ($product->price - $product->discount)  * $request->quantity
+                "subtotal" => $productSeller->price * $request->quantity
             ];
         } else {
             if ($cart[$id]['size'] != $request->size) {
                 $cart[$id] = [
-                    "id" => $product->id,
                     "user_id" => $user,
-                    "name" => $product->name,
-                    "images" => $product->images,
-                    "price" => $productsSeller->price,
-                    "discount" => $product->discount,
-                    "stock" => $product->stock,
-                    "description" => $product->description,
-                    "weight" => $product->weight,
-                    "categories" => $product->categories->nama,
+
+                    "id" => $productSeller->product->id,
+                    "seller_id" => $productSeller->user_id,
+                    "name" => $productSeller->product->name,
+                    "images" => $productSeller->product->images,
+                    "price" => $productSeller->price,
+                    "stock" => $productSeller->product->stock,
+                    "description" => $productSeller->description,
+                    "weight" => $productSeller->product->weight,
+                    "categories" => $productSeller->product->categories->nama,
+
                     "size" => $request->size,
                     "quantity" => $request->quantity,
-                    "subtotal" => ($product->price - $product->discount)  * $request->quantity
+                    "subtotal" => $productSeller->price * $request->quantity
                 ];
             } else {
-                $cart[$id]["weight"] += $product->berat;
+                $cart[$id]["weight"] += $productSeller->product->weight;
                 $cart[$id]["quantity"] += $request->quantity;
-                $cart[$id]["subtotal"] += ($product->price - $product->discount)  * $request->quantity;
+                $cart[$id]["subtotal"] += $productSeller->price * $request->quantity;
             }
         }
         session()->put('cart', $cart);
@@ -69,30 +70,32 @@ class CartController extends Controller
     }
     public function index()
     {
-        if (Auth::user()->is_seller != 1) {
-            $user = Auth::user();
-            $userAddress = Auth::user()->address;
-            $getUsersCity = Auth::user()->city_id;
-            $getUsersProvince = Auth::user()->province_id;
-            $city  = City::whereId($getUsersCity)->first('name');
-            $province  = Province::whereId($getUsersProvince)->first('name');
+        $user = Auth::user();
+        $userName = Auth::user()->name;
+        $userPhone = Auth::user()->phone;
+        $userAddress = Auth::user()->address;
+        // dd($userAddress);
+        $getUsersCity = Auth::user()->city_id;
+        $getUsersProvince = Auth::user()->province_id;
 
-            $allCities = City::all();
-            $allProvince = Province::all();
-            $cart = session()->get('cart');
-            if ($cart != null) {
-                $countCart = count($cart);
-            } else {
-                $countCart = 0;
-            }
-            $ekspedisi = Ekspedisi::all();
-            // $kupons = Coupon::all();
-            // return dd($cart);
-            return view('customers.cart.cart', compact('cart', 'countCart', 'ekspedisi', 'userAddress', 'getUsersProvince', 'getUsersCity', 'city', 'province', 'allCities', 'allProvince'));
+        $city  = City::whereId($getUsersCity)->first('name');
+        $province  = Province::whereId($getUsersProvince)->first('name');
+
+        // Looping for dropdown
+        $allCities = City::all();
+        $allProvince = Province::all();
+        $cart = session()->get('cart');
+
+        // dd($cart);
+
+        if ($cart != null) {
+            $countCart = count($cart);
+        } else {
+            $countCart = 0;
         }
-        else{
-            return redirect()->back()->with('Notification', 'Anda tidak dapat mengakses halaman ini. ');
-        }
+        $ekspedisi = Ekspedisi::all();
+        // $kupons = Coupon::all();
+        return view('customers.cart.cart', compact('cart','userPhone','userName','countCart', 'ekspedisi', 'userAddress', 'getUsersProvince', 'getUsersCity', 'city', 'province', 'allCities', 'allProvince'));
     }
 
     public function destroy($id)

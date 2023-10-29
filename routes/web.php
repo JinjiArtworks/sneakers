@@ -34,15 +34,19 @@ Route::get('/shop', [ProductController::class, 'index'])->name('shop');
 // });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/detail-product/{id}', [ProductController::class, 'detail']);
     Route::group(['as' => 'products.'], function () {
-        Route::post('/store-wishlist', [ProductController::class, 'addToWishlist'])->name('addToWishlist');
-        Route::get('/belanja', [ProductController::class, 'search'])->name('search');
+        Route::get('/detail-product-seller/{id}/{idProduct}/{userId}', [ProductController::class, 'detailProductSeller']);
+        Route::get('/detail-product/{id}', [ProductController::class, 'detail']);
+        Route::post('store-wishlist', [ProductController::class, 'addToWishlist'])->name('addToWishlist');
+        Route::get('belanja', [ProductController::class, 'search'])->name('search');
+        Route::post('store-product-seller', [ProductController::class, 'storeProductSeller'])->name('store-product-seller');
+
         // Route::get('/belanja', [ProductController::class, 'searchByCat'])->name('searchByCat');
     });
     Route::group(['as' => 'users.'], function () {
-        Route::post('/update-to-buyer', [UserController::class, 'switchToBuyer'])->name('switch-to-buyer');
-        Route::post('/update-to-seller', [UserController::class, 'switchToSeller'])->name('switch-to-seller');
+        Route::post('update-to-buyer', [UserController::class, 'switchToBuyer'])->name('switch-to-buyer');
+        Route::post('update-to-seller', [UserController::class, 'switchToSeller'])->name('switch-to-seller');
+        Route::post('top-up-saldo', [UserController::class, 'topUpSaldo'])->name('top-up-saldo');
         // Route::get('/belanja', [ProductController::class, 'searchByCat'])->name('searchByCat');
     });
     Route::group(['as' => 'categories.'], function () {

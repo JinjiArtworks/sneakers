@@ -35,11 +35,12 @@
                                         <div class="p-2">
                                             <li>Order Number : {{ $item->id }}</li>
                                             <li>Penerima : {{ Auth::user()->name }} - {{ Auth::user()->phone }}</li>
-                                            <li>Alamat : {{ Auth::user()->address }}</li>
+                                            <li>Alamat : {{ $fullAddress }}</li>
                                         </div>
 
                                         <div class="ml-auto p-2">
-                                            <li> <a href="/detail-pesanan/{{ $item->id }}" class="btn btn-sm btn-primary">Details</a>
+                                            <li> <a href="/detail-pesanan/{{ $item->id }}"
+                                                    class="btn btn-sm btn-primary">Details</a>
                                             </li>
                                         </div>
                                     </div>

@@ -49,6 +49,16 @@
                             <input type="text" placeholder="Street Address" value="{{ Auth::user()->address }}"
                                 class="checkout__input__add" readonly>
                         </div>
+                        <div class="checkout__input">
+                            <p>City<span>*</span></p>
+                            <input type="text" placeholder="Street Address" value="{{ $cityName->name }}"
+                                class="checkout__input__add" readonly>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Province<span>*</span></p>
+                            <input type="text" placeholder="Street Address" value="{{$provinceName->name }}"
+                                class="checkout__input__add" readonly>
+                        </div>
                     </div>
                     <div class="col-lg-12 col-md-12">
                         <div class="checkout__order">
@@ -56,7 +66,9 @@
                             <div class="checkout__order__products">Products <span>Total</span></div>
                             <ul>
                                 @foreach ($cart as $key => $value)
-                                    <li>{{ $value['name'] }} <span>@currency($value['price'])</span></li>
+                                    <li>{{ $value['name'] }} / qty : x{{ $value['quantity'] }} pcs
+                                        <span>@currency($value['price'])</span>
+                                    </li>
                                 @endforeach
                             </ul>
                             <div class="checkout__order__products">

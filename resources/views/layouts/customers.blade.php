@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
+
     <link rel="stylesheet" href="{{ asset('templates/customers/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('templates/customers/css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('templates/customers/css/elegant-icons.css') }}" type="text/css">
@@ -98,7 +99,9 @@
                             <div class="header__top__right__social">
                                 @if (Auth::check())
                                     @if (Auth::user()->roles == 'Customers')
-                                        <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} - {{ Auth::user()->roles }}
+                                        <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} -
+                                            {{ Auth::user()->roles }} - @currency(Auth::user()->saldo)
+
                                             <div class="header__top__right__auth ml-4">
                                                 <form
                                                     action="{{ route('users.switch-to-seller', ['id' => Auth::user()->id]) }}"
@@ -108,9 +111,13 @@
                                                         To Seller</button>
                                                 </form>
                                             </div>
+                                            
+                                            <button type="button" class="btn btn-sm ml-4 btn-primary" style="background-color: green" data-toggle="modal"
+                                                data-target="#topUpModal" data-whatever="@mdo">Top Up Saldo</button>
                                         </a>
                                     @elseif (Auth::user()->roles == 'Seller')
-                                        <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} - {{ Auth::user()->roles }}
+                                        <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} -
+                                            {{ Auth::user()->roles }} - @currency(Auth::user()->saldo)
                                             <div class="header__top__right__auth ml-4">
                                                 <form
                                                     action="{{ route('users.switch-to-buyer', ['id' => Auth::user()->id]) }}"
@@ -121,8 +128,9 @@
                                                 </form>
                                             </div>
                                         </a>
+                                        <a href="/seller-dashboard">Kunjungi Toko Anda </a>
                                     @else
-                                        <a href="/admin-dashboard"></a> Lihat Toko</a>
+                                        <a href="/admin-dashboard">Lihat Toko</a>
                                     @endif
                                 @endif
                             </div>
@@ -131,7 +139,7 @@
                                 <div class="header__top__right__auth">
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button class="btn btn-sm btn-primary" type="submit">Log out</button>
+                                        <button class="btn btn-sm btn-secondary" type="submit">Log out</button>
                                     </form>
                                 </div>
                             @else
@@ -174,14 +182,10 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
-                        @if (Auth::check())
-                            @if (Auth::user()->is_seller != 1)
-                                <ul>
-                                    <li><a href="/wishlist"><i class="fa fa-heart"></i> </a></li>
-                                    <li><a href="/cart"><i class="fa fa-shopping-bag"></i></li>
-                                </ul>
-                            @endif
-                        @endif
+                        <ul>
+                            <li><a href="/wishlist"><i class="fa fa-heart"></i> </a></li>
+                            <li><a href="/cart"><i class="fa fa-shopping-bag"></i></li>
+                        </ul>
 
                     </div>
                 </div>
@@ -268,6 +272,33 @@
             </div>
         </div>
     </footer>
+
+    <div class="modal fade" id="topUpModal" tabindex="-1" role="dialog" aria-labelledby="topUpModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="topUpModalLabel">Top Up Saldo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/top-up-saldo" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Nominal Saldo</label>
+                            <input type="number" name="saldo" class="form-control" id="recipient-name">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    </form>
+                </div>
+                {{-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div> --}}
+            </div>
+        </div>
+    </div>
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
@@ -279,6 +310,8 @@
     <script src="{{ asset('templates/customers/js/mixitup.min.js') }}"></script>
     <script src="{{ asset('templates/customers/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('templates/customers/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="CLIENT-KEY"></script>

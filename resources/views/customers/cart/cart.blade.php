@@ -60,11 +60,10 @@
                                                 @currency($value['price'])
                                             </td>
                                             <td class="shoping__cart__quantity">
-                                                {{ $value['quantity'] }}
+                                                x{{ $value['quantity'] }}
                                             </td>
                                             <td class="shoping__cart__total">
                                                 @currency($value['subtotal'])
-
                                             </td>
                                             <td class="shoping__cart__item__close">
                                                 <form action="{{ route('cart.delete', ['id' => $value['id']]) }}"
@@ -92,159 +91,147 @@
                                 <input type="hidden" value="jne" name="courier">
                                 <input type="hidden" value="REG" name="service">
                                 <input type="hidden" value="444" name="origin">
-                                <input type="hidden" value="{{ Auth::user()->city_id }}" name="destination">
-                                <input type="hidden" value="{{ Auth::user()->province_id }}" name="province">
+                                <input type="hidden" value="{{ $getUsersCity }}" name="destination">
+                                <input type="hidden" value="{{ $getUsersProvince }}" name="province">
                                 <ul>
                                     <li>Alamat
                                         <span class="text-secondary">
-                                            @if (Auth::user()->address == null)
+                                            @if ($userAddress == null)
                                                 <button type="button" class="btn btn-primary" data-toggle="modal"
                                                     data-target="#exampleModal">Tambah Alamat</button>
                                             @else
-                                                {{ Auth::user()->address }}
+                                                {{ $userAddress }} - {{ $city->name }} - {{ $province->name }}
                                                 <br>
                                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
                                                     data-target="#exampleModal">Ubah Alamat</button>
                                             @endif
                                         </span>
                                     </li>
-                                    <li>Penerima <span class="text-secondary">{{ Auth::user()->name }}</span></li>
-                                    <li>Nomor Handphone <span class="text-secondary">{{ Auth::user()->phone }}</span></li>
+
+                                    <li>Penerima <span class="text-secondary">{{ $userName }}</span></li>
+                                    <li>Nomor Handphone <span class="text-secondary">{{ $userPhone }}</span></li>
                                     <li>Ekspedisi <span class="text-secondary">JNE - REG (3-4 Hari)</span></li>
                                     <li>Subtotal <span class="text-secondary">@currency($subtotal)</span></li>
                                     {{-- <li>Total <span class="text-primary">$454.98</span></li> --}}
                                 </ul>
-                                <button type="submit" href="#" style="width: 100%"
-                                    class=" primary-btn">Checkout</button>
+                                @if (Auth::user()->address && $city && $province != null)
+                                    <button class="primary-btn" style="width: 100%">Check Out</button>
+                                @else
+                                    <button class="btn-checkout primary-btn" style="width: 100%">Check Out</button>
+                                @endif
                             </form>
                         </div>
-
                     </div>
                 </div>
             @endif
-
-        </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" class="modal-box"
-                            action="{{ route('cart.updateAddress', ['id' => Auth::user()->id]) }}"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="">Alamat Anda</label>
-                                @if ($userAddress == null)
-                                    <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"></textarea>
-                                @else
-                                    <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"
-                                        value="{{ $userAddress }}"></textarea>
-                                @endif
-                            </div>
-                            <div class="mb-3">
-                                <select name="province" class="mb-3">
-                                    @if ($getUsersProvince == null)
-                                        @foreach ($allProvince as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    @else
-                                        <option value="{{ $getUsersProvince }}">{{ $province->name }}</option>
-                                        @foreach ($allProvince as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                            <br>
-                            <div class="mb-3">
-                                <select name="city">
-                                    @if ($getUsersCity == null)
-                                        @foreach ($allCities as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}
-                                            </option>
-                                        @endforeach
-                                    @else
-                                        <option value="{{ $getUsersCity }}">{{ $city->name }}</option>
-                                        @foreach ($allCities as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Send message</button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
         </div>
     </section>
-    <!-- Shoping Cart Section End -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" class="modal-box"
+                        action="{{ route('cart.updateAddress', ['id' => Auth::user()->id]) }}"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="">Alamat Anda</label>
+                            @if ($userAddress == null)
+                                <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"></textarea>
+                            @else
+                                <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"
+                                    value="{{ $userAddress }}"></textarea>
+                            @endif
+                        </div>
+                        <div class="mb-3">
+                            <select name="province" class="mb-3">
+                                @if ($getUsersProvince == null)
+                                    @foreach ($allProvince as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="{{ $getUsersProvince }}">{{ $province->name }}</option>
+                                    @foreach ($allProvince as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <br>
+                        <div class="mb-3">
+                            <select name="city">
+                                @if ($getUsersCity == null)
+                                    @foreach ($allCities as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="{{ $getUsersCity }}">{{ $city->name }}</option>
+                                    @foreach ($allCities as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Confirm</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     <script type="text/javascript">
-        // $(document).ready(function() {
-        //     $(document).on('click', '.btn-checkout', function() {
-        //         if ({{ $userAddress }} = '') {
-        //             alert('Harap Masukkan Alamat');
-        //         }
+        $(document).ready(function() {
+            $('.deleteCart').click(function(event) {
+                event.preventDefault();
+                var form = $(this).closest("form");
+                Swal.fire({
+                    title: 'Hapus Produk Dari Keranjang?',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+            $('.btn-checkout').click(function(event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Masukkan Alamat Anda',
+                    icon: 'info',
+                })
+            });
+            $('.confirm').click(function(event) {
+                event.preventDefault();
+                var form = $(this).closest("form");
+                Swal.fire({
+                    title: 'Konfirmasi Alamat?',
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
 
-        //     });
-        // });
-        // $('.deleteCart').click(function(event) {
-        //     event.preventDefault();
-        //     var form = $(this).closest("form");
-        //     Swal.fire({
-        //         title: 'Hapus Produk Dari Keranjang?',
-        //         icon: 'info',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Yes'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             form.submit();
-        //         }
-        //     });
-        // });
-        // $('.confirm').click(function(event) {
-        //     event.preventDefault();
-        //     var form = $(this).closest("form");
-        //     Swal.fire({
-        //         title: 'Konfirmasi Alamat?',
-        //         icon: 'success',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Yes'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             form.submit();
-        //         }
-        //     });
-        // });
-        // $('.btn-checkout').click(function(event) {
-        //     event.preventDefault();
-        //     var form = $(this).closest("form");
-        //     Swal.fire({
-        //         title: 'Checkout Produk?',
-        //         icon: 'success',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Yes'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             form.submit();
-        //         }
-        //     });
-        // });
+        });
     </script>
 @endsection

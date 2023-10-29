@@ -20,16 +20,15 @@ class RiwayatPesananController extends Controller
     {
         $user = Auth::user()->id;
         $orders = Order::whereUsersId($user)->get();
-
         $getUsersCity = Auth::user()->city_id;
         $getUsersProvince = Auth::user()->province_id;
-        $city  = City::whereId($getUsersCity)->first('name');
-        $province  = Province::whereId($getUsersProvince)->first('name');
-
-
+        $city  = City::whereId($getUsersCity)->first();
+        $province  = Province::whereId($getUsersProvince)->first();
+        
+        $fullAddress = Auth::user()->address . ', '. $city->name . ', '. $province->name;
         $allCities = City::all();
         $allProvince = Province::all();
-        return view('customers.riwayat.index', compact('orders', 'getUsersCity', 'getUsersProvince', 'city', 'province', 'allCities', 'allProvince'));
+        return view('customers.riwayat.index', compact('orders','fullAddress', 'getUsersCity', 'getUsersProvince', 'city', 'province', 'allCities', 'allProvince'));
     }
     public function detailsOrder($id)
     {
