@@ -48,7 +48,26 @@
 
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
-                        <h3>{{ $productsSeller->product->name }} </h3>
+                        <div class="d-flex flex-row">
+                            <h3>{{ $productsSeller->product->name }} </h3>
+                            <div class="ml-4">
+                                <form action="{{ route('wishlist.addToWishlist', ['id' => $products->id]) }}"
+                                    method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $productsSeller->product_id }}">
+
+                                    <button class="add-wishlist confirm-cart btn-primary btn-md rounded p-3">
+                                        <i class="fa-regular text-white text-lg fa-heart fa-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="product__details__rating">
+                            <a href="https://wa.me/+62{{ $productsSeller->user->phone }}">{{ $productsSeller->user->name }}'s
+                                Stores.
+                            </a>
+                        </div>
                         <div class="product__details__rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -57,17 +76,18 @@
                             <i class="fa fa-star-half-o"></i>
                             <span>(18 reviews)</span>
                         </div>
-
+                        {{-- Menampilkan product yg BUKAN milik toko user --}}
                         @if ($productsSeller->user->id != Auth::user()->id)
                             <div class="product__details__price"> @currency($productsSeller->price) </div>
                             <p>{{ $productsSeller->description }}</p>
                             {{-- Mengecek agar produk tidak punya si pemilik toko --}}
-                            <form action="{{ route('cart.add', ['id' => $productsSeller->product_id]) }}" method="POST">
+                            <form action="{{ route('cart.add', ['id' => $productsSeller->id]) }}" method="POST">
                                 @csrf
+                                {{-- <input type="hidden" name="sellers_id" value="{{ $productsSeller->user_id }}"> --}}
+                                {{-- <input type="hidden" name="product_id" value="{{ $productsSeller->product_id}}"> --}}
                                 <div class="product__details__quantity">
                                     <label for="size">Size </label>
                                     <br>
-                                    {{-- use implode for separate the size --}}
                                     <select name="size" id="">
                                         <option value="{{ $productsSeller->size }}">{{ $productsSeller->size }}
                                         </option>
@@ -83,9 +103,10 @@
                                         <a class="btn btn-increase">+</a>
                                     </div>
                                 </div>
-                                <button class=" add-to-cart confirm-cart primary-btn">Add To Cart</button>
-                                <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                <button class="add-to-cart confirm-cart btn-primary btn-lg">Add To Cart</button>
                             </form>
+
+
                             <ul>
                                 <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>
                                 <li><b> Size : </b>
@@ -185,6 +206,22 @@
             Swal.fire({
                 title: 'Masukkan Kedalam Wishlist?',
                 icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            })
+        });
+        $('.add-to-cart').click(function(event) {
+            event.preventDefault();
+            var form = $(this).closest("form");
+            Swal.fire({
+                title: 'Masukkan Produk Kedalam Keranjang?',
+                icon: 'success',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',

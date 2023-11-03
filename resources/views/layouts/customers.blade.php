@@ -101,18 +101,19 @@
                                     @if (Auth::user()->roles == 'Customers')
                                         <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} -
                                             {{ Auth::user()->roles }} - @currency(Auth::user()->saldo)
-
                                             <div class="header__top__right__auth ml-4">
                                                 <form
                                                     action="{{ route('users.switch-to-seller', ['id' => Auth::user()->id]) }}"
                                                     method="POST">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-sm btn-primary">Switch
+                                                    <button type="submit"
+                                                        class="switchToSeller btn btn-sm btn-primary">Switch
                                                         To Seller</button>
                                                 </form>
                                             </div>
-                                            
-                                            <button type="button" class="btn btn-sm ml-4 btn-primary" style="background-color: green" data-toggle="modal"
+
+                                            <button type="button" class="btn btn-sm ml-4 btn-primary"
+                                                style="background-color: green" data-toggle="modal"
                                                 data-target="#topUpModal" data-whatever="@mdo">Top Up Saldo</button>
                                         </a>
                                     @elseif (Auth::user()->roles == 'Seller')
@@ -123,12 +124,13 @@
                                                     action="{{ route('users.switch-to-buyer', ['id' => Auth::user()->id]) }}"
                                                     method="POST">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-sm btn-primary">Switch
+                                                    <button type="submit"
+                                                        class="switchToBuyer btn btn-sm btn-primary">Switch
                                                         To Buyers</button>
                                                 </form>
                                             </div>
                                         </a>
-                                        <a href="/seller-dashboard">Kunjungi Toko Anda </a>
+                                        <a href="/seller-dashboard/{{ Auth::user()->id }}">Kunjungi Toko Anda </a>
                                     @else
                                         <a href="/admin-dashboard">Lihat Toko</a>
                                     @endif
@@ -139,7 +141,7 @@
                                 <div class="header__top__right__auth">
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button class="btn btn-sm btn-secondary" type="submit">Log out</button>
+                                        <button class="confirmLogout btn btn-sm btn-secondary" type="submit">Log out</button>
                                     </form>
                                 </div>
                             @else
@@ -290,7 +292,7 @@
                             <label for="recipient-name" class="col-form-label">Nominal Saldo</label>
                             <input type="number" name="saldo" class="form-control" id="recipient-name">
                         </div>
-                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <button type="submit" class="confirmSaldo btn btn-primary">Confirm</button>
                     </form>
                 </div>
                 {{-- <div class="modal-footer">
@@ -315,7 +317,76 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="CLIENT-KEY"></script>
+    <script src="https://kit.fontawesome.com/515aa46707.js" crossorigin="anonymous"></script>
     @yield('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.switchToSeller').click(function(event) {
+                event.preventDefault();
+                var form = $(this).closest("form");
+                Swal.fire({
+                    title: 'Switch to Seller?',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+            $('.switchToBuyer').click(function(event) {
+                event.preventDefault();
+                var form = $(this).closest("form");
+                Swal.fire({
+                    title: 'Switch to Buyer?',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+            $('.confirmSaldo').click(function(event) {
+                event.preventDefault();
+                var form = $(this).closest("form");
+                Swal.fire({
+                    title: 'Confirm Top Up?',
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+            $('.confirmLogout').click(function(event) {
+                event.preventDefault();
+                var form = $(this).closest("form");
+                Swal.fire({
+                    title: 'Confirm Log Out?',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 

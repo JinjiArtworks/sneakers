@@ -16,7 +16,7 @@ class Product extends Model
     }
     public function productsseller()
     {
-        return $this->hasOne(ProductsSeller::class);
+        return $this->hasOne(ProductSeller::class);
     }
     public function orderdetail()
     {

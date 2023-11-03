@@ -18,4 +18,8 @@ class Order extends Model
     {
         return $this->hasOne(Returns::class);
     }
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -88,10 +88,10 @@
     <form method="POST" action="{{ route('checkout.store') }}" enctype="multipart/form-data" id="submit_form">
         @csrf
         <input type="hidden" name="json" id="json_callback">
-        <input type="hidden" value="{{ Auth::user()->alamat }}" name="address">
         <input type="hidden" value="{{ $grandTotal }}" name="grandTotal">
         <input type="hidden" value="{{ $getServices }}" name="courierService">
         <input type="hidden" value="{{ $cekongkir }}" name="ongkos_kirim">
+        <input type="hidden" value="{{ $sellers_id }}" name="sellers_id">
     </form>
 @endsection
 @section('script')

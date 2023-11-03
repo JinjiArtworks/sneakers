@@ -20,10 +20,11 @@ class CheckoutProductController extends Controller
     public function index(Request $request)
     {
         // return dd($request->all());
-        $user = Auth::user();
+        // $user = Auth::user();
         $cart = session()->get('cart');
         $userAddress = Auth::user()->address;
-
+        $sellers_id = $request->sellers_id; // get sellers id
+        // dd($sellers_id);
         $getUsersCity = Auth::user()->city_id;
         $getUsersProvince = Auth::user()->province_id;
 
@@ -92,7 +93,7 @@ class CheckoutProductController extends Controller
         );
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         // dd($params);
-        return view('customers.cart.checkout', ['snap_token' => $snapToken],  compact('cart', 'cekongkir', 'cityName', 'getServices', 'provinceName', 'userAddress', 'getUsersProvince', 'getUsersCity'));
+        return view('customers.cart.checkout', ['snap_token' => $snapToken],  compact('cart', 'cekongkir', 'cityName', 'getServices', 'provinceName', 'userAddress', 'sellers_id', 'getUsersProvince', 'getUsersCity'));
         // return view('customers.cart.checkout',  compact('cart', 'cityName', 'getServices', 'provinceName', 'userAddress', 'getUsersProvince', 'getUsersCity'));
     }
 
@@ -110,22 +111,22 @@ class CheckoutProductController extends Controller
         $orders->phone = $user->phone;
         $orders->address = $user->address;
         $orders->date = Carbon::now();
+        $orders->sellers_id = $request->sellers_id;
         $orders->shipping_cost = $request->ongkos_kirim;
-        $orders->status = 'Sedang Diproses';
+        $orders->status = 'Proses Validasi Admin';
         $orders->ekspedisi = $request->courierService;
-        $orders->discount_total = $request->discount;
         $orders->total = $request->grandTotal;
         $orders->save();
         foreach ($cart as $item) {
             $details = new OrderDetail();
-            $details->product_id = $item['id'];
+            $details->product_id = $item['product_id'];
             $details->order_id = $orders->id;
             $details->quantity = $item['quantity'];
             $details->price = $item['price'];
             $details->save();
-            $product = Product::find($item['id']);
+            $product = Product::find($item['product_id']);
             // return dd($product);
-            $product::where('id', $item['id'])
+            $product::where('id', $item['product_id'])
                 ->update(
                     [
                         'stock' => $product["stock"] - $item["quantity"],
@@ -133,7 +134,6 @@ class CheckoutProductController extends Controller
                     ]
                 );
             $usersSaldo = User::find($item['user_id']);
-            // return dd($product);
             $usersSaldo::where('id', $item['user_id'])
                 ->update(
                     [
@@ -141,11 +141,11 @@ class CheckoutProductController extends Controller
                     ]
                 );
 
-            $sellersSaldo = User::find($item['seller_id']);
-            $sellersSaldo::where('id', $item['seller_id'])
+            $adminSaldo = User::find($item['admin_id']);
+            User::where('id', $item['admin_id'])
                 ->update(
                     [
-                        'saldo' =>  $request->grandTotal,
+                        'saldo' => $adminSaldo["saldo"] + $request->grandTotal,
                     ]
                 );
         }

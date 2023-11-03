@@ -69,7 +69,8 @@
                                                 <form action="{{ route('cart.delete', ['id' => $value['id']]) }}"
                                                     method="GET">
                                                     <button type="submit"
-                                                        class="deleteCart flex items-center text-red-600 mt-3 "> X
+                                                        class="deleteCart btn-primary p-2 flex items-center text-red-600 mt-3 ">
+                                                        <i class="fa fa-trash"></i>
                                                     </button>
                                                 </form>
                                             </td>
@@ -88,6 +89,7 @@
                                 @csrf
                                 <input type="hidden" value="{{ $totalBerat }}" name="berat">
                                 <input type="hidden" value="{{ $subtotal }}" name="total">
+                                <input type="hidden" value="{{ $value['sellers_id'] }}" name="sellers_id">
                                 <input type="hidden" value="jne" name="courier">
                                 <input type="hidden" value="REG" name="service">
                                 <input type="hidden" value="444" name="origin">
@@ -117,7 +119,8 @@
                                 @if (Auth::user()->address && $city && $province != null)
                                     <button class="primary-btn" style="width: 100%">Check Out</button>
                                 @else
-                                    <button class="btn-checkout primary-btn" style="width: 100%">Check Out</button>
+                                    <button class="btn-checkout primary-btn" style="width: 100%">Check
+                                        Out</button>
                                 @endif
                             </form>
                         </div>
@@ -180,7 +183,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Confirm</button>
+                            <button type="submit" class="confirmAddress btn btn-primary">Confirm</button>
                         </div>
                     </form>
                 </div>
@@ -215,7 +218,8 @@
                     icon: 'info',
                 })
             });
-            $('.confirm').click(function(event) {
+
+            $('.confirmAddress').click(function(event) {
                 event.preventDefault();
                 var form = $(this).closest("form");
                 Swal.fire({
@@ -231,7 +235,22 @@
                     }
                 });
             });
-
+            // $('.checkOutProduct').click(function(event) {
+            //     event.preventDefault();
+            //     var form = $(this).closest("form");
+            //     Swal.fire({
+            //         title: 'Checkout Product?',
+            //         icon: 'success',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Yes'
+            //     }).then((result) => {
+            //         if (result.isConfirmed) {
+            //             form.submit();
+            //         }
+            //     });
+            // });
         });
     </script>
 @endsection

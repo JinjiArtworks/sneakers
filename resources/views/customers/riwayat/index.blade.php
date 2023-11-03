@@ -33,8 +33,8 @@
                                             </li>
                                         </div>
                                         <div class="p-2">
-                                            <li>Order Number : {{ $item->id }}</li>
-                                            <li>Penerima : {{ Auth::user()->name }} - {{ Auth::user()->phone }}</li>
+                                            <li>Order Number : {{ $item->id }} -> Total : @currency( $item->total )</li>
+                                            <li>Penerima : {{ Auth::user()->name }} - 0{{ Auth::user()->phone }}</li>
                                             <li>Alamat : {{ $fullAddress }}</li>
                                         </div>
 

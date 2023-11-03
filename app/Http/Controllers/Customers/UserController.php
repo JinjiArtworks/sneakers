@@ -45,11 +45,12 @@ class UserController extends Controller
     public function topUpSaldo(Request $request)
     {
         $user = Auth::user()->id;
+        $userSaldo = Auth::user()->saldo;
         // return dd($product);
         User::where('id', $user)
             ->update(
                 [
-                    'saldo' => $request->saldo
+                    'saldo' => $userSaldo + $request->saldo
                 ]
             );
         return redirect('/')->with('success');

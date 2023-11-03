@@ -19,8 +19,8 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-4 card-total-sale">
                                         <div class="icon iq-icon-box-2 bg-info-light">
-                                            <img src="{{ asset('templates/admin/assets/images/product/1.png') }}" class="img-fluid"
-                                                alt="image">
+                                            <img src="{{ asset('templates/admin/assets/images/product/1.png') }}"
+                                                class="img-fluid" alt="image">
                                         </div>
                                         <div>
                                             <p class="mb-2">Total Sales</p>
@@ -39,8 +39,8 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-4 card-total-sale">
                                         <div class="icon iq-icon-box-2 bg-danger-light">
-                                            <img src="{{ asset('templates/admin/assets/images/product/2.png') }}" class="img-fluid"
-                                                alt="image">
+                                            <img src="{{ asset('templates/admin/assets/images/product/2.png') }}"
+                                                class="img-fluid" alt="image">
                                         </div>
                                         <div>
                                             <p class="mb-2">Total Cost</p>
@@ -59,8 +59,8 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-4 card-total-sale">
                                         <div class="icon iq-icon-box-2 bg-success-light">
-                                            <img src="{{ asset('templates/admin/assets/images/product/3.png') }}" class="img-fluid"
-                                                alt="image">
+                                            <img src="{{ asset('templates/admin/assets/images/product/3.png') }}"
+                                                class="img-fluid" alt="image">
                                         </div>
                                         <div>
                                             <p class="mb-2">Product Sold</p>
@@ -76,90 +76,67 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div class="card card-block card-stretch card-height">
-                        <div class="card-header d-flex align-items-center justify-content-between">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Top Products</h4>
-                            </div>
-                            <div class="card-header-toolbar d-flex align-items-center">
-                                <div class="dropdown">
-                                    <span class="dropdown-toggle dropdown-bg btn" id="dropdownMenuButton006"
-                                        data-toggle="dropdown">
-                                        This Month<i class="ri-arrow-down-s-line ml-1"></i>
-                                    </span>
-                                    <div class="dropdown-menu dropdown-menu-right shadow-none"
-                                        aria-labelledby="dropdownMenuButton006">
-                                        <a class="dropdown-item" href="#">Year</a>
-                                        <a class="dropdown-item" href="#">Month</a>
-                                        <a class="dropdown-item" href="#">Week</a>
-                                    </div>
-                                </div>
+                                <h4 class="card-title">List Order</h4>
                             </div>
                         </div>
                         <div class="card-body">
-                            <ul class="list-unstyled row top-product mb-0 ">
-                                <li class="col-lg-3">
-                                    <div class="card card-block card-stretch card-height mb-0">
-                                        <div class="card-body">
-                                            <div class="bg-warning-light rounded">
-                                                <img src="{{ asset('templates/admin/assets/images/product/01.png') }}"
-                                                    class="style-img img-fluid m-auto p-3" alt="image">
-                                            </div>
-                                            <div class="style-text text-left my-4">
-                                                <h5 class="mb-1">Organic Cream</h5>
-                                                <p class="mb-0">789 Item</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="col-lg-3">
-                                    <div class="card card-block card-stretch card-height mb-0">
-                                        <div class="card-body">
-                                            <div class="bg-danger-light rounded">
-                                                <img src="{{ asset('templates/admin/assets/images/product/02.png') }}"
-                                                    class="style-img img-fluid m-auto p-3" alt="image">
-                                            </div>
-                                            <div class="style-text text-left my-4">
-                                                <h5 class="mb-1">Rain Umbrella</h5>
-                                                <p class="mb-0">657 Item</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="col-lg-3">
-                                    <div class="card card-block card-stretch card-height mb-0">
-                                        <div class="card-body">
-                                            <div class="bg-info-light rounded">
-                                                <img src="{{ asset('templates/admin/assets/images/product/03.png') }}"
-                                                    class="style-img img-fluid m-auto p-3" alt="image">
-                                            </div>
-                                            <div class="style-text text-left my-4">
-                                                <h5 class="mb-1">Serum Bottle</h5>
-                                                <p class="mb-0">489 Item</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="col-lg-3">
-                                    <div class="card card-block card-stretch card-height mb-0">
-                                        <div class="card-body">
-                                            <div class="bg-success-light rounded">
-                                                <img src="{{ asset('templates/admin/assets/images/product/02.png') }}"
-                                                    class="style-img img-fluid m-auto p-3" alt="image">
-                                            </div>
-                                            <div class="style-text text-left my-4">
-                                                <h5 class="mb-1">Organic Cream</h5>
-                                                <p class="mb-0">468 Item</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                            <div class="table-responsive">
+                                <table class="data-tables table mb-0 tbl-server-info">
+                                    <thead class="bg-white text-uppercase">
+                                        <tr class="ligth ligth-data">
+                                            <th>Product</th>
+                                            <th>Sellers Name</th>
+                                            <th>Quantity</th>
+                                            <th>Size</th>
+                                            <th>Status</th>
+                                            <th>Price</th>
+                                            <th>Action</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="ligth-body">
+                                        @foreach ($orders as $item)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="{{ asset('img/list/' . $item->orderdetail->product->images) }}"
+                                                            class="img-fluid rounded avatar-50 mr-3" alt="image">
+                                                        {{ $item->orderdetail->product->name }}
+                                                    </div>
+                                                </td>
+                                                <td>{{ $item->users->name }}</td>
+                                                <td>{{ $item->orderdetail->quantity }}</td>
+                                                <td>{{ $item->orderdetail->product->productsseller->size }}</td>
+                                                <td>{{ $item->status }}</td>
+                                                <td>@currency($item->orderdetail->product->productsseller->price)</td>
+                                                <td>
+                                                    <form action="{{ route('dashboard.details', ['id' => $item->id]) }}">
+                                                        <button class="badge bg-success mr-2 mt-2" type="submit"">
+                                                            <i class="ri-pencil-line mr-0"></i>
+                                                        </button>
+                                                    </form>
+                                                {{-- <td>
+                                                    <form method="GET"
+                                                        action="{{ route('products.delete', ['id' => $item->id]) }}">
+                                                        <button class="badge bg-danger mr-2 mt-2" type="submit"
+                                                            class="deleteProduk">
+                                                            <i class="ri-delete-bin-line mr-0"></i>
+                                                        </button>
+                                                    </form>
+                                                </td> --}}
+
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            
             </div>
             <!-- Page end  -->
         </div>

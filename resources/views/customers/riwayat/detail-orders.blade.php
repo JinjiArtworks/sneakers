@@ -27,14 +27,38 @@
                         <div class="checkout__order">
                             <div class="d-flex">
                                 <div class="p-2">
-                                    <h4>Detail History Order - <span class="badge"
-                                            style="color: green">{{ $orderStatus->order->status }}</span>
+                                    <h4>Detail History Order -
+                                        <span class="badge" style="color: green">
+                                            @if ($getOrderDetail->order->status == 'Proses Validasi Admin')
+                                                Pesanan sedang diproses.
+                                            @elseif ($getOrderDetail->order->status == 'Pesanan Dikirim Kepada Pembeli')
+                                                Pesanan telah dikirim kepada Pembeli.
+                                                <span class="justify-content-end">
+                                                    <form method="POST"
+                                                        action="{{ route('history-order.acceptOrder', ['id' => $getOrderDetail->order_id]) }}">
+                                                        @csrf
+                                                        <input type="hidden" name="sellerID" value="{{ $getSellerId }}">
+                                                        <input type="hidden" name="totalPrice"
+                                                            value="{{ $getOrderDetail->price }}">
+                                                        <button class="confirmOrder btn btn-sm   btn-primary"
+                                                            type="submit"">
+                                                            Konfirmasi Pesanan
+                                                        </button>
+                                                    </form>
+                                                </span>
+                                            @else
+                                                Pesanan Diterima Oleh Pembeli
+                                            @endif
+                                        </span>
                                     </h4>
                                 </div>
                                 <hr>
                                 <div class="text-right">
-                                    <a href="/details-pesanan/1" class="btn btn-sm btn-primary"
-                                        style="background-color: green;">Kirim Pesanan</a>
+                                    @if ($getOrderDetail->order->status == 'Sedang Dikirim')
+                                        <a href="/details-pesanan/1" class="btn btn-sm btn-primary"
+                                            style="background-color: green;">Terima Pesanan</a>
+                                    @endif
+
                                 </div>
                             </div>
                             @foreach ($orderDetails as $item)
@@ -51,8 +75,8 @@
                                             <li>Quantity : x{{ $item->quantity }}</li>
                                             <li>Ekspedisi : {{ $item->order->ekspedisi }}</li>
                                             <li>Sub Total : @currency($item->price)</li>
-                                            <li>Ongkos Kirim :  @currency($item->order->shipping_cost)</li>
-                                            <li>Total : @currency($item->order->total)</li>
+                                            <li>Ongkos Kirim : @currency($item->order->shipping_cost)</li>
+                                            {{-- <li>Total : @currency($item->order->total)</li> --}}
                                         </div>
 
                                     </div>
@@ -103,9 +127,23 @@
                 }
             })
         });
-    </script>
 
-    <script type="text/javascript">
+        $('.confirmOrder').click(function(event) {
+            event.preventDefault();
+            var form = $(this).closest("form");
+            Swal.fire({
+                title: 'Terima Pesanan?',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            })
+        });
         image.onchange = evt => {
             const [file] = image.files
             if (file) {

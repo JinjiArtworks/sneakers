@@ -19,15 +19,18 @@ class CartController extends Controller
     public function addToCart(Request $request, $id)
     {
         $user = Auth::user()->id;
-        $productSeller = ProductSeller::whereProductId($id)->first();
+        $productSeller = ProductSeller::where('id', '=', $id)->first();
+        // $sellers_id = $request->sellers_id;
+        // dd($productSeller);
         $cart = session()->get('cart');
         // return dd($cart);
         if (!isset($cart[$id])) {
             $cart[$id] = [
+                "id" => $productSeller->id,
+                "product_id" => $productSeller->product_id,
                 "user_id" => $user,
-
-                "id" => $productSeller->product->id,
-                "seller_id" => $productSeller->user_id,
+                "admin_id" => 1,
+                "sellers_id" => $productSeller->user_id,
                 "name" => $productSeller->product->name,
                 "images" => $productSeller->product->images,
                 "price" => $productSeller->price,
@@ -44,9 +47,10 @@ class CartController extends Controller
             if ($cart[$id]['size'] != $request->size) {
                 $cart[$id] = [
                     "user_id" => $user,
-
-                    "id" => $productSeller->product->id,
-                    "seller_id" => $productSeller->user_id,
+                    "id" => $productSeller->id,
+                    "product_id" => $productSeller->product_id,
+                    "admin_id" => 1,
+                    "sellers_id" => $productSeller->user_id,
                     "name" => $productSeller->product->name,
                     "images" => $productSeller->product->images,
                     "price" => $productSeller->price,
@@ -68,13 +72,17 @@ class CartController extends Controller
         session()->put('cart', $cart);
         return redirect('/cart')->with('success', 'Sukses menambahkan produk');
     }
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $userName = Auth::user()->name;
         $userPhone = Auth::user()->phone;
         $userAddress = Auth::user()->address;
         // dd($userAddress);
+
+        $sellers_id = $request->sellers_id;
+        // dd($sellers_id);
+
         $getUsersCity = Auth::user()->city_id;
         $getUsersProvince = Auth::user()->province_id;
 
@@ -95,7 +103,7 @@ class CartController extends Controller
         }
         $ekspedisi = Ekspedisi::all();
         // $kupons = Coupon::all();
-        return view('customers.cart.cart', compact('cart','userPhone','userName','countCart', 'ekspedisi', 'userAddress', 'getUsersProvince', 'getUsersCity', 'city', 'province', 'allCities', 'allProvince'));
+        return view('customers.cart.cart', compact('cart', 'sellers_id', 'userPhone', 'userName', 'countCart', 'ekspedisi', 'userAddress', 'getUsersProvince', 'getUsersCity', 'city', 'province', 'allCities', 'allProvince'));
     }
 
     public function destroy($id)

@@ -37,12 +37,21 @@ class WishlistController extends Controller
         $province  = Province::whereId($getUsersProvince)->first('name');
         $allCities = City::all();
         $allProvince = Province::all();
-        return view('customers.wishlist.index', compact( 'getWishlist', 'getUsersCity', 'getUsersProvince', 'city', 'province', 'allCities', 'allProvince'));
+        return view('customers.wishlist.index', compact('getWishlist', 'getUsersCity', 'getUsersProvince', 'city', 'province', 'allCities', 'allProvince'));
     }
     public function destroy(Request $request)
     {
         // return dd($request->all());
         Wishlist::where('product_id', $request->products)->delete();
         return redirect()->back();
+    }
+    public function addToWishlist(Request $request)
+    {
+        $user = Auth::user()->id;
+        Wishlist::create([
+            'user_id' => $user,
+            'product_id' => $request->id,
+        ]);
+        return redirect('/wishlist')->with('success', 'Produk berhasil ditambahkan kedalam wishlist');
     }
 }

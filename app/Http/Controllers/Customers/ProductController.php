@@ -41,6 +41,8 @@ class ProductController extends Controller
             ->where('user_id', '=', $userID)
             ->first();
         $products = Product::whereId($idProduct)->first();
+        $getReviews = Review::whereProductId($idProduct)->get();
+        $countReviews = Review::whereProductId($idProduct)->count();
         // $dataJson = json_encode($productsSeller->size);
         // $datacode = str_replace(array(','), array(''), $productsSeller->size);
         // $datacodeExplode = explode(',', $datacode);
@@ -51,30 +53,19 @@ class ProductController extends Controller
         // print_r($size);
         // $getProductSize = implode(",", $push);
         // dd($productsSeller);
-        $getReviews = Review::whereProductId($idProduct)->get();
-        $countReviews = Review::whereProductId($idProduct)->count();
         // $wishlist = Wishlist::all();
         return view('customers.products.detail-products-seller', compact('productsSeller', 'userSaldo','products', 'countReviews', 'getReviews'));
     }
+
+    // Detail product untuk SELLLER MENJUAL PRODUCT
     public function detail($id)
     {
-        // MENAMPILKAN PRODUK YG BELUM ADA PENJUALNYA
         $products = Product::find($id);
-
-        $productsIsAlreadySell = ProductSeller::whereProductId($id)->first();
-        // dd($productsIsAlreadySell);
-
-        // $loopIsSell = '';
-        // $loopUser = '';
-        // foreach ($productsIsAlreadySell as $is_sell) {
-        //     $loopIsSell = $is_sell->product_id;
-        //     $loopUser = $is_sell->user_id;
-        // }
-        // dd($loopUser);
+        // $productsIsAlreadySell = ProductSeller::whereProductId($id)->first();
         $getReviews = Review::whereProductId($id)->get();
         $countReviews = Review::whereProductId($id)->count();
         // $wishlist = Wishlist::all();
-        return view('customers.products.detail-products', compact('products', 'countReviews', 'getReviews', 'productsIsAlreadySell'));
+        return view('customers.products.detail-products', compact('products', 'countReviews', 'getReviews'));
     }
     public function storeProductSeller(Request $request)
     {
@@ -92,14 +83,5 @@ class ProductController extends Controller
         $product = Product::get();
         return view('customers.products.informasi-produk', compact('product'));
     }
-    public function addToWishlist(Request $request)
-    {
-        $user = Auth::user()->id;
-        Wishlist::create([
-            'user_id' => $user,
-            'product_id' => $request->id,
-        ]);
-
-        return redirect('/wishlist')->with('success', 'Produk berhasil ditambahkan kedalam wishlist');
-    }
+   
 }

@@ -6,9 +6,11 @@ use App\Models\City;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\ProductSeller;
 use App\Models\Province;
 use App\Models\Returns;
 use App\Models\Review;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -24,17 +26,23 @@ class RiwayatPesananController extends Controller
         $getUsersProvince = Auth::user()->province_id;
         $city  = City::whereId($getUsersCity)->first();
         $province  = Province::whereId($getUsersProvince)->first();
-        
-        $fullAddress = Auth::user()->address . ', '. $city->name . ', '. $province->name;
+
+        $fullAddress = Auth::user()->address . ', ' . $city->name . ', ' . $province->name;
         $allCities = City::all();
         $allProvince = Province::all();
-        return view('customers.riwayat.index', compact('orders','fullAddress', 'getUsersCity', 'getUsersProvince', 'city', 'province', 'allCities', 'allProvince'));
+        return view('customers.riwayat.index', compact('orders', 'fullAddress', 'getUsersCity', 'getUsersProvince', 'city', 'province', 'allCities', 'allProvince'));
     }
     public function detailsOrder($id)
     {
         $getIdOrder = $id;
         $orderDetails = OrderDetail::whereOrderId($id)->get();
-        $orderStatus = OrderDetail::whereOrderId($id)->first();
+        $getOrderDetail = OrderDetail::whereOrderId($id)->first();
+        // dd($getShippingCost);
+        $sellerID = ProductSeller::whereProductId($getOrderDetail->product_id)->first();
+        $getSellerId = $sellerID->user_id;
+        // dd($getOrderDetail);
+        // dd($getOrderDetail->order->users_id); // user id PABLO A.K.A PEMBELI
+        // dd($getOrderDetail->order->users_id); // user id PABLO A.K.A PEMBELI
         $mytime = Carbon::now()->today()->toDateTimeString();
 
         $getUsersCity = Auth::user()->city_id;
@@ -45,8 +53,61 @@ class RiwayatPesananController extends Controller
 
         // return dd($reviews);
         $mytime = Carbon::now()->today()->toDateTimeString();
-        return view('customers.riwayat.detail-orders', compact('getIdOrder', 'orderDetails', 'city', 'mytime',  'province', 'orderStatus', 'mytime'));
+        return view('customers.riwayat.detail-orders', compact('getIdOrder', 'getSellerId', 'orderDetails', 'city', 'mytime',  'province', 'getOrderDetail', 'mytime'));
     }
+    public function acceptOrder(Request $request, $id)
+    {
+        $mytime = Carbon::now()->today()->toDateTimeString();
+        // $customerId = Auth::user()->id;
+        // $customerSaldo = Auth::user()->saldo;
+        $getOrderDetail = OrderDetail::whereOrderId($id)->first();
+        $getShippingCost = $getOrderDetail->order->shipping_cost;
+        $getTotalPrice = $getOrderDetail->order->total;
+        // $getSellerSaldo = $getOrderDetail->order->users->saldo;
+        // $getSellerId = $getOrderDetail->order->sellers_id;
+
+
+        $sellerIdReq = $request->sellerID;
+        $sellerID = ProductSeller::whereUserId($sellerIdReq)->first();
+        $getSellerId = $sellerID->user_id;
+        $getSellerSaldo = $sellerID->user->saldo;
+        // dd($getSellerSaldo);
+        $getAdmin = User::whereRoles('Admin')->first();
+        $adminId = $getAdmin->id;
+        $adminSaldo = $getAdmin->saldo;
+
+        Order::where('id', $id)
+            ->update(
+                [
+                    'status' => 'Selesai',
+                    'updated_at' => $mytime
+                ]
+            );
+        // User::where('id', $customerId)
+        //     ->update(
+        //         [
+        //             'saldo' => $customerSaldo - $getTotalPrice,
+        //         ]
+        //     );
+        
+
+        // INI MASI SALAH SEDIKIT BAGIAN SALDO SELLERNYA !!!!!!
+        User::where('id', $getSellerId)
+            ->update(
+                [
+                    'saldo' => $getSellerSaldo + ($getTotalPrice - $getShippingCost),
+                ]
+            );
+        User::where('id', $adminId)
+            ->update(
+                [
+                    // menambahkan biaya layanan admin sebesar 10k
+                    'saldo' => $adminSaldo + 10000,
+                ]
+            );
+        return redirect('riwayat-pesanan');
+    }
+
     public function storeReturns(Request $request, $id)
     {
         // return dd($request->all());
@@ -83,6 +144,7 @@ class RiwayatPesananController extends Controller
         return redirect('riwayat-pesanan');
     }
 
+
     public function reviewPages($id)
     {
         $getIdOrder = $id;
@@ -114,18 +176,7 @@ class RiwayatPesananController extends Controller
             );
         return redirect('riwayat-pesanan');
     }
-    public function acceptOrder($id)
-    {
-        $mytime = Carbon::now()->today()->toDateTimeString();
-        Order::where('id', $id)
-            ->update(
-                [
-                    'status' => 'Selesai',
-                    'updated_at' => $mytime
-                ]
-            );
-        return redirect('riwayat-pesanan');
-    }
+
     // public function remove($id)
     // {
     //     Order::where('id', $id)->delete();

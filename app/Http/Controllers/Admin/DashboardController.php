@@ -15,7 +15,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::whereStatus('Pesanan Dikirim Kepada Admin')->get();
+        // dd($orders);
         $ordersComplete = Order::where('status','=','Selesai')->get();
         $users = Auth::user()->id;
 
@@ -43,22 +44,24 @@ class DashboardController extends Controller
     }
     public function detail($id)
     {
-        $orderdetails = OrderDetail::whereOrderId($id)->get(); 
-        $orders = Order::find($id);
+        $orderdetails = OrderDetail::whereOrderId($id)->get();
+        $orderData = OrderDetail::whereOrderId($id)->first();
+        // dd($orderdetails);
+        // $orders = Order::find($id);
         // return dd($orders->nama);
 
         // $details = OrderDetail::whereOrderId($id)->get(); // already declated a has many from categories, its mean it is beloangsto categories
         // {{ $item->order->status }}
 
         // $returnOrder = Returns::whereOrdersId($id)->first();
-        return view('admin.listReport.dashboard-details', compact('orderdetails','orders'));
+        return view('admin.listReport.dashboard-details', compact('orderData','orderdetails'));
     }
-    public function update($id)
+    public function updateConfirmAdmin($id)
     {
         Order::where('id', $id)
             ->update(
                 [
-                    'status' => 'Pesanan Dikirim',
+                    'status' => 'Pesanan Dikirim Kepada Pembeli',
                 ]
             );
         return redirect('/admin-dashboard')->with('success', 'Pesanan Berhasil Dikirim');
