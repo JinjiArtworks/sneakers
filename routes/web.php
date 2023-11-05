@@ -74,11 +74,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/riwayat-pesanan', [RiwayatPesananController::class, 'index'])->name('index');
         Route::get('/detail-pesanan/{id}', [RiwayatPesananController::class, 'detailsOrder'])->name('detail');
         Route::get('/orders-delete/{id}', [RiwayatPesananController::class, 'remove'])->name('delete');
-        Route::get('/send-review-rating/{id}', [RiwayatPesananController::class, 'reviewPages'])->name('reviewPages');
-        Route::post('/send-review/{id}', [RiwayatPesananController::class, 'storeReview'])->name('review');
-        Route::post('/send-returns/{id}', [RiwayatPesananController::class, 'storeReturns'])->name('returns');
-        Route::post('/send-returns-back/{id}', [RiwayatPesananController::class, 'storeReturnsBack'])->name('sendReturnsBack');
+        // Route::post('/send-returns/{id}', [RiwayatPesananController::class, 'storeReturns'])->name('returns');
+        // Route::post('/send-returns-back/{id}', [RiwayatPesananController::class, 'storeReturnsBack'])->name('sendReturnsBack');
         Route::post('/accept-item/{id}', [RiwayatPesananController::class, 'acceptOrder'])->name('acceptOrder');
+        Route::post('/send-review/{id}', [RiwayatPesananController::class, 'storeReview'])->name('send-review');
     });
     // Route::group(['as' => 'faq.'], function () {
     //     // Route::get('create-faq', [HomeController::class, 'create'])->name('create');

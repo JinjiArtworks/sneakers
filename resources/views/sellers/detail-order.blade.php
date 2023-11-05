@@ -34,7 +34,7 @@
                                             {{-- <th>Shipping Cost</th> --}}
                                             <th>Price</th>
                                             <th>Sub Total</th>
-                                        </tr>
+                                        </tr> 
                                     </thead>
                                     <tbody>
                                         @foreach ($orderDetails as $item)

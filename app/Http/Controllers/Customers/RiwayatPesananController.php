@@ -37,7 +37,8 @@ class RiwayatPesananController extends Controller
         $getIdOrder = $id;
         $orderDetails = OrderDetail::whereOrderId($id)->get();
         $getOrderDetail = OrderDetail::whereOrderId($id)->first();
-        // dd($getShippingCost);
+        $getAllReview = Review::whereProductId($getOrderDetail->product_id)->first();
+        // dd($getOrderDetail->product_id);
         $sellerID = ProductSeller::whereProductId($getOrderDetail->product_id)->first();
         $getSellerId = $sellerID->user_id;
         // dd($getOrderDetail);
@@ -53,7 +54,7 @@ class RiwayatPesananController extends Controller
 
         // return dd($reviews);
         $mytime = Carbon::now()->today()->toDateTimeString();
-        return view('customers.riwayat.detail-orders', compact('getIdOrder', 'getSellerId', 'orderDetails', 'city', 'mytime',  'province', 'getOrderDetail', 'mytime'));
+        return view('customers.riwayat.detail-orders', compact('getIdOrder','getAllReview', 'getSellerId', 'orderDetails', 'city', 'mytime',  'province', 'getOrderDetail', 'mytime'));
     }
     public function acceptOrder(Request $request, $id)
     {
@@ -145,35 +146,19 @@ class RiwayatPesananController extends Controller
     }
 
 
-    public function reviewPages($id)
-    {
-        $getIdOrder = $id;
-        $reviews = Review::all();
-        // return dd($reviews->product_id);
-        $user = Auth::user()->id;
-        // $checkOrdersComplete = Order::where('status', '=', 'Selesai')->orWhere('status','=','Ajuan Pengembalian Ditolak')->get();
-
-        $orderDetails = OrderDetail::whereProductId($id)->first();
-        return view('customers.riwayat.send-review', compact('orderDetails', 'getIdOrder', 'reviews'));
-    }
     public function storeReview(Request $request, $id)
     {
         $user = Auth::user()->id;
-        $getProducts = Review::whereProductId($id)->first();
-        // return dd($getProducts->product->nama);
+        $getReview = Review::all();
+        // dd($getReview);
+        // dd($request->all());
         Review::create([
             'user_id' => $user,
-            'tanggal' => Carbon::now(),
-            'komentar' => $request->comment,
-            'rating' => $request->rating,
             'product_id' => $id,
+            'date' => Carbon::now(),
+            'comment' => $request->comments,
+            'rating' => $request->ratings,
         ]);
-        Product::where('id', $id)
-            ->update(
-                [
-                    'jumlah_penilaian' => $getProducts->product->jumlah_penilaian + 1,
-                ]
-            );
         return redirect('riwayat-pesanan');
     }
 

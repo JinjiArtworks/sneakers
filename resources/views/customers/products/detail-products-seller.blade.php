@@ -134,25 +134,75 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-2" role="tab"
-                                    aria-selected="false">Reviews <span>(1)</span></a>
+                                    aria-selected="false">Reviews <span>({{ $countReviews }})</span></a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-2" role="tabpanel">
                                 <div class="product__details__tab__desc">
                                     <h6>Products Review</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.
-                                    </p>
+                                    @if ($getReviews == null)
+                                        <p>Belum ada review untuk produk ini</p>
+                                    @else
+                                        @foreach ($getReviews as $item)
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <img src="{{ asset('templates/sellers/images/user/1.jpg') }}"
+                                                            class="img-fluid rounded-circle" alt="user">
+                                                            <p class="text-secondary text-center">{{ $item->date}}</p>
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <p>
+                                                                <a class="float-left"
+                                                                    href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{ $item->users->name }}</strong></a>
+                                                                @if ($item->rating == 1)
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                @elseif ($item->rating == 2)
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                @elseif ($item->rating == 3)
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                @elseif ($item->rating == 4)
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                @else
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                    <span class="float-right"><i
+                                                                            class="text-warning fa fa-star"></i></span>
+                                                                @endif
+
+                                                            <div class="clearfix"></div>
+                                                            <p>{{ $item->comment }}</p>
+                                                          
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>

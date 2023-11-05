@@ -41,7 +41,9 @@ class ProductController extends Controller
             ->where('user_id', '=', $userID)
             ->first();
         $products = Product::whereId($idProduct)->first();
+        
         $getReviews = Review::whereProductId($idProduct)->get();
+        // dd($getReviews);
         $countReviews = Review::whereProductId($idProduct)->count();
         // $dataJson = json_encode($productsSeller->size);
         // $datacode = str_replace(array(','), array(''), $productsSeller->size);
