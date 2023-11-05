@@ -72,19 +72,22 @@
             </div>
             <div class="row featured__filter">
                 @if (Auth::check())
-                    @if (Auth::user()->roles == 'Customers')
+                    {{-- Customers --}}
+                    @if (Auth::user()->role_id == 3)
                         @foreach ($productSeller as $item)
                             <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                                 <div class="featured__item">
                                     <div class="featured__item__pic set-bg">
-                                        <a href="detail-product-seller/{{ $item->id }}/{{ $item->product_id }}/{{ $item->user_id }}">
+                                        <a
+                                            href="detail-product-seller/{{ $item->id }}/{{ $item->product_id }}/{{ $item->user_id }}">
                                             <img src="{{ asset('img/list/' . $item->product->images) }}" height="250px"
                                                 alt="">
                                         </a>
                                     </div>
                                     <div class="featured__item__text">
                                         <h6>
-                                            <a href="/detail-product-seller/{{ $item->id }}/{{ $item->product_id }}/{{ $item->user_id }}">
+                                            <a
+                                                href="/detail-product-seller/{{ $item->id }}/{{ $item->product_id }}/{{ $item->user_id }}">
                                                 {{ $item->product->name }}
                                             </a>
                                         </h6>
@@ -95,7 +98,8 @@
                                 </div>
                             </div>
                         @endforeach
-                    @elseif(Auth::user()->roles == 'Seller')
+                    @elseif(Auth::user()->role_id == 2)
+                        {{-- Sellers --}}
                         @foreach ($products as $item)
                             <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                                 <div class="featured__item">

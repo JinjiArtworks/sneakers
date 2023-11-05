@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Sellers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminValidationOrder;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -53,21 +54,32 @@ class DashboardSellerController extends Controller
     // }
     public function detailListOrder($id)
     {
+        $userId = Auth::user()->id;
         $orderDetails = OrderDetail::whereOrderId($id)->get();
         $getOrderDetailsStatus = OrderDetail::whereOrderId($id)->first();
         // dd($orderDetails);
 
-        return view('sellers.detail-order', compact('orderDetails', 'getOrderDetailsStatus'));
+        return view('sellers.detail-order', compact('orderDetails','userId','getOrderDetailsStatus'));
     }
-    public function updateListOrder($id)
+    public function updateListOrder(Request $request, $id)
     {
         $idSeller = Auth::user()->id;
-        Order::where('id', $id)
-            ->update(
-                [
-                    'status' => 'Pesanan Dikirim Kepada Admin',
-                ]
-            );
+        // dd($request->all());
+        if ($request->resiImage != null) {
+            $destinationPath = '/img/list';
+            $request->resiImage->move(public_path($destinationPath), $request->resiImage->getClientOriginalName());
+            AdminValidationOrder::create([
+                'resi_number' => $request->resiNumber,
+                'resi_images' => $request->resiImage->getClientOriginalName(),
+                'order_id' => $id,
+            ]);
+            Order::where('id', $id)
+                ->update(
+                    [
+                        'status' => 'Pesanan Dikirim Kepada Admin',
+                    ]
+                );
+        }
         return redirect('seller-dashboard/' . $idSeller)->with('success', 'Pesanan Berhasil Dikirim');
     }
 

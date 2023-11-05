@@ -33,14 +33,14 @@
                                             </select>
                                         </div>
                                     </div>
-
                                     {{-- penjual hanya nambah harga dan size --}}
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <img src="{{ asset('img/list/icon-sepatu.jpeg') }}" id="imgPreview"
                                                 width="150px" height="150px" class="mb-3">
-                                            <input type="file" id="image" class="form-control image-file"
-                                                name="images" accept="image/*">
+                                            <br>
+                                            <input type="file" id="image" class=" image-file" name="images" required
+                                                accept="image/*">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -59,8 +59,6 @@
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-
-                             
                                 </div>
                                 <button type="submit" class="btn btn-primary mr-2">Add Product</button>
                                 {{-- <button type="reset" class="btn btn-danger">Reset</button> --}}
@@ -81,8 +79,6 @@
                 imgPreview.src = URL.createObjectURL(file)
             }
         }
-    </script>
-    <script>
         $('.confirm').click(function(event) {
             event.preventDefault();
             var form = $(this).closest("form");

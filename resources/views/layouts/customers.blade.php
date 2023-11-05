@@ -98,9 +98,9 @@
                         <div class="header__top__right">
                             <div class="header__top__right__social">
                                 @if (Auth::check())
-                                    @if (Auth::user()->roles == 'Customers')
+                                    @if (Auth::user()->role_id == 3)
                                         <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} -
-                                            {{ Auth::user()->roles }} - @currency(Auth::user()->saldo)
+                                            {{ Auth::user()->role_id }} - @currency(Auth::user()->saldo)
                                             <div class="header__top__right__auth ml-4">
                                                 <form
                                                     action="{{ route('users.switch-to-seller', ['id' => Auth::user()->id]) }}"
@@ -111,14 +111,13 @@
                                                         To Seller</button>
                                                 </form>
                                             </div>
-
                                             <button type="button" class="btn btn-sm ml-4 btn-primary"
                                                 style="background-color: green" data-toggle="modal"
                                                 data-target="#topUpModal" data-whatever="@mdo">Top Up Saldo</button>
                                         </a>
-                                    @elseif (Auth::user()->roles == 'Seller')
+                                    @elseif (Auth::user()->role_id == '2')
                                         <a href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }} -
-                                            {{ Auth::user()->roles }} - @currency(Auth::user()->saldo)
+                                            {{ Auth::user()->role_id }} - @currency(Auth::user()->saldo)
                                             <div class="header__top__right__auth ml-4">
                                                 <form
                                                     action="{{ route('users.switch-to-buyer', ['id' => Auth::user()->id]) }}"
@@ -141,7 +140,8 @@
                                 <div class="header__top__right__auth">
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button class="confirmLogout btn btn-sm btn-secondary" type="submit">Log out</button>
+                                        <button class="confirmLogout btn btn-sm btn-secondary" type="submit">Log
+                                            out</button>
                                     </form>
                                 </div>
                             @else

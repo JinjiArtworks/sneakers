@@ -72,7 +72,7 @@ class RiwayatPesananController extends Controller
         $getSellerId = $sellerID->user_id;
         $getSellerSaldo = $sellerID->user->saldo;
         // dd($getSellerSaldo);
-        $getAdmin = User::whereRoles('Admin')->first();
+        $getAdmin = User::whereRoleId(1)->first();
         $adminId = $getAdmin->id;
         $adminSaldo = $getAdmin->saldo;
 
@@ -89,13 +89,13 @@ class RiwayatPesananController extends Controller
         //             'saldo' => $customerSaldo - $getTotalPrice,
         //         ]
         //     );
-        
+
 
         // INI MASI SALAH SEDIKIT BAGIAN SALDO SELLERNYA !!!!!!
         User::where('id', $getSellerId)
             ->update(
                 [
-                    'saldo' => $getSellerSaldo + ($getTotalPrice - $getShippingCost),
+                    'saldo' => $getSellerSaldo + ($getTotalPrice - $getShippingCost) - 10000,
                 ]
             );
         User::where('id', $adminId)

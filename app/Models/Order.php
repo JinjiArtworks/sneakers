@@ -14,6 +14,10 @@ class Order extends Model
     {
         return $this->hasOne(OrderDetail::class);
     }
+    public function validationAdmin()
+    {
+        return $this->hasOne(AdminValidationOrder::class);
+    }
     public function returns()
     {
         return $this->hasOne(Returns::class);

@@ -8,9 +8,48 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
+                                <h4 class="card-title">Bukti Resi Order ID :# {{ $orderData->order->id }}</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table mb-0 tbl-server-info">
+                                    <thead class="bg-white text-uppercase">
+                                        <tr class="ligth ligth-data">
+                                            <th class="text-left">Resi Image</th>
+                                            <th class="text-left">Resi Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="ligth-body">
+                                        @foreach ($validations_admin as $item)
+                                            <tr>
+                                                <td class="text-left">
+                                                    <img src="{{ asset('img/list/' . $item->resi_images) }}"
+                                                        class="rounded avatar-100 mr-3" alt="image">
+                                                </td>
+                                                <td class="text-left"># <b>{{ $item->resi_number }}</b></td>
+
+                                                {{-- <td>
+                                                    <form method="GET"
+                                                        action="{{ route('products.delete', ['id' => $item->id]) }}">
+                                                        <button class="badge bg-danger mr-2 mt-2" type="submit"
+                                                            class="deleteProduk">
+                                                            <i class="ri-delete-bin-line mr-0"></i>
+                                                        </button>
+                                                    </form>
+                                                </td> --}}
+
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
                                 <h4 class="card-title">Detail Order # {{ $orderData->order->id }}</h4>
-                                <h4 class="card-title">Disini admin bisa melihat bukti resi dan foto dari penjual yang
-                                    mengirim.</h4>
                             </div>
                             @if ($orderData->order->status == 'Pesanan Dikirim Kepada Admin')
                                 <form method="POST"
@@ -34,8 +73,6 @@
                                             <th>Size</th>
                                             <th>Status</th>
                                             <th>Price</th>
-                                            <th>Action</th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody class="ligth-body">
@@ -71,6 +108,8 @@
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
             <!-- Page end  -->

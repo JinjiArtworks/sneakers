@@ -31,7 +31,8 @@
                                             <label>Category *</label>
                                             <select name="categories" class="selectpicker form-control" data-style="py-0">
                                                 @foreach ($categories as $item)
-                                                    <option value="{{ $item->id }}" {{ $products->categories_id == $item->id ? 'selected' : null }}>
+                                                    <option value="{{ $item->id }}"
+                                                        {{ $products->categories_id == $item->id ? 'selected' : null }}>
                                                         {{ $item->name }}</option>
                                                 @endforeach
                                             </select>
@@ -41,10 +42,11 @@
                                     {{-- penjual hanya nambah harga dan size --}}
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <img src="{{ asset('img/list/'.$products->images) }}" id="imgPreview"
-                                                width="150px" height="150px" class="mb-3" >
-                                            <input type="file" id="image" class="form-control image-file" required
-                                                name="images" accept="image/*">
+                                            <img src="{{ asset('img/list/' . $products->images) }}" id="imgPreview"
+                                                width="150px" height="150px" class="mb-3">
+                                            <br>
+                                            <input type="file" id="image" class=" image-file" name="images" required
+                                                accept="image/*">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -83,8 +85,6 @@
                 imgPreview.src = URL.createObjectURL(file)
             }
         }
-    </script>
-    <script>
         $('.confirm').click(function(event) {
             event.preventDefault();
             var form = $(this).closest("form");

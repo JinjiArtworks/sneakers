@@ -25,7 +25,7 @@ class UserController extends Controller
         User::where('id', $user)
             ->update(
                 [
-                    'roles' => 'Customers',
+                    'role_id' => 3, // buyer or customers
                 ]
             );
         return redirect('/')->with('success');
@@ -37,7 +37,7 @@ class UserController extends Controller
         User::where('id', $user)
             ->update(
                 [
-                    'roles' => 'Seller',
+                    'role_id' => 2, //sellers
                 ]
             );
         return redirect('/')->with('success');

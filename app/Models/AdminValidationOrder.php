@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderDetail extends Model
+class AdminValidationOrder extends Model
 {
     use HasFactory;
-    protected $table = 'orderdetails';
+    protected $guarded = ['id'];
+    protected $table = 'validation_admin';
     public function order()
     {
         return $this->belongsTo(Order::class); // ada order id di table ini
-    }
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
     }
 }

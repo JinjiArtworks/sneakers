@@ -115,7 +115,7 @@
                                                 <td>@currency($item->orderdetail->product->productsseller->price)</td>
                                                 <td>
                                                     <form action="{{ route('dashboard.details', ['id' => $item->id]) }}">
-                                                        <button class="badge bg-success mr-2 mt-2" type="submit"">
+                                                        <button class="btn btn-md btn-primary mr-2 mt-2" type="submit"">
                                                             <i class="ri-pencil-line mr-0"></i>
                                                         </button>
                                                     </form>

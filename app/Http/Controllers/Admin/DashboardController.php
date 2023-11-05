@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminValidationOrder;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -44,9 +45,11 @@ class DashboardController extends Controller
     }
     public function detail($id)
     {
+        // $orderID
         $orderdetails = OrderDetail::whereOrderId($id)->get();
+        $validations_admin = AdminValidationOrder::whereOrderId($id)->get();
         $orderData = OrderDetail::whereOrderId($id)->first();
-        // dd($orderdetails);
+        // dd($validations_admin);
         // $orders = Order::find($id);
         // return dd($orders->nama);
 
@@ -54,7 +57,7 @@ class DashboardController extends Controller
         // {{ $item->order->status }}
 
         // $returnOrder = Returns::whereOrdersId($id)->first();
-        return view('admin.listReport.dashboard-details', compact('orderData','orderdetails'));
+        return view('admin.listReport.dashboard-details', compact('orderData','validations_admin','orderdetails'));
     }
     public function updateConfirmAdmin($id)
     {

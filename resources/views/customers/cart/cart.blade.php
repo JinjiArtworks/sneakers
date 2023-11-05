@@ -54,7 +54,13 @@
                                             <td class="shoping__cart__item">
                                                 <img src="{{ asset('img/list/' . $value['images']) }}" width="100px"
                                                     alt="">
-                                                <h5>{{ $value['name'] }}</h5>
+                                                <h5>{{ $value['name'] }}
+                                                    <br>
+                                                    <span>
+                                                        <small> <b> Size : {{ $value['size'] }}</b></small>
+                                                    </span>
+                                                </h5>
+
                                             </td>
                                             <td class="shoping__cart__price">
                                                 @currency($value['price'])
@@ -111,7 +117,7 @@
                                     </li>
 
                                     <li>Penerima <span class="text-secondary">{{ $userName }}</span></li>
-                                    <li>Nomor Handphone <span class="text-secondary">{{ $userPhone }}</span></li>
+                                    <li>Nomor Handphone <span class="text-secondary">0{{ $userPhone }}</span></li>
                                     <li>Ekspedisi <span class="text-secondary">JNE - REG (3-4 Hari)</span></li>
                                     <li>Subtotal <span class="text-secondary">@currency($subtotal)</span></li>
                                     {{-- <li>Total <span class="text-primary">$454.98</span></li> --}}

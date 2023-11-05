@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
-        'roles',
+        'role_id',
         'saldo',
         'password',
     ];
@@ -49,8 +49,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProductSeller::class);
     }
-    public function users()
+    public function order()
     {
-        return $this->hasOne(User::class);
+        return $this->hasMany(Order::class);
+    }
+    public function roles()
+    {
+        return $this->belongsTo(Roles::class); // table roles menitipkan id nya ke table user
     }
 }

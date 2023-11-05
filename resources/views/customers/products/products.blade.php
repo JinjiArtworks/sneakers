@@ -243,7 +243,7 @@
                     </div>
                     <div class="row">
                         @if (Auth::check())
-                            @if (Auth::user()->roles == 'Customers')
+                            @if (Auth::user()->role_id == 3)
                                 @foreach ($productsSeller as $item)
                                     <div class="col-lg-4 col-md-6 col-sm-6">
                                         <div class="product__item">
@@ -268,7 +268,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            @elseif (Auth::user()->roles == 'Seller')
+                            @elseif (Auth::user()->role_id == 2)
                                 @foreach ($products as $item)
                                     <div class="col-lg-4 col-md-6 col-sm-6">
                                         <div class="product__item">

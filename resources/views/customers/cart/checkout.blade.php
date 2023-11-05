@@ -56,7 +56,7 @@
                         </div>
                         <div class="checkout__input">
                             <p>Province<span>*</span></p>
-                            <input type="text" placeholder="Street Address" value="{{$provinceName->name }}"
+                            <input type="text" placeholder="Street Address" value="{{ $provinceName->name }}"
                                 class="checkout__input__add" readonly>
                         </div>
                     </div>
@@ -66,8 +66,12 @@
                             <div class="checkout__order__products">Products <span>Total</span></div>
                             <ul>
                                 @foreach ($cart as $key => $value)
-                                    <li>{{ $value['name'] }} / qty : x{{ $value['quantity'] }} pcs
+                                    <li>
+                                        {{ $value['name'] }}
+                                        (Size: {{ $value['size'] }})
+                                        <b>x {{ $value['quantity'] }} pcs</b>
                                         <span>@currency($value['price'])</span>
+
                                     </li>
                                 @endforeach
                             </ul>
