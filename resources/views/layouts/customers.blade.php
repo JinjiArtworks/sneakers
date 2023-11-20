@@ -26,11 +26,11 @@
 
 <body>
     <!-- Page Preloder -->
-    {{-- <div id="preloder">
+    <div id="preloder">
         <div class="loader"></div>
-    </div> --}}
+    </div>
 
-    {{-- <!-- Humberger Begin -->
+    <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
@@ -87,7 +87,7 @@
             </ul>
         </div>
     </div>
-    <!-- Humberger End --> --}}
+    <!-- Humberger End -->
 
     <!-- Header Section Begin -->
     <header class="header">
@@ -158,6 +158,7 @@
             </div>
         </div>
         <div class="container">
+            
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">

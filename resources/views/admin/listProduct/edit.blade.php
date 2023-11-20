@@ -28,11 +28,11 @@
 
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Category *</label>
-                                            <select name="categories" class="selectpicker form-control" data-style="py-0">
-                                                @foreach ($categories as $item)
+                                            <label>Models *</label>
+                                            <select name="models" class="selectpicker form-control" data-style="py-0">
+                                                @foreach ($models as $item)
                                                     <option value="{{ $item->id }}"
-                                                        {{ $products->categories_id == $item->id ? 'selected' : null }}>
+                                                        {{ $products->models_id == $item->id ? 'selected' : null }}>
                                                         {{ $item->name }}</option>
                                                 @endforeach
                                             </select>

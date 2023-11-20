@@ -83,11 +83,6 @@
                                             <i class="las la-minus"></i><span>List Product</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="create-products">
-                                            <i class="las la-minus"></i><span>Add Product</span>
-                                        </a>
-                                    </li>
                                 </ul>
                             </li>
                             <li class=" ">
@@ -101,7 +96,7 @@
                                         </rect>
                                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                                     </svg>
-                                    <span class="ml-4">Categories</span>
+                                    <span class="ml-4">Models</span>
                                     <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -112,13 +107,8 @@
                                 </a>
                                 <ul id="category" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                     <li class="">
-                                        <a href="list-category">
-                                            <i class="las la-minus"></i><span>List Category</span>
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="create-category">
-                                            <i class="las la-minus"></i><span>Add Category</span>
+                                        <a href="list-models">
+                                            <i class="las la-minus"></i><span>List Models</span>
                                         </a>
                                     </li>
                                 </ul>

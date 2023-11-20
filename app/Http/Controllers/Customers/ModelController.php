@@ -3,25 +3,26 @@
 namespace App\Http\Controllers\Customers;
 
 use App\Models\Categories;
+use App\Models\Models;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class CategoryController extends Controller
+class ModelController extends Controller
 {
     public function index()
     {
-        $categories = Categories::all();
+        $models = Models::all();
         // return dd($products);
-        return view('customers.category.index', compact('categories'));
+        return view('customers.category.index', compact('models'));
     }
 
     public function detail($id)
     {
-        $products_cat = Product::whereCategoriesId($id)->get();
-        $getDetailsCat = Product::whereCategoriesId($id)->first();
+        $products_model = Product::whereModelsId($id)->get();
+        $getDetailsModel = Product::whereModelsId($id)->first();
         // return dd($categories);
-        return view('customers.category.details', compact('products_cat','getDetailsCat'));
+        return view('customers.category.details', compact('products_model','getDetailsModel'));
     }
     public function create()
     {

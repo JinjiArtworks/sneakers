@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customers;
 
 use App\Models\Categories;
 use App\Models\Faq;
+use App\Models\Models;
 use App\Models\Product;
 use App\Models\ProductSeller;
 use Illuminate\Http\Request;
@@ -29,8 +30,8 @@ class HomeController extends Controller
         // $getAllProducts = Product::whereId($productsIdSeller)->get();
         // dd($getAllProducts);
         // return dd($products[0]['gambar']);
-        $categories = Categories::all();
+        $models = Models::all();
         // return dd($products);
-        return view('customers.home', compact('products', 'productSeller', 'categories'));
+        return view('customers.home', compact('products', 'productSeller', 'models'));
     }
 }

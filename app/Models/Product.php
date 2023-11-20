@@ -10,9 +10,9 @@ class Product extends Model
     use HasFactory;
     protected $guarded = ['id'];
     protected $table = 'products';
-    public function categories()
+    public function models()
     {
-        return $this->belongsTo(Categories::class);
+        return $this->belongsTo(Models::class);
     }
     public function productsseller()
     {

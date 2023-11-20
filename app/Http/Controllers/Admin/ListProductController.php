@@ -29,9 +29,9 @@ class ListProductController extends Controller
     public function create()
     {
         $product = Product::all();
-        $categories = Categories::all();
-        // return dd($categories);
-        return view('admin.listProduct.create', compact('product', 'categories'));
+        $models = Models::all();
+        // return dd($models);
+        return view('admin.listProduct.create', compact('product', 'models'));
     }
     public function store(Request $request)
     {
@@ -41,10 +41,10 @@ class ListProductController extends Controller
             Product::create([
                 'name' => $request->products,
                 'images' => $request->images->getClientOriginalName(),
-                'categories_id' => $request->categories,
+                'models_id' => $request->models,
                 'stock' => $request->stock,
                 'brand' => $request->brand,
-                'weight' => 350,
+                'weight' => 2000,
                 'sold' => 0,
             ]);
         }
@@ -53,8 +53,8 @@ class ListProductController extends Controller
     public function edit($id)
     {
         $products = Product::find($id);
-        $categories = Categories::all();
-        return view('admin.listProduct.edit', compact('products', 'categories'));
+        $models = Models::all();
+        return view('admin.listProduct.edit', compact('products', 'models'));
     }
     public function update(Request $request, $id)
     {
@@ -66,10 +66,10 @@ class ListProductController extends Controller
                     [
                         'name' => $request->products,
                         'images' => $request->images->getClientOriginalName(),
-                        'categories_id' => $request->categories,
+                        'models_id' => $request->models,
                         'stock' => $request->stock,
                         'brand' => $request->brand,
-                        'weight' => 350,
+                        'weight' => 2000,
                         'sold' => 0,
                     ]
                 );

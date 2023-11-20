@@ -7,11 +7,11 @@
                     <div class="card ">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Add Category</h4>
+                                <h4 class="card-title">Add models</h4>
                             </div>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="/store-category" enctype="multipart/form-data">
+                            <form method="POST" action="/store-models" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12">
@@ -26,12 +26,12 @@
                                         <div class="form-group">
                                             <label>Nama Kategori</label>
                                             <input type="text" name="catName" class="form-control"
-                                                placeholder="Enter Category Name" required>
+                                                placeholder="Enter Models Name" required>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary mr-2">Add Category</button>
+                                <button type="submit" class="confirm btn btn-primary mr-2">Confirm</button>
                                 {{-- <button type="reset" class="btn btn-danger">Reset</button> --}}
                             </form>
                         </div>

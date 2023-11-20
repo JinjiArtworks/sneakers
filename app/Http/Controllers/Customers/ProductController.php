@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customers;
 use App\Models\Alergi;
 use App\Models\Categories;
 use App\Models\DetailProduk;
+use App\Models\Models;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -20,7 +21,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Categories::all();
+        $categories = Models::all();
         $productsSeller = ProductSeller::all();
         // dd($productsSeller);
         $products = Product::all();
@@ -31,7 +32,7 @@ class ProductController extends Controller
         //     ->paginate();
         return view('customers.products.products', compact('productsSeller', 'products', 'categories'));
     }
-    public function detailProductSeller($id, $idProduct, $userID)
+    public function detailProductIsSell($id, $idProduct, $userID)
     {
         // FUNCTION INI UNTUK MENAMPILKAN DETAIL PRODUK YG SUDAH ADA PENJUALNYA 
         $userSaldo = Auth::user()->saldo;
@@ -41,7 +42,7 @@ class ProductController extends Controller
             ->where('user_id', '=', $userID)
             ->first();
         $products = Product::whereId($idProduct)->first();
-        
+
         $getReviews = Review::whereProductId($idProduct)->get();
         // dd($getReviews);
         $countReviews = Review::whereProductId($idProduct)->count();
@@ -56,7 +57,7 @@ class ProductController extends Controller
         // $getProductSize = implode(",", $push);
         // dd($productsSeller);
         // $wishlist = Wishlist::all();
-        return view('customers.products.detail-products-seller', compact('productsSeller', 'userSaldo','products', 'countReviews', 'getReviews'));
+        return view('customers.products.detail-products-seller', compact('productsSeller', 'userSaldo', 'products', 'countReviews', 'getReviews'));
     }
 
     // Detail product untuk SELLLER MENJUAL PRODUCT
@@ -71,11 +72,12 @@ class ProductController extends Controller
     }
     public function storeProductSeller(Request $request)
     {
+        // echo str_replace("world","Peter","Hello world!");
         ProductSeller::create([
             'product_id' => $request->productID,
             'user_id' => $request->userID,
             'description' => $request->description,
-            'price' => $request->price,
+            'price' => str_replace('.', '', $request->price),
             'size' => $request->size,
         ]);
         return redirect()->back()->with('success', 'Product berhasil ditambahkan');
@@ -85,5 +87,4 @@ class ProductController extends Controller
         $product = Product::get();
         return view('customers.products.informasi-produk', compact('product'));
     }
-   
 }

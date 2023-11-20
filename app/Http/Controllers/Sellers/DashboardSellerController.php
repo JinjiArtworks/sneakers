@@ -21,6 +21,7 @@ class DashboardSellerController extends Controller
         $userId = Auth::user()->id;
         if ($userId == $idSellers) {
             $orders = Order::whereSellersId($userId)->get();
+            // dd($orders->orderdetail->product->images);
             $sellerProducts = ProductSeller::whereUserId($idSellers)->get();
             // dd($sellerProducts);
             $totalSalesOrders = Order::count();

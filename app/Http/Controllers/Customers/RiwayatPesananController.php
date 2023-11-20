@@ -21,7 +21,7 @@ class RiwayatPesananController extends Controller
     public function index()
     {
         $user = Auth::user()->id;
-        $orders = Order::whereUsersId($user)->get();
+        $orders = Order::whereUsersId($user)->orderBy('date', 'DESC')->get();
         $getUsersCity = Auth::user()->city_id;
         $getUsersProvince = Auth::user()->province_id;
         $city  = City::whereId($getUsersCity)->first();
@@ -54,7 +54,7 @@ class RiwayatPesananController extends Controller
 
         // return dd($reviews);
         $mytime = Carbon::now()->today()->toDateTimeString();
-        return view('customers.riwayat.detail-orders', compact('getIdOrder','getAllReview', 'getSellerId', 'orderDetails', 'city', 'mytime',  'province', 'getOrderDetail', 'mytime'));
+        return view('customers.riwayat.detail-orders', compact('getIdOrder', 'getAllReview', 'getSellerId', 'orderDetails', 'city', 'mytime',  'province', 'getOrderDetail', 'mytime'));
     }
     public function acceptOrder(Request $request, $id)
     {
@@ -74,6 +74,7 @@ class RiwayatPesananController extends Controller
         $getSellerSaldo = $sellerID->user->saldo;
         // dd($getSellerSaldo);
         $getAdmin = User::whereRoleId(1)->first();
+        // dd($getAdmin->saldo);
         $adminId = $getAdmin->id;
         $adminSaldo = $getAdmin->saldo;
 
@@ -93,12 +94,6 @@ class RiwayatPesananController extends Controller
 
 
         // INI MASI SALAH SEDIKIT BAGIAN SALDO SELLERNYA !!!!!!
-        User::where('id', $getSellerId)
-            ->update(
-                [
-                    'saldo' => $getSellerSaldo + ($getTotalPrice - $getShippingCost) - 10000,
-                ]
-            );
         User::where('id', $adminId)
             ->update(
                 [
@@ -106,6 +101,13 @@ class RiwayatPesananController extends Controller
                     'saldo' => $adminSaldo + 10000,
                 ]
             );
+        User::where('id', $getSellerId)
+            ->update(
+                [
+                    'saldo' => $getSellerSaldo + ($getTotalPrice - $getShippingCost) - 10000,
+                ]
+            );
+
         return redirect('riwayat-pesanan');
     }
 

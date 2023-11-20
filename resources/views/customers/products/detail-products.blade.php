@@ -49,11 +49,11 @@
                         <p>{{ $products->description }}</p>
                         <ul>
                             <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>
-                            <li><b>Ready Size : </b>
+                            {{-- <li><b>Ready Size : </b>
                                 <span>
-                                    All Size
+                                    7, 7.5, 8
                                 </span>
-                            </li>
+                            </li> --}}
                             <li><b>Weight : </b> <span>{{ $products->weight }} gr / pcs</span></li>
                         </ul>
                     </div>
@@ -96,7 +96,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="sellModalLabel">New message</h5>
+                    <h5 class="modal-title" id="sellModalLabel">Sell Product</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -107,24 +107,34 @@
                         <input type="hidden" name="productID" value="{{ $products->id }}">
                         <input type="hidden" name="userID" value="{{ Auth::user()->id }}">
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Price Product:</label>
-                            <input type="number" name="price" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="form-group">
                             <label for="message-text" class="col-form-label">Size Product:</label>
                             <br>
-                            <select name="size" id="form-control" class="w-full">
-                                <option value="38">38</option>
-                                <option value="39">39</option>
-                                <option value="40">40</option>
-                                <option value="41">41</option>
+                            <select name="size" class="form-select">
+                                <option value="7">7 (39cm)</option>
+                                <option value="7.5">7.5 (40cm)</option>
+                                <option value="8">8 (40.5 cm)</option>
+                                <option value="8.5">8.5 (41 cm)</option>
+                                <option value="9">9 (42 cm)</option>
+                                <option value="9.5">9.5 (42.5 cm)</option>
+                                <option value="10">10 (43 cm)</option>
+                                <option value="10.5">10.5 (44 cm)</option>
+                                <option value="11">11 (44.5 cm)</option>
+                                <option value="11.5">11.5 (45 cm)</option>
+                                <option value="12">12 (45.5 cm)</option>
                             </select>
                             {{-- <input type="number" class="form-control" id="message-text" name="size"></input> --}}
                         </div>
                         <br>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Deskripsi Product:</label>
-                            <textarea type="text" class="form-control" id="message-text" name="description"></textarea>
+                        <div class="form-group mt-3">
+                            <label for="recipient-name" class="col-form-label">Price Product:</label>
+                            {{-- <input type="number" name="price" class=" calculatePrice form-control" id="product-price"> --}}
+                            <input type="text" class="form-control" id="tanpa-rupiah" name="price"
+                                placeholder="Price Product">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="message-text" class="col-form-label">Description Product:</label>
+                            <textarea type="text" class=" form-control" id="message-text" placeholder="Description Product"
+                                name="description"></textarea>
                         </div>
                         <hr>
                         <button type="submit" class="btn btn-primary">Send message</button>
@@ -137,4 +147,28 @@
         </div>
     </div>
     <!-- Product Details Section End -->
+@endsection
+@section('script')
+    <script>
+        var tanpa_rupiah = document.getElementById('tanpa-rupiah');
+        tanpa_rupiah.addEventListener('keyup', function(e) {
+            tanpa_rupiah.value = formatRupiah(this.value);
+        });
+        /* Fungsi */
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+    </script>
 @endsection

@@ -37,8 +37,7 @@ class CartController extends Controller
                 "stock" => $productSeller->product->stock,
                 "description" => $productSeller->description,
                 "weight" => $productSeller->product->weight,
-                "categories" => $productSeller->product->categories->nama,
-
+                "models" => $productSeller->product->models->name,
                 "size" => $request->size,
                 "quantity" => $request->quantity,
                 "subtotal" => $productSeller->price * $request->quantity
@@ -57,8 +56,7 @@ class CartController extends Controller
                     "stock" => $productSeller->product->stock,
                     "description" => $productSeller->description,
                     "weight" => $productSeller->product->weight,
-                    "categories" => $productSeller->product->categories->nama,
-
+                    "models" => $productSeller->product->models->name,
                     "size" => $request->size,
                     "quantity" => $request->quantity,
                     "subtotal" => $productSeller->price * $request->quantity
@@ -81,18 +79,18 @@ class CartController extends Controller
         // dd($userAddress);
 
         $sellers_id = $request->sellers_id;
-        // dd($sellers_id);
-
+        
         $getUsersCity = Auth::user()->city_id;
         $getUsersProvince = Auth::user()->province_id;
-
+        
         $city  = City::whereId($getUsersCity)->first('name');
         $province  = Province::whereId($getUsersProvince)->first('name');
-
+        
         // Looping for dropdown
         $allCities = City::all();
         $allProvince = Province::all();
         $cart = session()->get('cart');
+        // dd($cart);
 
         // dd($cart);
 

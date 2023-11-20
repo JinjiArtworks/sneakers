@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ListProductController;
 use App\Http\Controllers\Admin\Resources\AddCategoriesController;
+use App\Http\Controllers\Admin\Resources\AddModelsController;
 use App\Http\Controllers\Customers\CartController;
 use App\Http\Controllers\Customers\CheckoutProductController;
 use App\Http\Controllers\Customers\HomeController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Customers\ProductController;
 
 use App\Http\Controllers\Admin\ReturnOrderController;
 use App\Http\Controllers\Customers\CategoryController;
+use App\Http\Controllers\Customers\ModelController;
 use App\Http\Controllers\Customers\RiwayatPesananController;
 use App\Http\Controllers\Customers\UserController;
 use App\Http\Controllers\Customers\WishlistController;
@@ -37,7 +39,7 @@ Route::get('/shop', [ProductController::class, 'index'])->name('shop');
 
 Route::middleware(['auth'])->group(function () {
     Route::group(['as' => 'products.'], function () {
-        Route::get('/detail-product-seller/{id}/{idProduct}/{userId}', [ProductController::class, 'detailProductSeller']);
+        Route::get('/detail-product-seller/{id}/{idProduct}/{userId}', [ProductController::class, 'detailProductIsSell']);
         Route::get('/detail-product/{id}', [ProductController::class, 'detail']);
         Route::get('belanja', [ProductController::class, 'search'])->name('search');
         Route::post('store-product-seller', [ProductController::class, 'storeProductSeller'])->name('store-product-seller');
@@ -51,8 +53,8 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('/belanja', [ProductController::class, 'searchByCat'])->name('searchByCat');
     });
     Route::group(['as' => 'categories.'], function () {
-        Route::get('category', [CategoryController::class, 'index'])->name('index');
-        Route::get('/detail-category/{id}', [CategoryController::class, 'detail']);
+        Route::get('models', [ModelController::class, 'index'])->name('index');
+        Route::get('/detail-models/{id}', [ModelController::class, 'detail']);
     });
     Route::group(['as' => 'wishlist.'], function () {
         Route::post('store-wishlist', [WishlistController::class, 'addToWishlist'])->name('addToWishlist');
@@ -104,13 +106,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('delete-products/{id}', [ListProductController::class, 'destroy'])->name('delete');
     });
 
-    Route::group(['as' => 'categories.'], function () {
-        Route::get('list-category', [AddCategoriesController::class, 'index'])->name('index');
-        Route::get('create-category', [AddCategoriesController::class, 'create'])->name('create-category');
-        Route::get('edit-category/{id}', [AddCategoriesController::class, 'edit'])->name('edit-category');
-        Route::post('store-category', [AddCategoriesController::class, 'store'])->name('store-category');
-        Route::put('update-category/{id}', [AddCategoriesController::class, 'update'])->name('update-category');
-        Route::get('delete-category/{id}', [AddCategoriesController::class, 'destroy'])->name('delete-category');
+    Route::group(['as' => 'models.'], function () {
+        Route::get('list-models', [AddModelsController::class, 'index'])->name('index');
+        Route::get('create-models', [AddModelsController::class, 'create'])->name('create-models');
+        Route::get('edit-models/{id}', [AddModelsController::class, 'edit'])->name('edit-models');
+        Route::post('store-models', [AddModelsController::class, 'store'])->name('store-models');
+        Route::put('update-models/{id}', [AddModelsController::class, 'update'])->name('update-models');
+        Route::get('delete-models/{id}', [AddModelsController::class, 'destroy'])->name('delete-models');
     });
 
     // Route::group(['as' => 'return.'], function () {

@@ -93,7 +93,7 @@
                                             <th>Quantity</th>
                                             <th>Size</th>
                                             <th>Status</th>
-                                            <th>Price</th>
+                                            <th>Total</th>
                                             <th>Action</th>
                                             <th></th>
                                         </tr>
@@ -112,14 +112,15 @@
                                                 <td>{{ $item->orderdetail->quantity }}</td>
                                                 <td>{{ $item->orderdetail->product->productsseller->size }}</td>
                                                 <td>{{ $item->status }}</td>
-                                                <td>@currency($item->orderdetail->product->productsseller->price)</td>
+                                                <td>@currency($item->total - $item->shipping_cost)</td>
+
                                                 <td>
                                                     <form action="{{ route('dashboard.details', ['id' => $item->id]) }}">
                                                         <button class="btn btn-md btn-primary mr-2 mt-2" type="submit"">
                                                             <i class="ri-pencil-line mr-0"></i>
                                                         </button>
                                                     </form>
-                                                {{-- <td>
+                                                    {{-- <td>
                                                     <form method="GET"
                                                         action="{{ route('products.delete', ['id' => $item->id]) }}">
                                                         <button class="badge bg-danger mr-2 mt-2" type="submit"

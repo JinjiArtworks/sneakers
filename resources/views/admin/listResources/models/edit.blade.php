@@ -7,18 +7,18 @@
                     <div class="card ">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Edit Category</h4>
+                                <h4 class="card-title">Edit models</h4>
                             </div>
                         </div>
                         <div class="card-body">
                             <form method="POST"
-                                action="{{ route('categories.update-category', ['id' => $category->id]) }} "enctype="multipart/form-data">
+                                action="{{ route('models.update-models', ['id' => $models->id]) }} "enctype="multipart/form-data">
                                 @csrf
                                 {{ method_field('put') }}
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <img src="{{ asset('img/list/'.$category->thumbnail) }}" id="imgPreview"
+                                            <img src="{{ asset('img/list/'.$models->thumbnail) }}" id="imgPreview"
                                                 width="150px" height="150px" class="mb-3">
                                             <input type="file" id="image" class="form-control image-file"
                                                 name="catImages" accept="image/*" required>
@@ -28,12 +28,12 @@
                                         <div class="form-group">
                                             <label>Nama Kategori</label>
                                             <input type="text" name="catName" class="form-control"
-                                                placeholder="Enter Category Name" value="{{ $category->name }}" required>
+                                                placeholder="Enter models Name" value="{{ $models->name }}" required>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary mr-2">Add Category</button>
+                                <button type="submit" class="confirm btn btn-primary mr-2">Confirm</button>
                                 {{-- <button type="reset" class="btn btn-danger">Reset</button> --}}
                             </form>
                         </div>

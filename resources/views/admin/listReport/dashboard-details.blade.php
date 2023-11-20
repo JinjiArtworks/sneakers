@@ -73,6 +73,7 @@
                                             <th>Size</th>
                                             <th>Status</th>
                                             <th>Price</th>
+                                            <th>Total</th>
                                         </tr>
                                     </thead>
                                     <tbody class="ligth-body">
@@ -90,6 +91,7 @@
                                                 <td>{{ $item->product->productsseller->size }}</td>
                                                 <td>{{ $item->order->status }}</td>
                                                 <td>@currency($item->product->productsseller->price)</td>
+                                                <td>@currency($item->order->total - $item->order->shipping_cost)</td>
 
                                                 {{-- <td>
                                                     <form method="GET"
