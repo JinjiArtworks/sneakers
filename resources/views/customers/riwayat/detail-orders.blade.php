@@ -110,22 +110,9 @@
                                 </div>
                                 <hr>
                                 <div class="text-right">
-                                    @if ($getOrderDetail->order->status == 'Pesanan Dikirim Kepada Pembeli')
-                                        <span class="justify-content-end">
-                                            <form method="POST"
-                                                action="{{ route('history-order.acceptOrder', ['id' => $getOrderDetail->order_id]) }}">
-                                                @csrf
-                                                <input type="hidden" name="sellerID" value="{{ $getSellerId }}">
-                                                <input type="hidden" name="totalPrice"
-                                                    value="{{ $getOrderDetail->price }}">
-                                                <button class="confirmOrder btn btn-sm   btn-primary" type="submit"">
-                                                    Konfirmasi Pesanan
-                                                </button>
-                                            </form>
-                                        </span>
-                                    @elseif($getOrderDetail->order->status == 'Selesai')
-                                        @if ($getAllReview != null)
-                                            @if ($getAllReview->product_id == $getOrderDetail->order->orderdetail->product_id)
+                                    @if ($getOrderDetail->order->status == 'Selesai')
+                                        @if ($getReviewById != null)
+                                            @if ($getReviewById->product_id == $getOrderDetail->order->orderdetail->product_id)
                                                 <p>Anda telah memberikan review kepada produk ini</p>
                                             @else
                                                 <a type="button" class="btn btn-sm btn-primary " style="color: white"
@@ -137,7 +124,6 @@
                                                 data-toggle="modal" data-target="#reviewModal" data-whatever="@mdo">Send
                                                 review</a>
                                         @endif
-
                                     @endif
                                 </div>
                             </div>
@@ -175,7 +161,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reviewModalLabel">Review Produk <b> {{ $getOrderDetail->product->name }}</b>
+                    <h5 class="modal-title" id="reviewModalLabel">Review Produk <b> {{ $getOrderDetail->product->name }} </b>
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

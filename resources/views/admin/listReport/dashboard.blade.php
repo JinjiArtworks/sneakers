@@ -108,7 +108,7 @@
                                                         {{ $item->orderdetail->product->name }}
                                                     </div>
                                                 </td>
-                                                <td>{{ $item->users->name }}</td>
+                                                <td>{{ $item->sellers->name }}</td>
                                                 <td>{{ $item->orderdetail->quantity }}</td>
                                                 <td>{{ $item->orderdetail->product->productsseller->size }}</td>
                                                 <td>{{ $item->status }}</td>

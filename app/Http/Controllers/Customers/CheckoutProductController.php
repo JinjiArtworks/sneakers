@@ -118,6 +118,7 @@ class CheckoutProductController extends Controller
         $orders->total = $request->grandTotal;
         $orders->save();
         foreach ($cart as $item) {
+            // dd($cart);
             $details = new OrderDetail();
             $details->product_id = $item['product_id'];
             $details->order_id = $orders->id;
@@ -141,11 +142,12 @@ class CheckoutProductController extends Controller
                     ]
                 );
 
-            $adminSaldo = User::find($item['admin_id']);
+            $adminSaldo = User::whereRoleId($item['admin_id'])->first();
+            // dd($adminSaldo->saldo);
             User::where('id', $item['admin_id'])
                 ->update(
                     [
-                        'saldo' => $adminSaldo["saldo"] + $request->grandTotal,
+                        'saldo' => $adminSaldo->saldo + $request->grandTotal,
                     ]
                 );
         }

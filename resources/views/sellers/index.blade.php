@@ -86,7 +86,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="datatable" class="table data-table table-striped">
+                                <table id="datatable" class="table data-table ">
                                     <thead>
                                         <tr class="ligth">
                                             <th>Images</th>
@@ -107,8 +107,7 @@
                                                     <img src="{{ asset('img/list/' . $item->orderdetail->product->images) }}"
                                                         style="width: 100px;" alt="">
                                                 </td>
-                                                {{-- <td>{{ $item->orderdetail->product->name }}</td> --}}
-                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->orderdetail->product->name }}</td>
                                                 <td>{{ $item->date }}</td>
                                                 {{-- <td>{{ $item->orderdetail->product->productsseller->size }}</td> --}}
                                                 {{-- <td>{{ $item->orderdetail->quantity }}</td> --}}
@@ -143,12 +142,13 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="datatable" class="table data-table table-striped">
+                                <table id="datatable" class="table data-table ">
                                     <thead>
                                         <tr class="ligth">
                                             <th>Images</th>
+                                            <th>Product Name</th>
                                             <th>Size</th>
-                                            <th>Category</th>
+                                            <th>Models</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -163,7 +163,7 @@
                                                 </td>
                                                 <td>{{ $item->product->name }}</td>
                                                 <td>{{ $item->size }}</td>
-                                                {{-- <td>{{ $item->product->categories->name }}</td> --}}
+                                                <td>{{ $item->product->models->name }}</td>
                                                 <td>@currency($item->price)</td>
                                                 <td>
                                                     <form method="GET"

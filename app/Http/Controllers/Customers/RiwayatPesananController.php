@@ -37,7 +37,7 @@ class RiwayatPesananController extends Controller
         $getIdOrder = $id;
         $orderDetails = OrderDetail::whereOrderId($id)->get();
         $getOrderDetail = OrderDetail::whereOrderId($id)->first();
-        $getAllReview = Review::whereProductId($getOrderDetail->product_id)->first();
+        $getReviewById = Review::whereProductId($getOrderDetail->product_id)->first();
         // dd($getOrderDetail->product_id);
         $sellerID = ProductSeller::whereProductId($getOrderDetail->product_id)->first();
         $getSellerId = $sellerID->user_id;
@@ -54,98 +54,44 @@ class RiwayatPesananController extends Controller
 
         // return dd($reviews);
         $mytime = Carbon::now()->today()->toDateTimeString();
-        return view('customers.riwayat.detail-orders', compact('getIdOrder', 'getAllReview', 'getSellerId', 'orderDetails', 'city', 'mytime',  'province', 'getOrderDetail', 'mytime'));
-    }
-    public function acceptOrder(Request $request, $id)
-    {
-        $mytime = Carbon::now()->today()->toDateTimeString();
-        // $customerId = Auth::user()->id;
-        // $customerSaldo = Auth::user()->saldo;
-        $getOrderDetail = OrderDetail::whereOrderId($id)->first();
-        $getShippingCost = $getOrderDetail->order->shipping_cost;
-        $getTotalPrice = $getOrderDetail->order->total;
-        // $getSellerSaldo = $getOrderDetail->order->users->saldo;
-        // $getSellerId = $getOrderDetail->order->sellers_id;
-
-
-        $sellerIdReq = $request->sellerID;
-        $sellerID = ProductSeller::whereUserId($sellerIdReq)->first();
-        $getSellerId = $sellerID->user_id;
-        $getSellerSaldo = $sellerID->user->saldo;
-        // dd($getSellerSaldo);
-        $getAdmin = User::whereRoleId(1)->first();
-        // dd($getAdmin->saldo);
-        $adminId = $getAdmin->id;
-        $adminSaldo = $getAdmin->saldo;
-
-        Order::where('id', $id)
-            ->update(
-                [
-                    'status' => 'Selesai',
-                    'updated_at' => $mytime
-                ]
-            );
-        // User::where('id', $customerId)
-        //     ->update(
-        //         [
-        //             'saldo' => $customerSaldo - $getTotalPrice,
-        //         ]
-        //     );
-
-
-        // INI MASI SALAH SEDIKIT BAGIAN SALDO SELLERNYA !!!!!!
-        User::where('id', $adminId)
-            ->update(
-                [
-                    // menambahkan biaya layanan admin sebesar 10k
-                    'saldo' => $adminSaldo + 10000,
-                ]
-            );
-        User::where('id', $getSellerId)
-            ->update(
-                [
-                    'saldo' => $getSellerSaldo + ($getTotalPrice - $getShippingCost) - 10000,
-                ]
-            );
-
-        return redirect('riwayat-pesanan');
+        return view('customers.riwayat.detail-orders', compact('getIdOrder', 'getReviewById', 'getSellerId', 'orderDetails', 'city', 'mytime',  'province', 'getOrderDetail', 'mytime'));
     }
 
-    public function storeReturns(Request $request, $id)
-    {
-        // return dd($request->all());
+    // public function storeReturns(Request $request, $id)
+    // {
+    //     // return dd($request->all());
 
-        if ($request->bukti != null) {
-            $destinationPath = '/images';
-            $request->bukti->move(public_path($destinationPath), $request->bukti->getClientOriginalName());
-            Returns::create([
-                'orders_id' => $request->order_id,
-                'tanggal' => Carbon::now(),
-                'alasan' => $request->alasan,
-                'bukti' => $request->bukti->getClientOriginalName(),
+    //     if ($request->bukti != null) {
+    //         $destinationPath = '/images';
+    //         $request->bukti->move(public_path($destinationPath), $request->bukti->getClientOriginalName());
+    //         Returns::create([
+    //             'orders_id' => $request->order_id,
+    //             'tanggal' => Carbon::now(),
+    //             'alasan' => $request->alasan,
+    //             'bukti' => $request->bukti->getClientOriginalName(),
 
-            ]);
-            Order::where('id', $id)
-                ->update(
-                    [
-                        'status' => 'Proses Pengembalian'
-                    ]
-                );
-            // return dd($returns);
+    //         ]);
+    //         Order::where('id', $id)
+    //             ->update(
+    //                 [
+    //                     'status' => 'Proses Pengembalian'
+    //                 ]
+    //             );
+    //         // return dd($returns);
 
-        }
-        return redirect()->back()->with('Success', 'Ajuan pengembalian telah dikirim');
-    }
-    public function storeReturnsBack($id)
-    {
-        Order::where('id', $id)
-            ->update(
-                [
-                    'status' => 'Pesanan Dikirim Balik Kepada Penjual'
-                ]
-            );
-        return redirect('riwayat-pesanan');
-    }
+    //     }
+    //     return redirect()->back()->with('Success', 'Ajuan pengembalian telah dikirim');
+    // }
+    // public function storeReturnsBack($id)
+    // {
+    //     Order::where('id', $id)
+    //         ->update(
+    //             [
+    //                 'status' => 'Pesanan Dikirim Balik Kepada Penjual'
+    //             ]
+    //         );
+    //     return redirect('riwayat-pesanan');
+    // }
 
 
     public function storeReview(Request $request, $id)

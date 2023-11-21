@@ -7,7 +7,10 @@ use App\Models\AdminValidationOrder;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\ProductSeller;
 use App\Models\Returns;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +21,7 @@ class DashboardController extends Controller
     {
         $orders = Order::whereStatus('Pesanan Dikirim Kepada Admin')->get();
         // dd($orders);
-        $ordersComplete = Order::where('status','=','Selesai')->get();
+        $ordersComplete = Order::where('status', '=', 'Selesai')->get();
         $users = Auth::user()->id;
 
         // Total Pesanan
@@ -36,12 +39,12 @@ class DashboardController extends Controller
         $getTotalProducts = Product::count();
 
         // Hitung Pendapatan Bersih
-        $checkOrdersComplete = Order::where('status', '=', 'Selesai')->orWhere('status','=','Ajuan Pengembalian Ditolak')->get();
+        $checkOrdersComplete = Order::where('status', '=', 'Selesai')->orWhere('status', '=', 'Ajuan Pengembalian Ditolak')->get();
         $countPendapatanTotal = collect($checkOrdersComplete)->sum('total');
         $countOngkosKirim = collect($checkOrdersComplete)->sum('ongkos_kirim');
         $pendapatanBersih = $countPendapatanTotal - $countOngkosKirim;
 
-        return view('admin.listReport.dashboard', compact('orders', 'totalSalesOrders','ordersComplete', 'totalClients', 'pendapatanBersih', 'totalCompleteOrders','getTotalProducts'));
+        return view('admin.listReport.dashboard', compact('orders', 'totalSalesOrders', 'ordersComplete', 'totalClients', 'pendapatanBersih', 'totalCompleteOrders', 'getTotalProducts'));
     }
     public function detail($id)
     {
@@ -49,6 +52,7 @@ class DashboardController extends Controller
         $orderdetails = OrderDetail::whereOrderId($id)->get();
         $validations_admin = AdminValidationOrder::whereOrderId($id)->get();
         $orderData = OrderDetail::whereOrderId($id)->first();
+        $getSellerId = $orderData->order->sellers->id;
         // dd($validations_admin);
         // $orders = Order::find($id);
         // return dd($orders->nama);
@@ -57,36 +61,81 @@ class DashboardController extends Controller
         // {{ $item->order->status }}
 
         // $returnOrder = Returns::whereOrdersId($id)->first();
-        return view('admin.listReport.dashboard-details', compact('orderData','validations_admin','orderdetails'));
+        return view('admin.listReport.dashboard-details', compact('orderData', 'validations_admin', 'orderdetails', 'getSellerId'));
     }
-    public function updateConfirmAdmin($id)
+    public function updateConfirmAdmin(Request $request, $id)
     {
+        $mytime = Carbon::now()->today()->toDateTimeString();
+        $getOrderDetail = OrderDetail::whereOrderId($id)->first();
+        $getShippingCost = $getOrderDetail->order->shipping_cost;
+        $getTotalPrice = $getOrderDetail->order->total;
+
+        $sellerIdReq = $request->sellerID;
+        $sellerID = ProductSeller::whereUserId($sellerIdReq)->first();
+        $getSellerId = $sellerID->user_id;
+        $getSellerSaldo = $sellerID->user->saldo;
+        // dd($getSellerSaldo);
+        $getAdmin = User::whereRoleId(1)->first();
+        // dd($getAdmin->saldo);
+        $adminId = $getAdmin->id;
+        $adminSaldo = $getAdmin->saldo;
+
         Order::where('id', $id)
             ->update(
                 [
-                    'status' => 'Pesanan Dikirim Kepada Pembeli',
+                    'status' => 'Selesai',
+                    'updated_at' => $mytime
                 ]
             );
-        return redirect('/admin-dashboard')->with('success', 'Pesanan Berhasil Dikirim');
-    }
-    public function updateReturn(Request $request, $id)
-    {
-        Order::where('id', $id)
+        // User::where('id', $customerId)
+        //     ->update(
+        //         [
+        //             'saldo' => $customerSaldo - $getTotalPrice,
+        //         ]
+        //     );
+
+        User::where('id', $adminId)
             ->update(
                 [
-                    'status' => $request->action,
+                    // menambahkan biaya layanan admin sebesar 10k
+                    'saldo' => $adminSaldo + 10000,
                 ]
             );
-        return redirect('/data-reports')->with('success', 'Status Pesanan Berhasil Diubah');
-    }
-    public function updateCustom(Request $request, $id)
-    {
-        Order::where('id', $id)
+        User::where('id', $getSellerId)
             ->update(
                 [
-                    'status' => $request->action,
+                    'saldo' => $getSellerSaldo + ($getTotalPrice - $getShippingCost) - 10000,
                 ]
             );
-        return redirect('/data-reports')->with('success', 'Status Pesanan Berhasil Diubah');
+
+        return redirect('/admin-dashboard')->with('success', 'Pesanan Berhasil Dikonfirmasi');
+        // Order::where('id', $id)
+        //     ->update(
+        //         [
+        //             'status' => 'Pesanan Dikirim Kepada Pembeli',
+        //         ]
+        //     );
+        // return redirect('/admin-dashboard')->with('success', 'Pesanan Berhasil Dikirim');
     }
+
+    // public function updateReturn(Request $request, $id)
+    // {
+    //     Order::where('id', $id)
+    //         ->update(
+    //             [
+    //                 'status' => $request->action,
+    //             ]
+    //         );
+    //     return redirect('/data-reports')->with('success', 'Status Pesanan Berhasil Diubah');
+    // }
+    // public function updateCustom(Request $request, $id)
+    // {
+    //     Order::where('id', $id)
+    //         ->update(
+    //             [
+    //                 'status' => $request->action,
+    //             ]
+    //         );
+    //     return redirect('/data-reports')->with('success', 'Status Pesanan Berhasil Diubah');
+    // }
 }

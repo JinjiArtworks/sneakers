@@ -26,4 +26,8 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function sellers() // penamaan model kalo bisa sesuai dengan kolom yg berelasi
+    {
+        return $this->belongsTo(User::class);
+    }
 }

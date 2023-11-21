@@ -19,6 +19,21 @@
                                 <a href="/seller-dashboard/{{ $userId }}" class="btn btn-sm btn-primary"><i
                                         class="fa-solid fa-arrow-left"></i> Back</a>
                             @endif
+
+                        </div>
+                        <div class="description ml-3 mt-3">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    Penerima : {{ $getOrderDetailsStatus->order->name }} <span class="float-right mr-3">Date
+                                        Order : <b> {{ $getOrderDetailsStatus->order->date }}</b></span>
+                                </div>
+                                <div class="col-lg-12">
+                                    Nomor Handphone : {{ $getOrderDetailsStatus->order->phone }}
+                                </div>
+                                <div class="col-lg-12">
+                                    Alamat : {{ $getOrderDetailsStatus->order->address }}
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -27,14 +42,13 @@
                                         <tr class="ligth">
                                             <th>Images</th>
                                             <th>Name Product</th>
-                                            <th>Buyer Name</th>
-                                            <th>Address</th>
                                             <th>Size</th>
                                             <th>Quantity</th>
                                             {{-- <th>Shipping Cost</th> --}}
                                             <th>Price</th>
                                             <th>Sub Total</th>
-                                        </tr> 
+                                            <th>Grand Total</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($orderDetails as $item)
@@ -44,13 +58,12 @@
                                                         style="width: 100px;" alt="">
                                                 </td>
                                                 <td>{{ $item->product->name }}</td>
-                                                <td>{{ $item->order->name }}</td>
-                                                <td>{{ $item->order->address }}</td>
                                                 <td>{{ $item->product->productsseller->size }}</td>
                                                 <td>{{ $item->quantity }}</td>
                                                 {{-- <td>@currency($item->order->shipping_cost)</td> --}}
                                                 <td>@currency($item->price)</td>
                                                 <td>@currency($item->quantity * $item->price)</td>
+                                                <td>@currency($item->quantity * $item->price + $item->order->shipping_cost)</td>
                                                 {{-- <td>@currency($item->order->total)</td> --}}
                                             </tr>
                                         @endforeach

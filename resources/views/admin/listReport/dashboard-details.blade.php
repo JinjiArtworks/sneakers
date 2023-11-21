@@ -55,9 +55,10 @@
                                 <form method="POST"
                                     action="{{ route('dashboard.update-confirm-admin', ['id' => $orderData->order_id]) }}">
                                     @csrf
+                                    <input type="hidden" name="sellerID" value="{{ $getSellerId }}">
                                     {{ method_field('put') }}
-                                    <button class="sendItemToCustomer badge bg-success mr-2 mt-2" type="submit"">
-                                        Konfirmasi Pesanan dan KIRIM KEPADA PEMBELI
+                                    <button class="sendItemToCustomer btn btn-md  btn-success mr-2 mt-2" type="submit"">
+                                        Konfirmasi Pesanan
                                     </button>
                                 </form>
                             @endif
@@ -86,7 +87,7 @@
                                                         {{ $item->product->name }}
                                                     </div>
                                                 </td>
-                                                <td>{{ $item->order->users->name }}</td>
+                                                <td>{{ $item->order->sellers->name }}</td>
                                                 <td>{{ $item->quantity }}</td>
                                                 <td>{{ $item->product->productsseller->size }}</td>
                                                 <td>{{ $item->order->status }}</td>
