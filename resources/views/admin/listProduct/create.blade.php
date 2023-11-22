@@ -26,7 +26,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Models *</label>
-                                            <select name="models" class="selectpicker form-control" data-style="py-0">
+                                            <select name="models" class="selectpicker testMOdel form-control" data-style="py-0">
                                                 @foreach ($models as $item)
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
@@ -73,6 +73,9 @@
 @endsection
 @section('script')
     <script type="text/javascript">
+        $('.testMOdel').change(function() {
+            console.log('asd');
+        });
         image.onchange = evt => {
             const [file] = image.files
             if (file) {

@@ -14,6 +14,7 @@
 
     <!-- Css Styles -->
 
+    <link rel="stylesheet" href="{{ asset('templates/customers/css/app.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('templates/customers/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('templates/customers/css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('templates/customers/css/elegant-icons.css') }}" type="text/css">
@@ -158,7 +159,7 @@
             </div>
         </div>
         <div class="container">
-            
+
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
@@ -188,7 +189,7 @@
                         <ul>
                             <li><a href="/wishlist"><i class="fa fa-heart"></i> </a></li>
                             <li><a href="/cart"><i class="fa fa-shopping-bag"></i></li>
-                                <li><a href="/riwayat-pesanan"><i class="fa-solid fa-shoe-prints"></i></li>
+                            <li><a href="/riwayat-pesanan"><i class="fa-solid fa-shoe-prints"></i></li>
                         </ul>
 
                     </div>
@@ -306,6 +307,8 @@
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
+    <script src="{{ asset('templates/customers/js/app.js') }}"></script>
+    
     <script src="{{ asset('templates/customers/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('templates/customers/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('templates/customers/js/jquery.nice-select.min.js') }}"></script>
@@ -315,9 +318,6 @@
     <script src="{{ asset('templates/customers/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('templates/customers/js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="CLIENT-KEY"></script>
     <script src="https://kit.fontawesome.com/515aa46707.js" crossorigin="anonymous"></script>
     @yield('script')

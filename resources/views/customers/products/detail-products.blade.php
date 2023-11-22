@@ -44,8 +44,7 @@
                             <i class="fa fa-star-half-o"></i>
                             <span>(18 reviews)</span>
                         </div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sellModal"
-                            data-whatever="@mdo">Sell this product</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sellModal">Sell this product</button>
                         <p>{{ $products->description }}</p>
                         <ul>
                             <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>

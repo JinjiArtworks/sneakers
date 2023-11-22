@@ -106,12 +106,12 @@
                                         <span class="text-secondary">
                                             @if ($userAddress == null)
                                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#exampleModal">Tambah Alamat</button>
+                                                    data-target="#addressModal">Tambah Alamat</button>
                                             @else
                                                 {{ $userAddress }} - {{ $city->name }} - {{ $province->name }}
                                                 <br>
-                                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                                    data-target="#exampleModal">Ubah Alamat</button>
+                                                <button type="button" class="btn btn-sm btn-primary float-right"
+                                                    data-toggle="modal" data-target="#addressModal">Ubah Alamat</button>
                                             @endif
                                         </span>
                                     </li>
@@ -135,29 +135,26 @@
             @endif
         </div>
     </section>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+
+    <div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="sellModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    <h5 class="modal-title" id="sellModalLabel">Add Address</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" class="modal-box"
-                        action="{{ route('cart.updateAddress', ['id' => Auth::user()->id]) }}"
+                    <form method="POST" action="{{ route('cart.updateAddress', ['id' => Auth::user()->id]) }}"
                         enctype="multipart/form-data">
                         @csrf
-                        <div class="mb-3">
-                            <label for="">Alamat Anda</label>
-                            @if ($userAddress == null)
-                                <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"></textarea>
-                            @else
-                                <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"
-                                    value="{{ $userAddress }}"></textarea>
-                            @endif
-                        </div>
-                        <div class="mb-3">
-                            <select name="province" class="mb-3">
+                        <input type="hidden" name="userID" value="{{ Auth::user()->id }}">
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label w-full">Province:</label>
+                            <br>
+                            <select name="province" class=" setProvince form-select" data-style="py-0">
                                 @if ($getUsersProvince == null)
                                     @foreach ($allProvince as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -170,30 +167,28 @@
                                 @endif
                             </select>
                         </div>
-                        <br>
-                        <div class="mb-3">
-                            <select name="city">
-                                @if ($getUsersCity == null)
-                                    @foreach ($allCities as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}
-                                        </option>
-                                    @endforeach
-                                @else
-                                    <option value="{{ $getUsersCity }}">{{ $city->name }}</option>
-                                    @foreach ($allCities as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label w-full">City:</label>
+                            <br>
+                            {{-- <select name="city" id="setCity" class="form-control">
+                                <option value="">Select City</option>
+                                <option value="">Select asdCity</option>
+                            </select> --}}
                         </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="confirmAddress btn btn-primary">Confirm</button>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label w-full">Description Product:</label>
+                            <br>
+                            @if ($userAddress == null)
+                                <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"></textarea>
+                            @else
+                                <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"
+                                    value="{{ $userAddress }}"></textarea>
+                            @endif
                         </div>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -201,7 +196,32 @@
 @section('script')
     <script type="text/javascript">
         $(document).ready(function() {
+
+            $('select[name="province"]').on('change', function() {
+                var province_id = $(this).val();
+                if (province_id) {
+                    $.ajax({
+                        url: "{{ url('/getCities/') }}/" + province_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            console.log(data);
+                            $('select[name="city"]').empty();
+                            $.each(data, function(key, value) {
+                                $('select[name="city"]').append('<option value="' + key + '">' +
+                                    value + '</option>');
+                                // $('#setCity').append($('<option>').val(key).text(
+                                //     value));
+                                // $('textarea[name="address"]').append(key, value);
+                            });
+                        }
+                    });
+                } else {
+                    $('select[name="city"]').empty();
+                }
+            });
             $('.deleteCart').click(function(event) {
+                console.log('asd');
                 event.preventDefault();
                 var form = $(this).closest("form");
                 Swal.fire({

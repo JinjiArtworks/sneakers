@@ -65,6 +65,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/update-address', [CartController::class, 'update'])->name('updateAddress');
         Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('add');
         Route::get('/cart', [CartController::class, 'index'])->name('index');
+        Route::get('/getProvince/{id}', [CartController::class, 'getProvince'])->name('getProvince');
+        Route::get('/getCities/{id}', [CartController::class, 'getCities'])->name('getCities');
         Route::get('/remove-from-cart/{id}', [CartController::class, 'destroy'])->name('delete');
     });
     Route::group(['as' => 'checkout.'], function () {
