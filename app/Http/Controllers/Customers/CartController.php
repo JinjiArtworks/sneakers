@@ -125,11 +125,6 @@ class CartController extends Controller
             );
         return redirect()->back()->with('success', 'Alamat berhasil diubah');
     }
-    public function getProvince($id)
-    {
-        $province = Province::whereId($id)->all();
-        return json_encode($province);
-    }
     public function getCities($id)
     {
         $cities = City::whereProvinceId($id)->pluck('name', 'id');

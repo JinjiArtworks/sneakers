@@ -21,9 +21,10 @@ class DashboardSellerController extends Controller
         $userId = Auth::user()->id;
         if ($userId == $idSellers) {
             $orders = Order::whereSellersId($userId)->get();
-            // dd($orders->orderdetail->product->images);
+            $notifOrder = Order::whereSellersId($userId)->orderBy('date', 'DESC')->limit(3)->get();
+            // $notifOrder = Order::paginate(3)->sortBy('date', 'DESC')->get();
+            // dd($notifOrder);
             $sellerProducts = ProductSeller::whereUserId($idSellers)->get();
-            // dd($sellerProducts);
             $totalSalesOrders = Order::count();
 
             // Total Pesanan Berhasil
@@ -43,7 +44,7 @@ class DashboardSellerController extends Controller
             $countOngkosKirim = collect($checkOrdersComplete)->sum('ongkos_kirim');
             $pendapatanBersih = $countPendapatanTotal - $countOngkosKirim;
 
-            return view('sellers.index', compact('orders', 'sellerProducts', 'totalSalesOrders', 'totalClients', 'pendapatanBersih', 'totalCompleteOrders', 'getTotalProducts'));
+            return view('sellers.index', compact('orders', 'sellerProducts', 'totalSalesOrders', 'totalClients', 'pendapatanBersih', 'notifOrder','totalCompleteOrders', 'getTotalProducts'));
         } else {
             return redirect('/');
         }
@@ -60,7 +61,7 @@ class DashboardSellerController extends Controller
         $getOrderDetailsStatus = OrderDetail::whereOrderId($id)->first();
         // dd($orderDetails);
 
-        return view('sellers.detail-order', compact('orderDetails','userId','getOrderDetailsStatus'));
+        return view('sellers.detail-order', compact('orderDetails', 'userId', 'getOrderDetailsStatus'));
     }
     public function updateListOrder(Request $request, $id)
     {

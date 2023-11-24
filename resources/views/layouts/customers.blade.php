@@ -14,6 +14,7 @@
 
     <!-- Css Styles -->
 
+    <link rel="stylesheet" href="{{ asset('templates/customers/css/backend.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('templates/customers/css/app.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('templates/customers/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('templates/customers/css/font-awesome.min.css') }}" type="text/css">
@@ -308,10 +309,10 @@
 
     <!-- Js Plugins -->
     <script src="{{ asset('templates/customers/js/app.js') }}"></script>
-    
+
     <script src="{{ asset('templates/customers/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('templates/customers/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('templates/customers/js/jquery.nice-select.min.js') }}"></script>
+    {{-- <script src="{{ asset('templates/customers/js/jquery.nice-select.min.js') }}"></script> --}}
     <script src="{{ asset('templates/customers/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('templates/customers/js/jquery.slicknav.js') }}"></script>
     <script src="{{ asset('templates/customers/js/mixitup.min.js') }}"></script>

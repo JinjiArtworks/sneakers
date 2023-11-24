@@ -297,8 +297,8 @@ summary {
   display: list-item;
   cursor: pointer; }
 
-template {
-  display: none; }
+/* template {
+  display: none; } */
 
 [hidden] {
   display: none !important; }
@@ -1678,8 +1678,8 @@ textarea.form-control {
   vertical-align: 0.255em;
   content: ""; }
 
-.dropleft .dropdown-toggle::after {
-  display: none; }
+/* .dropleft .dropdown-toggle::after {
+  display: none; } */
 
 .dropleft .dropdown-toggle::before {
   display: inline-block;

@@ -154,7 +154,7 @@
                         <div class="form-group">
                             <label for="message-text" class="col-form-label w-full">Province:</label>
                             <br>
-                            <select name="province" class=" setProvince form-select" data-style="py-0">
+                            <select name="province" class=" setProvince form-control" data-style="py-0">
                                 @if ($getUsersProvince == null)
                                     @foreach ($allProvince as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -166,14 +166,14 @@
                                     @endforeach
                                 @endif
                             </select>
+
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label w-full">City:</label>
                             <br>
-                            {{-- <select name="city" id="setCity" class="form-control">
-                                <option value="">Select City</option>
-                                <option value="">Select asdCity</option>
-                            </select> --}}
+                            <select name="city" id="setCity" class="form-control">
+                                <option value="">Select </option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label w-full">Description Product:</label>
@@ -198,6 +198,7 @@
         $(document).ready(function() {
 
             $('select[name="province"]').on('change', function() {
+                console.log('asd');
                 var province_id = $(this).val();
                 if (province_id) {
                     $.ajax({
@@ -208,11 +209,11 @@
                             console.log(data);
                             $('select[name="city"]').empty();
                             $.each(data, function(key, value) {
-                                $('select[name="city"]').append('<option value="' + key + '">' +
+                                console.log(key, value);
+                                let a = $('select[name="city"]').append(
+                                    '<option value="' +
+                                    key + '">' +
                                     value + '</option>');
-                                // $('#setCity').append($('<option>').val(key).text(
-                                //     value));
-                                // $('textarea[name="address"]').append(key, value);
                             });
                         }
                     });
