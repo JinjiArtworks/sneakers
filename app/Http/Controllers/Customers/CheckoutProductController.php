@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\ProductSeller;
 use App\Models\Province;
 use App\Models\User;
 use Carbon\Carbon;
@@ -130,7 +131,7 @@ class CheckoutProductController extends Controller
             $product::where('id', $item['product_id'])
                 ->update(
                     [
-                        'stock' => $product["stock"] - $item["quantity"],
+                        // 'stock' => $product["stock"] - $item["quantity"],
                         'sold' => $product["sold"] + $item["quantity"],
                     ]
                 );
@@ -148,6 +149,14 @@ class CheckoutProductController extends Controller
                 ->update(
                     [
                         'saldo' => $adminSaldo->saldo + $request->grandTotal,
+                    ]
+                );
+            $productSeller = ProductSeller::whereProductId($item['product_id'])->first();
+            // dd($productSeller->stock);
+            ProductSeller::where('product_id', $item['product_id'])
+                ->update(
+                    [
+                        'stock' => $productSeller->stock -  $item["quantity"],
                     ]
                 );
         }

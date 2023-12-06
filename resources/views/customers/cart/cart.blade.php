@@ -104,7 +104,7 @@
                                 <ul>
                                     <li>Alamat
                                         <span class="text-secondary">
-                                            @if ($userAddress == null)
+                                            @if ($userAddress == null && $getUsersCity == null && $getUsersProvince == null)
                                                 <button type="button" class="btn btn-primary" data-toggle="modal"
                                                     data-target="#addressModal">Tambah Alamat</button>
                                             @else
@@ -172,17 +172,26 @@
                             <label for="message-text" class="col-form-label w-full">City:</label>
                             <br>
                             <select name="city" id="setCity" class="form-control">
-                                <option value="">Select </option>
+                                {{-- <option value="">Select </option> --}}
+                                @if ($getUsersCity == null)
+                                    @foreach ($allProvince as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="{{ $getUsersCity }}">{{ $city->name }}</option>
+                                    @foreach ($allProvince as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="message-text" class="col-form-label w-full">Description Product:</label>
+                            <label for="message-text" class="col-form-label w-full">Address:</label>
                             <br>
-                            @if ($userAddress == null)
+                            @if ($userAddress == null && $getUsersCity == null && $getUsersProvince == null)
                                 <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"></textarea>
                             @else
-                                <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control"
-                                    value="{{ $userAddress }}"></textarea>
+                                <textarea type="text" placeholder="Masukkan Alamat Anda" required name="address" class="form-control">{{ $userAddress }}</textarea>
                             @endif
                         </div>
                         <hr>

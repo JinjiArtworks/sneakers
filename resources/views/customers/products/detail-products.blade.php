@@ -36,16 +36,10 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
                         <h3>{{ $products->name }} </h3>
-                        @if ($products->stock > 0)
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sellModal">
-                                Sell this product
-                            </button>
-                        @else
-                            <p>Stock tidak tersedia.</p>
-                        @endif
-
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sellModal">
+                            Sell this product
+                        </button>
                         <ul>
-                            <li><b>Availability : </b> <span>{{ $products->stock }} pcs</span></li>
                             <li><b>Models : </b> <span>{{ $products->models->name }} </span></li>
                             <li><b>Brand : </b> <span>{{ $products->brand }} </span></li>
                             <li><b>Products Sold : </b> <span>{{ $products->sold }} pcs </span></li>
@@ -88,23 +82,28 @@
                             <label for="message-text" class="col-form-label">Size Product:</label>
                             <br>
                             <select name="size" class="form-control">
-                                <option value="7">7 (EUR 37-38)</option>
-                                <option value="7.5">7.5 (EUR 38)</option>
-                                <option value="8">8 (EUR 38-39)</option>
-                                <option value="8.5">8.5 (EUR 39)</option>
-                                <option value="9">9 (EUR 39-40)</option>
-                                <option value="9.5">9.5 (EUR 40)</option>
-                                <option value="10">10 (EUR 40-41)</option>
-                                <option value="10.5">10.5 (EUR 41)</option>
-                                <option value="11">11 (EUR 41-42)</option>
-                                <option value="11.5">11.5 (EUR 42)</option>
-                                <option value="12">12 (EUR 42-43)</option>
+                                <option value="7 (EUR 37-38)">7 (EUR 37-38)</option>
+                                <option value="7.5 (EUR 38)">7.5 (EUR 38)</option>
+                                <option value="8 (EUR 38-39)">8 (EUR 38-39)</option>
+                                <option value="8.5 (EUR 39)">8.5 (EUR 39)</option>
+                                <option value="9 (EUR 39-40)">9 (EUR 39-40)</option>
+                                <option value="9.5 (EUR 40)">9.5 (EUR 40)</option>
+                                <option value="10 (EUR 40-41)">10 (EUR 40-41)</option>
+                                <option value="10.5 (EUR 41)">10.5 (EUR 41)</option>
+                                <option value="11 (EUR 41-42)">11 (EUR 41-42)</option>
+                                <option value="11.5 (EUR 42)">11.5 (EUR 42)</option>
+                                <option value="12 (EUR 42-43)">12 (EUR 42-43)</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Price Product:</label>
                             <input type="text" class="form-control" id="tanpa-rupiah" name="price"
-                                placeholder="Price Product">
+                                placeholder="Price Product" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Stock Product:</label>
+                            <input type="number" min="1" oninput="this.value = Math.abs(this.value)"
+                                class="form-control" name ="stock" placeholder="Stock Product" required>
                         </div>
                         {{-- <div class="form-group mt-3">
                             <label for="message-text" class="col-form-label">Description Product:</label>
@@ -145,21 +144,21 @@
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
             return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
-        $('.confirm').click(function(event) {
-            event.preventDefault();
-            var form = $(this).closest("form");
-            Swal.fire({
-                title: 'Add Product?',
-                icon: 'success',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-        });
+        // $('.confirm').click(function(event) {
+        //     event.preventDefault();
+        //     var form = $(this).closest("form");
+        //     Swal.fire({
+        //         title: 'Add Product?',
+        //         icon: 'success',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Yes'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             form.submit();
+        //         }
+        //     });
+        // });
     </script>
 @endsection

@@ -22,7 +22,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $categories = Models::all();
-        $products = Product::where('stock', '>', 0)->get();
+        $products = Product::all();
         $productsSeller = ProductSeller::all();
         // dd($productsSeller);
         $search = $request->search;
@@ -71,24 +71,13 @@ class ProductController extends Controller
     }
     public function storeProductSeller(Request $request)
     {
-        // echo str_replace("world","Peter","Hello world!");
-        $idProduct = $request->productID;
-        $product = Product::whereId($idProduct)->first();
-        // dd($product->stock);
-        Product::where('id', $idProduct)
-            ->update(
-                [
-                    'stock' =>  $product->stock - 1
-                ]
-            );
         ProductSeller::create([
             'product_id' => $request->productID,
             'user_id' => $request->userID,
             'price' => str_replace('.', '', $request->price),
+            'stock' => $request->stock,
             'size' => $request->size,
         ]);
-
-
         return redirect()->back()->with('success', 'Product berhasil ditambahkan');
     }
     public function infoProduct(Request $request)

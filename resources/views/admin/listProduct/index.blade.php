@@ -38,7 +38,6 @@
                                             </div>
                                         </td>
                                         <td>{{ $item->models->name }}</td>
-                                        <td>{{ $item->stock }}</td>
                                         <td>{{ $item->brand }}</td>
                                         <td>{{ $item->sold }}</td>
                                         {{-- @if ($item->users_id != null)

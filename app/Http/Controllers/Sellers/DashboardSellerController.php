@@ -20,9 +20,9 @@ class DashboardSellerController extends Controller
         // $orders = Order::whereUsersId($idSellers)->where('status', '=', 'Proses Validasi Admin')->get();
         $userId = Auth::user()->id;
         if ($userId == $idSellers) {
-            $orders = Order::whereSellersId($userId)->get();
+            $orders = Order::whereSellersId($userId)->orderBy('created_at', 'DESC')->get();
             $notifOrder = Order::whereSellersId($userId)
-                ->orderBy('date', 'DESC')->limit(3)->get();
+                ->orderBy('created_at', 'DESC')->limit(3)->get();
             // dd($orders);
             // $notifOrder = Order::paginate(3)->sortBy('date', 'DESC')->get();
             // dd($notifOrder);

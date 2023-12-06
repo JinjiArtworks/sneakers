@@ -79,7 +79,7 @@
                         {{-- Menampilkan product yg BUKAN milik toko user --}}
                         @if ($productsSeller->user->id != Auth::user()->id)
                             <div class="product__details__price"> @currency($productsSeller->price) </div>
-                            <p>{{ $productsSeller->description }}</p>
+                            <p> <b>Availability:</b> {{ $products->productsseller->stock }} pcs.</p>
                             {{-- Mengecek agar produk tidak punya si pemilik toko --}}
                             <form action="{{ route('cart.add', ['id' => $productsSeller->id]) }}" method="POST">
                                 @csrf
@@ -105,31 +105,25 @@
                                 </div>
                                 <button class="add-to-cart confirm-cart btn-primary btn-lg">Add To Cart</button>
                             </form>
-
-
-                            <ul>
-                                <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>
-                                <li><b> Size : </b>
-                                    <span>
-                                        {{ $productsSeller->size }} cm
-                                    </span>
-                                </li>
-                                <li><b>Weight : </b> <span>{{ $products->weight }} gr / pcs</span></li>
-                                {{-- <li><b>Share on</b>
-                                    <div class="share">
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    </div>
-                                </li> --}}
-                            </ul>
                         @else
                             <span>{{ $productsSeller->user->name }} Stores (Product Ini adalah milik toko anda)</span>
                         @endif
                     </div>
                 </div>
                 <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <hr>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-2" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Product Description</h6>
+                                    <p>{{ $products->description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="col-lg-12">
                     <div class="product__details__tab">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
@@ -207,7 +201,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

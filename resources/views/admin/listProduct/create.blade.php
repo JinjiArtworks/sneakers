@@ -54,15 +54,8 @@
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Stock</label>
-                                            <input type="number" min="1" oninput="this.value = Math.abs(this.value)" name="stock" class="form-control"
-                                                placeholder="Enter Stock" required>
-                                            <div class="help-block with-errors"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                  
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Brand</label>
                                             <input type="text" name="brand" class="form-control"

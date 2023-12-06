@@ -20,7 +20,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::where('stock', '>', 0)->get();
+        $products = Product::all();
         $productSeller = ProductSeller::all();
         $models = Models::all();
         // return dd($products);

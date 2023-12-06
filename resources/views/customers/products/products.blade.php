@@ -280,10 +280,10 @@
                                             </div>
                                             <div class="product__item__text">
                                                 <h6>
-                                                    <a
-                                                        href="/detail-product/{{ $item->id }}/{{ $item->user_id }}">{{ $item->name }}</a>
+                                                    <b>
+                                                        <a href="/detail-product/{{ $item->id }}/{{ $item->user_id }}">{{ $item->name }}</a>
+                                                    </b>
                                                 </h6>
-                                                <h5> Stok : {{ $item->stock }} </h5>
                                             </div>
                                         </div>
                                     </div>
@@ -304,7 +304,6 @@
                                                 <a
                                                     href="/detail-product/{{ $item->id }}/{{ $item->user_id }}">{{ $item->name }}</a>
                                             </h6>
-                                            <h5> Stok : {{ $item->stock }} </h5>
                                         </div>
                                     </div>
                                 </div>
