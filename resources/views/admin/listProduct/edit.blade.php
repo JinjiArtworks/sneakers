@@ -42,6 +42,8 @@
                                     {{-- penjual hanya nambah harga dan size --}}
                                     <div class="col-md-12">
                                         <div class="form-group">
+                                            <label>Image</label>
+                                            <br>
                                             <img src="{{ asset('img/list/' . $products->images) }}" id="imgPreview"
                                                 width="150px" height="150px" class="mb-3">
                                             <br>
@@ -49,11 +51,20 @@
                                                 accept="image/*">
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea name="description" id="" class="form-control" placeholder="Description" cols="30" rows="5"
+                                                required>{{ $products->description }}</textarea>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Stock</label>
-                                            <input type="text" name="stock" class="form-control"
-                                                placeholder="Enter Stock" value="{{ $products->stock }}" required>
+                                            <input type="number" min="1" oninput="this.value = Math.abs(this.value)"
+                                                name="stock" class="form-control" placeholder="Enter Stock"
+                                                value="{{ $products->stock }}" required>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>

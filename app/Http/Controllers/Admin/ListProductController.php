@@ -41,6 +41,7 @@ class ListProductController extends Controller
             Product::create([
                 'name' => $request->products,
                 'images' => $request->images->getClientOriginalName(),
+                'description' => $request->description,
                 'models_id' => $request->models,
                 'stock' => $request->stock,
                 'brand' => $request->brand,
@@ -66,6 +67,7 @@ class ListProductController extends Controller
                     [
                         'name' => $request->products,
                         'images' => $request->images->getClientOriginalName(),
+                        'description' => $request->description,
                         'models_id' => $request->models,
                         'stock' => $request->stock,
                         'brand' => $request->brand,

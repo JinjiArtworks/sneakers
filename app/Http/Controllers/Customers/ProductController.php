@@ -22,9 +22,9 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $categories = Models::all();
+        $products = Product::where('stock', '>', 0)->get();
         $productsSeller = ProductSeller::all();
         // dd($productsSeller);
-        $products = Product::all();
         $search = $request->search;
         // mengambil data dari table pegawai sesuai pencarian data
         // $products = DB::table('products')
@@ -64,22 +64,31 @@ class ProductController extends Controller
     public function detail($id)
     {
         $products = Product::find($id);
-        // $productsIsAlreadySell = ProductSeller::whereProductId($id)->first();
+        // dd($products);
         $getReviews = Review::whereProductId($id)->get();
         $countReviews = Review::whereProductId($id)->count();
-        // $wishlist = Wishlist::all();
         return view('customers.products.detail-products', compact('products', 'countReviews', 'getReviews'));
     }
     public function storeProductSeller(Request $request)
     {
         // echo str_replace("world","Peter","Hello world!");
+        $idProduct = $request->productID;
+        $product = Product::whereId($idProduct)->first();
+        // dd($product->stock);
+        Product::where('id', $idProduct)
+            ->update(
+                [
+                    'stock' =>  $product->stock - 1
+                ]
+            );
         ProductSeller::create([
             'product_id' => $request->productID,
             'user_id' => $request->userID,
-            'description' => $request->description,
             'price' => str_replace('.', '', $request->price),
             'size' => $request->size,
         ]);
+
+
         return redirect()->back()->with('success', 'Product berhasil ditambahkan');
     }
     public function infoProduct(Request $request)

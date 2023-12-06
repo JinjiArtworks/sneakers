@@ -72,7 +72,7 @@
             </div>
             <div class="row featured__filter">
                 @if (Auth::check())
-                    {{-- Customers --}}
+                    {{-- Customers, menampilkan seluruh produk yg sudah ada penjualnya ? --}}
                     @if (Auth::user()->role_id == 3)
                         @foreach ($productSeller as $item)
                             <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">

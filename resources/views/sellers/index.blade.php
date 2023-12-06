@@ -38,7 +38,6 @@
                                 </div>
                             </a>
                         @endforeach
-
                     </div>
                 </div>
             </div>
@@ -155,10 +154,7 @@
                                                 </td>
                                                 <td>{{ $item->orderdetail->product->name }}</td>
                                                 <td>{{ $item->date }}</td>
-                                                {{-- <td>{{ $item->orderdetail->product->productsseller->size }}</td> --}}
-                                                {{-- <td>{{ $item->orderdetail->quantity }}</td> --}}
                                                 <td>@currency($item->shipping_cost)</td>
-
                                                 <td>@currency($item->total - $item->shipping_cost)</td>
                                                 <td class="text-primary">{{ $item->status }}</td>
                                                 <td>

@@ -16,7 +16,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Product Name *</label>
+                                            <label>Product Name</label>
                                             <input type="text" class="form-control" name="products"
                                                 placeholder="Enter Products Name" data-errors="Please Enter Name." required>
                                             <div class="help-block with-errors"></div>
@@ -25,8 +25,9 @@
 
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Models *</label>
-                                            <select name="models" class="selectpicker testMOdel form-control" data-style="py-0">
+                                            <label>Models </label>
+                                            <select name="models" class="selectpicker testMOdel form-control"
+                                                data-style="py-0">
                                                 @foreach ($models as $item)
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
@@ -36,6 +37,8 @@
                                     {{-- penjual hanya nambah harga dan size --}}
                                     <div class="col-md-12">
                                         <div class="form-group">
+                                            <label>Image</label>
+                                            <br>
                                             <img src="{{ asset('img/list/icon-sepatu.jpeg') }}" id="imgPreview"
                                                 width="150px" height="150px" class="mb-3">
                                             <br>
@@ -43,10 +46,18 @@
                                                 accept="image/*">
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea name="description" id="" class="form-control" placeholder="Description" cols="30" rows="5"
+                                                required></textarea>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Stock</label>
-                                            <input type="text" name="stock" class="form-control"
+                                            <input type="number" min="1" oninput="this.value = Math.abs(this.value)" name="stock" class="form-control"
                                                 placeholder="Enter Stock" required>
                                             <div class="help-block with-errors"></div>
                                         </div>
@@ -60,7 +71,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary mr-2">Add Product</button>
+                                <button type="submit" class="confirm btn btn-primary mr-2">Add Product</button>
                                 {{-- <button type="reset" class="btn btn-danger">Reset</button> --}}
                             </form>
                         </div>

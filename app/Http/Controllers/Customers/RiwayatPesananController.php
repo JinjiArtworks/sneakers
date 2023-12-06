@@ -26,8 +26,10 @@ class RiwayatPesananController extends Controller
         $getUsersProvince = Auth::user()->province_id;
         $city  = City::whereId($getUsersCity)->first();
         $province  = Province::whereId($getUsersProvince)->first();
-
-        $fullAddress = Auth::user()->address . ', ' . $city->name . ', ' . $province->name;
+        $fullAddress = '';
+        if (Auth::user()->address != null) {
+            $fullAddress = Auth::user()->address . ', ' . $city->name . ', ' . $province->name;
+        }
         $allCities = City::all();
         $allProvince = Province::all();
         return view('customers.riwayat.index', compact('orders', 'fullAddress', 'getUsersCity', 'getUsersProvince', 'city', 'province', 'allCities', 'allProvince'));

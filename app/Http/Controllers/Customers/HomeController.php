@@ -20,16 +20,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::where('stock', '>', 0)->get();
         $productSeller = ProductSeller::all();
-        // $productsIdSeller = '';
-        // foreach ($productSeller as $p) {
-        //     $productsIdSeller = $p->product_id;
-        // }
-        // // dd($productsIdSeller);
-        // $getAllProducts = Product::whereId($productsIdSeller)->get();
-        // dd($getAllProducts);
-        // return dd($products[0]['gambar']);
         $models = Models::all();
         // return dd($products);
         return view('customers.home', compact('products', 'productSeller', 'models'));

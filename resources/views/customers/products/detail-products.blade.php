@@ -36,51 +36,30 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
                         <h3>{{ $products->name }} </h3>
-                        <div class="product__details__rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
-                        </div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sellModal">Sell this product</button>
-                        <p>{{ $products->description }}</p>
+                        @if ($products->stock > 0)
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sellModal">
+                                Sell this product
+                            </button>
+                        @else
+                            <p>Stock tidak tersedia.</p>
+                        @endif
+
                         <ul>
-                            <li><b>Availability : </b> <span>{{ $products->stock }} pcs.</span></li>
-                            {{-- <li><b>Ready Size : </b>
-                                <span>
-                                    7, 7.5, 8
-                                </span>
-                            </li> --}}
-                            <li><b>Weight : </b> <span>{{ $products->weight }} gr / pcs</span></li>
+                            <li><b>Availability : </b> <span>{{ $products->stock }} pcs</span></li>
+                            <li><b>Models : </b> <span>{{ $products->models->name }} </span></li>
+                            <li><b>Brand : </b> <span>{{ $products->brand }} </span></li>
+                            <li><b>Products Sold : </b> <span>{{ $products->sold }} pcs </span></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="product__details__tab">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-2" role="tab"
-                                    aria-selected="false">Reviews <span>(1)</span></a>
-                            </li>
-                        </ul>
+                        <hr>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-2" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Review</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.
-                                    </p>
+                                    <h6>Product Description</h6>
+                                    <p>{{ $products->description }}</p>
                                 </div>
                             </div>
                         </div>
@@ -108,35 +87,32 @@
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Size Product:</label>
                             <br>
-                            <select name="size" class="form-select">
-                                <option value="7">7 (39cm)</option>
-                                <option value="7.5">7.5 (40cm)</option>
-                                <option value="8">8 (40.5 cm)</option>
-                                <option value="8.5">8.5 (41 cm)</option>
-                                <option value="9">9 (42 cm)</option>
-                                <option value="9.5">9.5 (42.5 cm)</option>
-                                <option value="10">10 (43 cm)</option>
-                                <option value="10.5">10.5 (44 cm)</option>
-                                <option value="11">11 (44.5 cm)</option>
-                                <option value="11.5">11.5 (45 cm)</option>
-                                <option value="12">12 (45.5 cm)</option>
+                            <select name="size" class="form-control">
+                                <option value="7">7 (EUR 37-38)</option>
+                                <option value="7.5">7.5 (EUR 38)</option>
+                                <option value="8">8 (EUR 38-39)</option>
+                                <option value="8.5">8.5 (EUR 39)</option>
+                                <option value="9">9 (EUR 39-40)</option>
+                                <option value="9.5">9.5 (EUR 40)</option>
+                                <option value="10">10 (EUR 40-41)</option>
+                                <option value="10.5">10.5 (EUR 41)</option>
+                                <option value="11">11 (EUR 41-42)</option>
+                                <option value="11.5">11.5 (EUR 42)</option>
+                                <option value="12">12 (EUR 42-43)</option>
                             </select>
-                            {{-- <input type="number" class="form-control" id="message-text" name="size"></input> --}}
                         </div>
-                        <br>
-                        <div class="form-group mt-3">
+                        <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Price Product:</label>
-                            {{-- <input type="number" name="price" class=" calculatePrice form-control" id="product-price"> --}}
                             <input type="text" class="form-control" id="tanpa-rupiah" name="price"
                                 placeholder="Price Product">
                         </div>
-                        <div class="form-group mt-3">
+                        {{-- <div class="form-group mt-3">
                             <label for="message-text" class="col-form-label">Description Product:</label>
                             <textarea type="text" class=" form-control" id="message-text" placeholder="Description Product"
                                 name="description"></textarea>
-                        </div>
+                        </div> --}}
                         <hr>
-                        <button type="submit" class="btn btn-primary">Send message</button>
+                        <button type="submit" class="confirm btn btn-primary">Confirm</button>
                     </form>
                 </div>
                 {{-- <div class="modal-footer">
@@ -169,5 +145,21 @@
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
             return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
+        $('.confirm').click(function(event) {
+            event.preventDefault();
+            var form = $(this).closest("form");
+            Swal.fire({
+                title: 'Add Product?',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
     </script>
 @endsection
