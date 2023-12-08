@@ -22,7 +22,12 @@ class DashboardSellerController extends Controller
         if ($userId == $idSellers) {
             $orders = Order::whereSellersId($userId)->orderBy('created_at', 'DESC')->get();
             $notifOrder = Order::whereSellersId($userId)
+                ->where('status', '!=', 'Pesanan Ditolak Admin')
                 ->orderBy('created_at', 'DESC')->limit(3)->get();
+            $notifDecline = Order::whereSellersId($userId)
+                ->where('status', '=', 'Pesanan Ditolak Admin')
+                ->orderBy('created_at', 'DESC')->limit(3)->get();
+            // dd($notifDecline);
             // dd($orders);
             // $notifOrder = Order::paginate(3)->sortBy('date', 'DESC')->get();
             // dd($notifOrder);
@@ -47,7 +52,7 @@ class DashboardSellerController extends Controller
             $countOngkosKirim = collect($checkOrdersComplete)->sum('ongkos_kirim');
             $pendapatanBersih = $countPendapatanTotal - $countOngkosKirim;
 
-            return view('sellers.index', compact('orders', 'sellerProducts', 'totalSalesOrders', 'totalClients', 'pendapatanBersih', 'notifOrder', 'totalCompleteOrders', 'getTotalProducts'));
+            return view('sellers.index', compact('orders', 'sellerProducts', 'totalSalesOrders', 'totalClients', 'notifDecline', 'pendapatanBersih', 'notifOrder', 'totalCompleteOrders', 'getTotalProducts'));
         } else {
             return redirect('/');
         }

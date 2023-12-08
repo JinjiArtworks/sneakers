@@ -1,4 +1,49 @@
 @extends('layouts.sellers')
+@section('messages')
+    <li class="nav-item nav-icon nav-item-icon dropdown">
+        <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-bell">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="bg-warning "> {{ count($notifDecline) }}</span>
+        </a>
+        <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton2">
+            <div class="card shadow-none m-0">
+                <div class="card-body p-0 ">
+                    <div class="cust-title p-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0">Decline Order</h5>
+                            <a class="badge badge-warning badge-card" href="#"> {{ count($notifDecline) }}</a>
+                        </div>
+                    </div>
+                    <div class="px-3 pt-0 pb-0 sub-card">
+                        @foreach ($notifDecline as $key => $item)
+                            <a href="#" class="iq-sub-card">
+                                <div class="media align-items-center cust-card py-3 border-bottom">
+                                    <div class="">
+                                        <img src="{{ asset('img/list/' . $item->orderdetail->product->images) }}"
+                                            style="width: 50px;" alt="">
+                                    </div>
+                                    <div class="media-body ml-3">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <h6 class="mb-0">{{ $item->users->name }}</h6>
+                                            <small class="text-dark"><b>{{ $item->date }}</b></small>
+                                        </div>
+                                        <small class="mb-0">{{ $item->orderdetail->product->name }}</small>
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+@endsection
 @section('notif')
     <li class="nav-item nav-icon nav-item-icon dropdown">
         <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
