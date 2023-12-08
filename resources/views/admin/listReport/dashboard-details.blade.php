@@ -75,6 +75,7 @@
                                             <th>Status</th>
                                             <th>Price</th>
                                             <th>Total</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="ligth-body">
@@ -94,15 +95,17 @@
                                                 <td>@currency($item->product->productsseller->price)</td>
                                                 <td>@currency($item->order->total - $item->order->shipping_cost)</td>
 
-                                                {{-- <td>
-                                                    <form method="GET"
-                                                        action="{{ route('products.delete', ['id' => $item->id]) }}">
-                                                        <button class="badge bg-danger mr-2 mt-2" type="submit"
-                                                            class="deleteProduk">
-                                                            <i class="ri-delete-bin-line mr-0"></i>
+                                                <td>
+                                                    <form method="POST"
+                                                        action="{{ route('dashboard.decline-order-admin', ['id' => $orderData->order_id]) }}">
+                                                        @csrf
+                                                        {{ method_field('put') }}
+                                                        <button class="declineOrder btn btn-md  btn-warning mr-2 mt-2"
+                                                            type="submit"">
+                                                            X
                                                         </button>
                                                     </form>
-                                                </td> --}}
+                                                </td>
 
                                             </tr>
                                         @endforeach
@@ -128,6 +131,22 @@
                 Swal.fire({
                     title: 'Send Item To Customer?',
                     icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+            $('.declineOrder').click(function(event) {
+                event.preventDefault();
+                var form = $(this).closest("form");
+                Swal.fire({
+                    title: 'Decline this order ?',
+                    icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',

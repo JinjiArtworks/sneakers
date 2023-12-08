@@ -97,6 +97,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin-dashboard', [DashboardController::class, 'index'])->name('index');
         Route::get('/admin-dashboard/details/{id}', [DashboardController::class, 'detail'])->name('details');
         Route::put('/admin-dashboard/details/send-item/{id}', [DashboardController::class, 'updateConfirmAdmin'])->name('update-confirm-admin');
+        Route::put('/admin-dashboard/details/decline-item/{id}', [DashboardController::class, 'declineOrderAdmin'])->name('decline-order-admin');
     });
     Route::group(['as' => 'products.'], function () {
         Route::get('admin-products', [ListProductController::class, 'index'])->name('index');

@@ -52,7 +52,10 @@ class DashboardController extends Controller
         $orderdetails = OrderDetail::whereOrderId($id)->get();
         $validations_admin = AdminValidationOrder::whereOrderId($id)->get();
         $orderData = OrderDetail::whereOrderId($id)->first();
-        $getSellerId = $orderData->order->sellers->id;
+        $getSellerId = $orderData->order->sellers_id;
+        $getBuyersId = $orderData->order->users_id;
+        // dd($orderData->order->sellers_id);
+
         // dd($validations_admin);
         // $orders = Order::find($id);
         // return dd($orders->nama);
@@ -71,7 +74,7 @@ class DashboardController extends Controller
         $getTotalPrice = $getOrderDetail->order->total;
 
         $sellerIdReq = $request->sellerID;
-        $sellerID = ProductSeller::whereUserId($sellerIdReq)->first();
+        $sellerID = ProductSeller::whereUserId($sellerIdReq)->first(); // id seller dr table product sller
         $getSellerId = $sellerID->user_id;
         $getSellerSaldo = $sellerID->user->saldo;
         // dd($getSellerSaldo);
@@ -87,13 +90,6 @@ class DashboardController extends Controller
                     'updated_at' => $mytime
                 ]
             );
-        // User::where('id', $customerId)
-        //     ->update(
-        //         [
-        //             'saldo' => $customerSaldo - $getTotalPrice,
-        //         ]
-        //     );
-
         User::where('id', $adminId)
             ->update(
                 [
@@ -109,13 +105,57 @@ class DashboardController extends Controller
             );
 
         return redirect('/admin-dashboard')->with('success', 'Pesanan Berhasil Dikonfirmasi');
-        // Order::where('id', $id)
-        //     ->update(
-        //         [
-        //             'status' => 'Pesanan Dikirim Kepada Pembeli',
-        //         ]
-        //     );
-        // return redirect('/admin-dashboard')->with('success', 'Pesanan Berhasil Dikirim');
+    }
+    public function declineOrderAdmin($id)
+    {
+        $mytime = Carbon::now()->today()->toDateTimeString();
+        $getOrderDetail = OrderDetail::whereOrderId($id)->first();
+        $getProductId = $getOrderDetail->product_id; //23
+        $getQtyOrder = $getOrderDetail->quantity; // 1
+        $getBuyerSaldo = $getOrderDetail->order->users->saldo; // saldo saat ini 5568000
+        $getTotalPrice = $getOrderDetail->order->total; // akan bertambah 1108000
+        $getBuyerID = $getOrderDetail->order->users_id; // 4
+
+        $getSellersId = $getOrderDetail->order->sellers_id;
+        $sellerID = ProductSeller::whereUserId($getSellersId)->first(); // id seller dr table product sller
+        $getSellerStock = $sellerID->stock;
+
+        $getAdmin = User::whereRoleId(1)->first();
+        // dd($getAdmin->saldo);
+        $adminId = $getAdmin->id;
+        $adminSaldo = $getAdmin->saldo;
+        // $buyerId = Order::whereUsersId($reqBuyerId)->first();
+        // dd($getSellerSaldo);
+        // kesimpulan : saldo users akan menjadi 6676000, saldo admin kembali lagi jadi 70k , stock product seller pada order ini  yg sebelumnya 29 jadi 30
+        Order::where('id', $id)
+            ->update(
+                [
+                    // Success
+                    'status' => 'Pesanan Ditolak Admin',
+                    'updated_at' => $mytime
+                ]
+            );
+        User::where('id', $getBuyerID)
+            ->update(
+                [
+                    'saldo' => $getBuyerSaldo + $getTotalPrice
+                ]
+            );
+        User::where('id', $adminId)
+            ->update(
+                [
+                    // Success
+                    'saldo' => $adminSaldo - $getTotalPrice
+                ]
+            );
+        ProductSeller::where('product_id', $getProductId)
+            ->update(
+                [
+                    // Success
+                    'stock' => $getSellerStock + $getQtyOrder
+                ]
+            );
+        return redirect('/admin-dashboard')->with('success', 'Pesanan Berhasil Di tolak');
     }
 
     // public function updateReturn(Request $request, $id)

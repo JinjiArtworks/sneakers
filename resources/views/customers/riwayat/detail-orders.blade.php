@@ -100,8 +100,12 @@
                                         <span class="badge" style="color: green">
                                             @if ($getOrderDetail->order->status == 'Proses Validasi Admin')
                                                 Pesanan sedang diproses.
+                                            @elseif ($getOrderDetail->order->status == 'Pesanan Dikirim Kepada Admin')
+                                                Pesanan sedang diproses.
                                             @elseif ($getOrderDetail->order->status == 'Pesanan Dikirim Kepada Pembeli')
-                                                Pesanan telah dikirim kepada Pembeli.
+                                                Pesanan sedang dikirim ke alamat Anda.
+                                            @elseif ($getOrderDetail->order->status == 'Pesanan Ditolak Admin')
+                                                Pesanan tidak tidak dapat dilanjutkan. Saldo Anda akan kembali
                                             @else
                                                 Pesanan Selesai
                                             @endif
@@ -161,7 +165,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reviewModalLabel">Review Produk <b> {{ $getOrderDetail->product->name }} </b>
+                    <h5 class="modal-title" id="reviewModalLabel">Review Produk <b> {{ $getOrderDetail->product->name }}
+                        </b>
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

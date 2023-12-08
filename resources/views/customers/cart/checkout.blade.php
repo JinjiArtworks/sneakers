@@ -80,7 +80,11 @@
                             </div>
                             <div class="checkout__order__subtotal">Subtotal <span>@currency($subtotal)</span></div>
                             <div class="checkout__order__total">Total <span>@currency($grandTotal)</span></div>
-                            <button id="pay-button" class="pay site-btn"type="submit">PLACE ORDER</button>
+                            @if (Auth::user()->saldo > $grandTotal)
+                                <button id="pay-button" class="pay site-btn"type="submit">PLACE ORDER</button>
+                            @else
+                                <button id="pay-button" class="pay btn btn-light-gray"type="submit" disabled >Saldo Anda Tidak Cukup</button>
+                            @endif
                         </div>
                     </div>
                 </div>

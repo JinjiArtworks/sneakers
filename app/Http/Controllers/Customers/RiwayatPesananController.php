@@ -21,7 +21,7 @@ class RiwayatPesananController extends Controller
     public function index()
     {
         $user = Auth::user()->id;
-        $orders = Order::whereUsersId($user)->orderBy('created_at', 'DESC')->get();
+        $orders = Order::whereUsersId($user)->orderBy('created_at', 'ASC')->get();
         $getUsersCity = Auth::user()->city_id;
         $getUsersProvince = Auth::user()->province_id;
         $city  = City::whereId($getUsersCity)->first();
