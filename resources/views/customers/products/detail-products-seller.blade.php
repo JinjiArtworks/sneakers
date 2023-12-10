@@ -50,7 +50,7 @@
                     <div class="product__details__text">
                         <div class="d-flex flex-row">
                             <h3>{{ $productsSeller->product->name }} </h3>
-                            <div class="ml-4">
+                            {{-- <div class="ml-4">
                                 <form action="{{ route('wishlist.addToWishlist', ['id' => $products->id]) }}"
                                     method="POST">
                                     @csrf
@@ -60,7 +60,7 @@
                                         <i class="fa-regular text-white text-lg fa-heart fa-lg"></i>
                                     </button>
                                 </form>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="product__details__rating">

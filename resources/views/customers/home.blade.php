@@ -101,42 +101,47 @@
                     @elseif(Auth::user()->role_id == 2)
                         {{-- Sellers --}}
                         @foreach ($products as $item)
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                                <div class="featured__item">
-                                    <div class="featured__item__pic set-bg">
-                                        <a href="/detail-product/{{ $item->id }}">
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                    <div class="product__item__pic set-bg">
+                                        <a href="detail-product/{{ $item->id }}">
                                             <img src="{{ asset('img/list/' . $item->images) }}" height="250px"
                                                 alt="">
                                         </a>
-                                        <ul class="featured__item__pic__hover">
-                                            <li><a href="/wishlist"><i class="fa fa-heart mt-2"></i></a></li>
-                                            {{-- <li><a href="/cart"><i class="fa fa-shopping-cart mt-2"></i></a></li> --}}
-                                        </ul>
                                     </div>
-                                    <div class="featured__item__text">
-                                        <h6><a href="/detail-product/{{ $item->id }}">{{ $item->name }}</a></h6>
-                                        <h5>Stock : {{ $item->stock }} pcs</h5>
+                                    <div class="product__item__text">
+                                        <h6>
+                                            <b>
+                                                <a
+                                                    href="/detail-product/{{ $item->id }}/{{ $item->user_id }}">{{ $item->name }}</a>
+                                            </b>
+                                        </h6>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     @endif
                 @else
-                    @foreach ($products as $item)
+                    @foreach ($productSeller as $item)
                         <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                             <div class="featured__item">
                                 <div class="featured__item__pic set-bg">
-                                    <a href="/detail-product/{{ $item->id }}">
-                                        <img src="{{ asset('img/list/' . $item->images) }}" height="250px" alt="">
+                                    <a
+                                        href="detail-product-seller/{{ $item->id }}/{{ $item->product_id }}/{{ $item->user_id }}">
+                                        <img src="{{ asset('img/list/' . $item->product->images) }}" height="250px"
+                                            alt="">
                                     </a>
-                                    <ul class="featured__item__pic__hover">
-                                        <li><a href="/wishlist"><i class="fa fa-heart mt-2"></i></a></li>
-                                        {{-- <li><a href="/cart"><i class="fa fa-shopping-cart mt-2"></i></a></li> --}}
-                                    </ul>
                                 </div>
                                 <div class="featured__item__text">
-                                    <h6><a href="/detail-product/{{ $item->id }}">{{ $item->name }}</a></h6>
-                                    <h5>Stock : {{ $item->stock }} pcs</h5>
+                                    <h6>
+                                        <a
+                                            href="/detail-product-seller/{{ $item->id }}/{{ $item->product_id }}/{{ $item->user_id }}">
+                                            {{ $item->product->name }}
+                                        </a>
+                                    </h6>
+                                    <h5> @currency($item->price) </h5>
+                                    <p class="mt-2" style="color: green"> <a href="/">{{ $item->user->name }}'s
+                                            Store</a></p>
                                 </div>
                             </div>
                         </div>

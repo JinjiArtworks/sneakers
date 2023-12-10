@@ -188,7 +188,7 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="/wishlist"><i class="fa fa-heart"></i> </a></li>
+                            {{-- <li><a href="/wishlist"><i class="fa fa-heart"></i> </a></li> --}}
                             <li><a href="/cart"><i class="fa fa-shopping-bag"></i></li>
                             <li><a href="/riwayat-pesanan"><i class="fa-solid fa-shoe-prints"></i></li>
                         </ul>

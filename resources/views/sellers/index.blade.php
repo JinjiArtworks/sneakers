@@ -236,7 +236,7 @@
                                             <th>Product Name</th>
                                             <th>Size</th>
                                             <th>Models</th>
-                                            <th>Status</th>
+                                            <th>Price</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>

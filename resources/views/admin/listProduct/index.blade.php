@@ -20,7 +20,6 @@
                                 <tr class="ligth ligth-data">
                                     <th>Product</th>
                                     <th>Models</th>
-                                    <th>Stock</th>
                                     <th>Brand Name</th>
                                     <th>Terjual</th>
                                     <th>Aksi</th>
