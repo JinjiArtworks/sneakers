@@ -92,7 +92,7 @@
 @section('content')
     <div class="content-page">
         <div class="container-fluid">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-6 col-lg-3">
                     <div class="card card-block card-stretch card-height">
                         <div class="card-body">
@@ -165,7 +165,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
@@ -236,6 +236,7 @@
                                             <th>Product Name</th>
                                             <th>Size</th>
                                             <th>Models</th>
+                                            <th>Stock</th>
                                             <th>Price</th>
                                             <th>Action</th>
                                         </tr>
@@ -251,16 +252,25 @@
                                                 <td>{{ $item->product->name }}</td>
                                                 <td>{{ $item->size }}</td>
                                                 <td>{{ $item->product->models->name }}</td>
+                                                <td>{{ $item->stock }}</td>
                                                 <td>@currency($item->price)</td>
                                                 <td>
-                                                    <form method="GET"
-                                                        action="{{ route('seller.delete-product', ['id' => $item->id]) }}">
-                                                        @csrf
-                                                        <button
-                                                            class="deletProductSeller btn btn-danger mr-2 mt-2"type="submit">
-                                                            <i class="ri-delete-bin-line mr-0"></i>
-                                                        </button>
-                                                    </form>
+                                                    <div class="d-flex">
+                                                        <form
+                                                            action="{{ route('seller.edit-product', ['id' => $item->id]) }}">
+                                                            <button class="btn btn-primary mr-2 mt-2" type="submit"">
+                                                                <i class="ri-pencil-line mr-0"></i>
+                                                            </button>
+                                                        </form>
+                                                        <form method="GET"
+                                                            action="{{ route('seller.delete-product', ['id' => $item->id]) }}">
+                                                            @csrf
+                                                            <button
+                                                                class="deletProductSeller btn btn-danger mr-2 mt-2"type="submit">
+                                                                <i class="ri-delete-bin-line mr-0"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach

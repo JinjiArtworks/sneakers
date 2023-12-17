@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Sellers;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdminValidationOrder;
+use App\Models\Models;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -92,7 +93,32 @@ class DashboardSellerController extends Controller
         }
         return redirect('seller-dashboard/' . $idSeller)->with('success', 'Pesanan Berhasil Dikirim');
     }
-
+    public function edit($id)
+    {
+        $userId = Auth::user()->id;
+        $notifOrder = Order::whereSellersId($userId)
+            ->where('status', '!=', 'Pesanan Ditolak Admin')
+            ->orderBy('created_at', 'DESC')->limit(3)->get();
+        $notifDecline = Order::whereSellersId($userId)
+            ->where('status', '=', 'Pesanan Ditolak Admin')
+            ->orderBy('created_at', 'DESC')->limit(3)->get();
+        $products = ProductSeller::find($id);
+        $models = Models::all();
+        return view('sellers.edit-product', compact('products', 'notifDecline', 'notifOrder', 'models'));
+    }
+    public function update(Request $request, $id)
+    {
+        $user = Auth::user()->id;
+        ProductSeller::where('id', $id)
+            ->update(
+                [
+                    'price' => $request->price,
+                    'stock' => $request->stock,
+                    'size' => $request->size,
+                ]
+            );
+        return redirect('/seller-dashboard' . '/' . $user)->with('success', 'Product berhasil diubah.');
+    }
     public function removeProduct($id)
     {
         ProductSeller::where('id', $id)->delete();

@@ -102,8 +102,8 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['as' => 'products.'], function () {
         Route::get('admin-products', [ListProductController::class, 'index'])->name('index');
         Route::get('create-products', [ListProductController::class, 'create'])->name('create');
-        Route::get('edit-products/{id}', [ListProductController::class, 'edit'])->name('edit');
         Route::post('store-products', [ListProductController::class, 'store'])->name('store');
+        Route::get('edit-products/{id}', [ListProductController::class, 'edit'])->name('edit');
         Route::put('update-products/{id}', [ListProductController::class, 'update'])->name('update');
         Route::get('delete-products/{id}', [ListProductController::class, 'destroy'])->name('delete');
     });
@@ -158,6 +158,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/seller-dashboard/details/{id}', [DashboardSellerController::class, 'detail'])->name('details');
         Route::get('seller-dashboard/list-order/{id}', [DashboardSellerController::class, 'detailListOrder'])->name('list-edit-order');
         Route::put('/seller-dashboard/list-order/send-item/{id}', [DashboardSellerController::class, 'updateListOrder'])->name('update-list-order');
+        Route::get('/edit-seller-product/{id}', [DashboardSellerController::class, 'edit'])->name('edit-product');
+        Route::put('update-seller-products/{id}', [DashboardSellerController::class, 'update'])->name('update-product');
         Route::get('/delete-seller-product/{id}', [DashboardSellerController::class, 'removeProduct'])->name('delete-product');
     });
 });

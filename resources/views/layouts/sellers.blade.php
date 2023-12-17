@@ -34,7 +34,7 @@
             <div class="iq-sidebar  sidebar-default ">
                 <div class="iq-sidebar-logo d-flex align-items-center">
                     <a href="../backend/index.html" class="header-logo">
-                        <img src="../assets/images/logo.svg" alt="logo">
+                        <img src="{{ asset('templates/sellers/images/logo.svg') }}" alt="logo">
                         <h3 class="logo-title light-logo">Webkit</h3>
                     </a>
                     <div class="iq-menu-bt-sidebar ml-0">
