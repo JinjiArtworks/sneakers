@@ -40,7 +40,7 @@ class UserController extends Controller
                     'role_id' => 2, //sellers
                 ]
             );
-        return redirect('/')->with('success');
+        return redirect('/seller-dashboard' . '/' . $user)->with('success');
     }
     public function topUpSaldo(Request $request)
     {
