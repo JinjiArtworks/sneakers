@@ -60,7 +60,9 @@
                     </div>
                 </div>
             </div>
+            
         </div>
+        
     </section>
     <!-- Modal -->
     <div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="sellModalLabel"

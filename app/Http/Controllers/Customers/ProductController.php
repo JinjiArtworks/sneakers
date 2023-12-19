@@ -42,23 +42,44 @@ class ProductController extends Controller
             ->where('user_id', '=', $userID)
             ->first();
         $products = Product::whereId($idProduct)->first();
-
         $getReviews = Review::whereProductId($idProduct)->get();
         // dd($getReviews);
         $countReviews = Review::whereProductId($idProduct)->count();
-        // $dataJson = json_encode($productsSeller->size);
-        // $datacode = str_replace(array(','), array(''), $productsSeller->size);
-        // $datacodeExplode = explode(',', $datacode);
 
-        // $dataJson = json_encode($datacodeExplode);
-        // dd($datacodeExplode);
-        // $setArray += json_encode($productsSeller->size);
-        // print_r($size);
-        // $getProductSize = implode(",", $push);
-        // dd($productsSeller);
-        // $wishlist = Wishlist::all();
-        return view('customers.products.detail-products-seller', compact('productsSeller', 'userSaldo', 'products', 'countReviews', 'getReviews'));
+        // dd($userProduct);
+        // Get all product names from the database
+        $allProducts = DB::table('products')->pluck('name')->toArray();
+        // Calculate Jaccard coefficient for each product
+        $recommendations = [];
+        foreach ($allProducts as $product) {
+            $coefficient = $this->calculateJaccardCoefficient($idProduct, $product);
+            $recommendations[$product] = $coefficient;
+        }
+
+        // Sort products based on Jaccard coefficient in descending order
+        arsort($recommendations);
+        // Get top 4 recommended products
+        $topRecommendations = array_slice($recommendations, 0, 4, true);
+        $names = array_keys($topRecommendations);
+        $convertReccomendation = implode(' ', $names);
+        $getRecommendProcut = Product::where('name', 'LIKE', "%$convertReccomendation%")->get();
+        // dd($getRecommendProcut);
+        return view('customers.products.detail-products-seller', compact('names', 'productsSeller', 'userSaldo', 'products', 'countReviews', 'getReviews'));
     }
+
+    
+    private function calculateJaccardCoefficient($product1, $product2)
+    {
+        $arr1 = str_split(strtolower($product1));
+        $arr2 = str_split(strtolower($product2));
+
+        $intersection = array_intersect($arr1, $arr2);
+        $union = array_merge($arr1, $arr2);
+
+        return count($intersection) / count($union);
+    }
+
+
 
     // Detail product untuk SELLLER MENJUAL PRODUCT
     public function detail($id)
