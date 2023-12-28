@@ -22,7 +22,9 @@ class HomeController extends Controller
     {
         $products = Product::all();
         $productSeller = ProductSeller::all();
+        // dd($productSeller->models);
         $models = Models::all();
+        // dd($models->productSeller->id);
         // return dd($products);
         return view('customers.home', compact('products', 'productSeller', 'models'));
     }

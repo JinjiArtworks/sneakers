@@ -118,7 +118,7 @@
 
                                     <li>Penerima <span class="text-secondary">{{ $userName }}</span></li>
                                     <li>Nomor Handphone <span class="text-secondary">0{{ $userPhone }}</span></li>
-                                    <li>Ekspedisi <span class="text-secondary">JNE - REG (3-4 Hari)</span></li>
+                                    {{-- <li>Ekspedisi <span class="text-secondary">JNE - REG (3-4 Hari)</span></li> --}}
                                     <li>Subtotal <span class="text-secondary">@currency($subtotal)</span></li>
                                     {{-- <li>Total <span class="text-primary">$454.98</span></li> --}}
                                 </ul>

@@ -14,4 +14,8 @@ class Models extends Model
     {
         return $this->hasMany(Product::class);
     }
+    public function productSeller()
+    {
+        return $this->hasOne(ProductSeller::class);
+    }
 }

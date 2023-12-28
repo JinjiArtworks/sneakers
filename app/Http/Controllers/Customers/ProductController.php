@@ -97,6 +97,7 @@ class ProductController extends Controller
             'user_id' => $request->userID,
             'price' => str_replace('.', '', $request->price),
             'stock' => $request->stock,
+            'models_id' => $request->modelsID,
             'size' => $request->size,
         ]);
         return redirect()->back()->with('success', 'Product berhasil ditambahkan');

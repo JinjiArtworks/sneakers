@@ -57,9 +57,11 @@
                                     @csrf
                                     <input type="hidden" name="sellerID" value="{{ $getSellerId }}">
                                     {{ method_field('put') }}
-                                    <button class="sendItemToCustomer btn btn-md  btn-success mr-2 mt-2" type="submit"">
+                                    <button type="button" class=" btn btn-md bg-primary" data-toggle="modal"
+                                        data-target="#confirmModalAdmin" data-whatever="@mdo">Konfirmasi Pesanan</button>
+                                    {{-- <button class="sendItemToCustomer btn btn-md  btn-success mr-2 mt-2" type="submit"">
                                         Konfirmasi Pesanan
-                                    </button>
+                                    </button> --}}
                                 </form>
                             @endif
                         </div>
@@ -119,6 +121,36 @@
                 </div>
             </div>
             <!-- Page end  -->
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmModalAdmin" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Pesanan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST"
+                        action="{{ route('dashboard.update-list-order', ['id' => $orderData->order_id]) }}"
+                        enctype="multipart/form-data">
+                        @csrf
+                        {{ method_field('put') }}
+                        <div class="form-group">
+                            <label for="resi" class="col-form-label">Nomor Resi</label>
+                            <input type="text" name="resiNumber" class="form-control" id="resi" required>
+                        </div>
+                        <button type="submit" class="sendItemToAdmin btn btn-primary">Confirm</button>
+                    </form>
+                </div>
+                {{-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div> --}}
+            </div>
         </div>
     </div>
 @endsection

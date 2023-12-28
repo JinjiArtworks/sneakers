@@ -33,9 +33,11 @@
                                             </li>
                                         </div>
                                         <div class="p-2">
-                                            <li>Order Number : {{ $item->id }} -> Total : @currency( $item->total )</li>
+                                            <li>Order Number : {{ $item->id }} </li>
+                                            <li>Nomor Resi : <b> {{ $item->resi }}</b></li>
                                             <li>Penerima : {{ Auth::user()->name }} - 0{{ Auth::user()->phone }}</li>
-                                            <li>Alamat : {{ $fullAddress }}</li>
+                                            <li>Tanggal : {{ $item->created_at }}</li>
+                                            <li>Total : @currency($item->total)</li>
                                         </div>
 
                                         <div class="ml-auto p-2">

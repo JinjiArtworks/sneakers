@@ -18,4 +18,8 @@ class ProductSeller extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function models()
+    {
+        return $this->belongsTo(Models::class);
+    }
 }

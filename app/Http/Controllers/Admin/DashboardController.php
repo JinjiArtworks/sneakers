@@ -46,6 +46,7 @@ class DashboardController extends Controller
 
         return view('admin.listReport.dashboard', compact('orders', 'totalSalesOrders', 'ordersComplete', 'totalClients', 'pendapatanBersih', 'totalCompleteOrders', 'getTotalProducts'));
     }
+
     public function detail($id)
     {
         // $orderID
@@ -54,16 +55,6 @@ class DashboardController extends Controller
         $orderData = OrderDetail::whereOrderId($id)->first();
         $getSellerId = $orderData->order->sellers_id;
         $getBuyersId = $orderData->order->users_id;
-        // dd($orderData->order->sellers_id);
-
-        // dd($validations_admin);
-        // $orders = Order::find($id);
-        // return dd($orders->nama);
-
-        // $details = OrderDetail::whereOrderId($id)->get(); // already declated a has many from categories, its mean it is beloangsto categories
-        // {{ $item->order->status }}
-
-        // $returnOrder = Returns::whereOrdersId($id)->first();
         return view('admin.listReport.dashboard-details', compact('orderData', 'validations_admin', 'orderdetails', 'getSellerId'));
     }
     public function updateConfirmAdmin(Request $request, $id)
@@ -158,24 +149,15 @@ class DashboardController extends Controller
         return redirect('/admin-dashboard')->with('success', 'Pesanan Berhasil Di tolak');
     }
 
-    // public function updateReturn(Request $request, $id)
-    // {
-    //     Order::where('id', $id)
-    //         ->update(
-    //             [
-    //                 'status' => $request->action,
-    //             ]
-    //         );
-    //     return redirect('/data-reports')->with('success', 'Status Pesanan Berhasil Diubah');
-    // }
-    // public function updateCustom(Request $request, $id)
-    // {
-    //     Order::where('id', $id)
-    //         ->update(
-    //             [
-    //                 'status' => $request->action,
-    //             ]
-    //         );
-    //     return redirect('/data-reports')->with('success', 'Status Pesanan Berhasil Diubah');
-    // }
+    public function updateListOrder(Request $request, $id)
+    {
+        Order::where('id', $id)
+            ->update(
+                [
+                    'resi' => $request->resiNumber,
+                    'status' => 'Pesanan Dikirim Kepada Pembeli'
+                ]
+            );
+        return redirect('admin-dashboard/')->with('success', 'Pesanan Berhasil Dikirim');
+    }
 }

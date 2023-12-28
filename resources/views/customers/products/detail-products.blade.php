@@ -80,6 +80,7 @@
                         @csrf
                         <input type="hidden" name="productID" value="{{ $products->id }}">
                         <input type="hidden" name="userID" value="{{ Auth::user()->id }}">
+                        <input type="hidden" name="modelsID" value="{{ $products->models_id }}">
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Size Product:</label>
                             <br>

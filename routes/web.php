@@ -52,9 +52,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('top-up-saldo', [UserController::class, 'topUpSaldo'])->name('top-up-saldo');
         // Route::get('/belanja', [ProductController::class, 'searchByCat'])->name('searchByCat');
     });
-    Route::group(['as' => 'categories.'], function () {
-        Route::get('models', [ModelController::class, 'index'])->name('index');
-        Route::get('/detail-models/{id}', [ModelController::class, 'detail']);
+    Route::group(['as' => 'models-product.'], function () {
+        // Route::get('models', [ModelController::class, 'index'])->name('index');
+        Route::get('/detail-model/{id}', [ModelController::class, 'detail']);
     });
     Route::group(['as' => 'wishlist.'], function () {
         Route::post('store-wishlist', [WishlistController::class, 'addToWishlist'])->name('addToWishlist');
@@ -98,6 +98,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin-dashboard/details/{id}', [DashboardController::class, 'detail'])->name('details');
         Route::put('/admin-dashboard/details/send-item/{id}', [DashboardController::class, 'updateConfirmAdmin'])->name('update-confirm-admin');
         Route::put('/admin-dashboard/details/decline-item/{id}', [DashboardController::class, 'declineOrderAdmin'])->name('decline-order-admin');
+        Route::put('/admin-dashboard/list-order/send-item/{id}', [DashboardController::class, 'updateListOrder'])->name('update-list-order');
+    
     });
     Route::group(['as' => 'products.'], function () {
         Route::get('admin-products', [ListProductController::class, 'index'])->name('index');
