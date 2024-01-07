@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Webkit | Responsive Bootstrap 4 Admin Dashboard Template</title>
+        <title>Sellers Sneakers</title>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="{{ asset('templates/sellers/images/favicon.ico') }}" />
@@ -182,7 +182,7 @@
                                             <img src="{{ asset('templates/sellers/images/user/1.jpg') }}"
                                                 class="img-fluid rounded-circle" alt="user">
                                             <div class="caption ml-3">
-                                                <h6 class="mb-0 line-height">Savannah Nguyen<i
+                                                <h6 class="mb-0 line-height">{{ Auth::user()->name }}<i
                                                         class="las la-angle-down ml-2"></i></h6>
                                             </div>
                                         </a>

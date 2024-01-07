@@ -71,7 +71,7 @@
 </style>
 @section('content')
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb.jpg') }}">
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/bg1.jpeg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -136,7 +136,7 @@
                                     <div class="d-flex">
                                         <div class="p-2">
                                             <li>
-                                                <img src="{{ asset('img/product/details/product-details-2.jpg') }}"
+                                                <img src="{{ asset('img/list/'. $item->product->images) }}"
                                                     width="100px">
                                             </li>
                                         </div>

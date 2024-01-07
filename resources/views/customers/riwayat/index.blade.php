@@ -1,7 +1,7 @@
 @extends('layouts.customers')
 @section('content')
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+    <section class="breadcrumb-section set-bg" data-setbg="img/bg1.jpeg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -29,11 +29,13 @@
                                     <div class="d-flex">
                                         <div class="p-2">
                                             <li>
-                                                <img src="img/product/details/product-details-2.jpg" width="100px">
+                                                {{-- <img src="img/product/details/product-details-2.jpg" width="100px"> --}}
+                                                <img src="{{ asset('img/list/'. $item->orderdetail->product->images) }}" width="100px">
                                             </li>
                                         </div>
                                         <div class="p-2">
                                             <li>Order Number : {{ $item->id }} </li>
+                                            <li>Order Number : {{ $item->orderdetail->product->images }} </li>
                                             <li>Nomor Resi : <b> {{ $item->resi }}</b></li>
                                             <li>Penerima : {{ Auth::user()->name }} - 0{{ Auth::user()->phone }}</li>
                                             <li>Tanggal : {{ $item->created_at }}</li>

@@ -5,12 +5,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="hero__item set-bg" data-setbg="img/hero/banner.jpg">
+                    <div class="hero__item set-bg" data-setbg="img/hero/bgx.jpeg">
                         <div class="hero__text">
-                            <span>FRUIT FRESH</span>
-                            <h2>Vegetable <br />100% Organic</h2>
-                            <p>Free Pickup and Delivery Available</p>
-                            <a href="#" class="primary-btn">SHOP NOW</a>
+                            <span class="text-white">Best Sneakers in town</span>
+                            <h2 class="text-white">Brand New and <br />100% Original Guarantee</h2>
+                            <a href="/shop" class="btn btn-primary">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
@@ -19,7 +18,7 @@
     </section>
     <!-- Hero Section End -->
 
-    <!-- Categories Section Begin -->
+    <!-- Categories Section Begin  sudah di ganti ariki ?-->
     <section class="categories">
         <div class="container">
             <div class="row">

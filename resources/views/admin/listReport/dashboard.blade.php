@@ -23,18 +23,14 @@
                                                 class="img-fluid" alt="image">
                                         </div>
                                         <div>
-                                            <p class="mb-2">Total Sales</p>
-                                            <h4>31.50</h4>
+                                            <p class="mb-2">Saldo Admin</p>
+                                            <h4>@currency(Auth::user()->saldo) </h4>
                                         </div>
-                                    </div>
-                                    <div class="iq-progress-bar mt-2">
-                                        <span class="bg-info iq-progress progress-1" data-percent="85">
-                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4">
+                        {{-- <div class="col-lg-4 col-md-4">
                             <div class="card card-block card-stretch card-height">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-4 card-total-sale">
@@ -73,7 +69,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-sm-12">

@@ -38,6 +38,7 @@ class RiwayatPesananController extends Controller
     {
         $getIdOrder = $id;
         $orderDetails = OrderDetail::whereOrderId($id)->get();
+        // dd($orderDetails);
         $getOrderDetail = OrderDetail::whereOrderId($id)->first();
         $getReviewById = Review::whereProductId($getOrderDetail->product_id)->first();
         // dd($getOrderDetail->product_id);
